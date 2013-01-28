@@ -211,11 +211,11 @@ for(var i = monsters.length - 1; i >= 0; --i)
 	m.setBounds(mBounds[i]);
 }
 
-var aim = 1;
-var aim1 = 1;
-var aim2 = 1;
-var aim3 = 1;
-var aim4 = 3;
+monsters[0].aim = 1;
+monsters[1].aim = 1;
+monsters[2].aim = 1;
+monsters[3].aim = 1;
+monsters[4].aim = 3;
 
 function Archer()
 {
@@ -326,11 +326,11 @@ var mRespawn = function ()
 	
 // Reset the game when the player catches a monsters[0]
 var reset = function() {
-	aim = 1;
-	aim1 = 1;
-	aim2 = 1;
-	aim3 = 1;
-	aim4 = 3;
+	monsters[0].aim = 1;
+	monsters[1].aim = 1;
+	monsters[2].aim = 1;
+	monsters[3].aim = 1;
+	monsters[4].aim = 3;
 
 	hero.x = 65;
 	hero.y = 458;
@@ -460,7 +460,7 @@ var update = function ()
 	//move from spawn to target 1
 if (gameState == 1)
 {
-	if((aim == 1) && (monsters[0].y < monsters[0].y1))
+	if((monsters[0].aim == 1) && (monsters[0].y < monsters[0].y1))
 	{	
 		monsters[0].moveY(false);
 		monsters[0].animate(3);
@@ -474,13 +474,13 @@ if (gameState == 1)
 		}
 		if((monsters[0].y1 - 5) < (monsters[0].y))
 		{
-			aim = 2;	
+			monsters[0].aim = 2;	
 		}
 	}
 	
 	
 	
-	if((aim == 2) && (monsters[0].x > monsters[0].x2))
+	if((monsters[0].aim == 2) && (monsters[0].x > monsters[0].x2))
 	{
 		monsters[0].moveX(true);
 		monsters[0].animate(0);
@@ -495,11 +495,11 @@ if (gameState == 1)
 
 		if((monsters[0].x2 + 5) > (monsters[0].x))
 		{
-			aim = 3;
+			monsters[0].aim = 3;
 		}
 	}
 	
-	if((aim == 3) && (monsters[0].y > monsters[0].y3))
+	if((monsters[0].aim == 3) && (monsters[0].y > monsters[0].y3))
 	{
 		monsters[0].moveY(true);
 		monsters[0].animate(2);
@@ -514,10 +514,10 @@ if (gameState == 1)
 
 		if((monsters[0].y3 + 5) > (monsters[0].y))
 		{
-			aim = 4;
+			monsters[0].aim = 4;
 		}
 	}
-	if((aim == 4) && (monsters[0].x < monsters[0].x4))
+	if((monsters[0].aim == 4) && (monsters[0].x < monsters[0].x4))
 	{
 		monsters[0].moveX(false);
 		monsters[0].animate(1);
@@ -532,14 +532,14 @@ if (gameState == 1)
 
 		if((monsters[0].x4 - 5) < (monsters[0].x))
 		{
-			aim = 1;
+			monsters[0].aim = 1;
 		}
 	}
 	
 	//re iterate for enemy1
 	////////////////////////////////////
 	
-	if((aim1 == 1) && (monsters[1].y < monsters[1].y1))
+	if((monsters[1].aim == 1) && (monsters[1].y < monsters[1].y1))
 	{
 		monsters[1].moveY(false);
 		monsters[1].animate(3);
@@ -553,13 +553,13 @@ if (gameState == 1)
 		}
 		if((monsters[1].y1 - 5) < (monsters[1].y))
 		{
-			aim1 = 2;	
+			monsters[1].aim = 2;	
 		}
 	}
 	
 	
 	
-	if((aim1 == 2) && (monsters[1].x > monsters[1].x2))
+	if((monsters[1].aim == 2) && (monsters[1].x > monsters[1].x2))
 	{
 		monsters[1].moveX(true);
 		monsters[1].animate(0);
@@ -573,11 +573,11 @@ if (gameState == 1)
 		}
 		if((monsters[1].x2 + 5) > (monsters[1].x))
 		{
-			aim1 = 3;
+			monsters[1].aim = 3;
 		}
 	}
 	
-	if((aim1 == 3) && (monsters[1].y > monsters[1].y3))
+	if((monsters[1].aim == 3) && (monsters[1].y > monsters[1].y3))
 	{
 		monsters[1].moveY(true);
 		monsters[1].animate(2);
@@ -591,10 +591,10 @@ if (gameState == 1)
 		}
 		if((monsters[1].y3 + 5) > (monsters[1].y))
 		{
-			aim1 = 4;
+			monsters[1].aim = 4;
 		}
 	}
-	if((aim1 == 4) && (monsters[1].x < monsters[1].x4))
+	if((monsters[1].aim == 4) && (monsters[1].x < monsters[1].x4))
 	{
 		monsters[1].moveX(false);
 		monsters[1].animate(1);
@@ -609,7 +609,7 @@ if (gameState == 1)
 
 		if((monsters[1].x4 - 5) < (monsters[1].x))
 		{
-			aim1 = 1;
+			monsters[1].aim = 1;
 		}
 	}
 	
@@ -617,7 +617,7 @@ if (gameState == 1)
 	//re iterate for enemy2
 	////////////////////////////////////
 	
-	if((aim2 == 3) && (monsters[2].y < monsters[2].y3))
+	if((monsters[2].aim == 3) && (monsters[2].y < monsters[2].y3))
 	{
 		monsters[2].moveY(false);
 		monsters[2].animate(3);
@@ -631,13 +631,13 @@ if (gameState == 1)
 		}
 		if((monsters[2].y3 - 5) < (monsters[2].y))
 		{
-			aim2 = 4;	
+			monsters[2].aim = 4;	
 		}
 	}
 	
 	
 	
-	if((aim2 == 4) && (monsters[2].x > monsters[2].x4))
+	if((monsters[2].aim == 4) && (monsters[2].x > monsters[2].x4))
 	{
 		monsters[2].moveX(true);
 		monsters[2].animate(0);
@@ -651,11 +651,11 @@ if (gameState == 1)
 		}
 		if((monsters[2].x4 + 5) > (monsters[2].x))
 		{
-			aim2 = 1;
+			monsters[2].aim = 1;
 		}
 	}
 	
-	if((aim2 == 1) && (monsters[2].y > monsters[2].y1))
+	if((monsters[2].aim == 1) && (monsters[2].y > monsters[2].y1))
 	{
 		monsters[2].moveY(true);
 		monsters[2].animate(2);
@@ -669,10 +669,10 @@ if (gameState == 1)
 		}
 		if((monsters[2].y1 + 5) > (monsters[2].y))
 		{
-			aim2 = 2;
+			monsters[2].aim = 2;
 		}
 	}
-	if((aim2 == 2) && (monsters[2].x < monsters[2].x2))
+	if((monsters[2].aim == 2) && (monsters[2].x < monsters[2].x2))
 	{
 		monsters[2].moveX(false);
 		monsters[2].animate(1);
@@ -686,7 +686,7 @@ if (gameState == 1)
 		}
 		if((monsters[2].x2 - 5) < (monsters[2].x))
 		{
-			aim2 = 3;
+			monsters[2].aim = 3;
 		}
 	}
 	
@@ -694,7 +694,7 @@ if (gameState == 1)
 	//re iterate for enemy3
 	////////////////////////////////////
 	
-	if((aim3 == 2) && (monsters[3].y < monsters[3].y1))
+	if((monsters[3].aim == 2) && (monsters[3].y < monsters[3].y1))
 	{
 		monsters[3].moveY(false);
 		monsters[3].animate(3);
@@ -708,13 +708,13 @@ if (gameState == 1)
 		}
 		if((monsters[3].y1 - 5) < (monsters[3].y))
 		{
-			aim3 = 3;	
+			monsters[3].aim = 3;	
 		}
 	}
 	
 	
 	
-	if((aim3 == 1) && (monsters[3].x > monsters[3].x2))
+	if((monsters[3].aim == 1) && (monsters[3].x > monsters[3].x2))
 	{
 		monsters[3].moveX(true);
 		monsters[3].animate(0);
@@ -729,11 +729,11 @@ if (gameState == 1)
 
 		if((monsters[3].x2 + 5) > (monsters[3].x))
 		{
-			aim3 = 2;
+			monsters[3].aim = 2;
 		}
 	}
 	
-	if((aim3 == 4) && (monsters[3].y > monsters[3].y3))
+	if((monsters[3].aim == 4) && (monsters[3].y > monsters[3].y3))
 	{
 		monsters[3].moveY(true);
 		monsters[3].animate(2);
@@ -747,10 +747,10 @@ if (gameState == 1)
 		}
 		if((monsters[3].y3 + 5) > (monsters[3].y))
 		{
-			aim3 = 1;
+			monsters[3].aim = 1;
 		}
 	}
-	if((aim3 == 3) && (monsters[3].x < monsters[3].x4))
+	if((monsters[3].aim == 3) && (monsters[3].x < monsters[3].x4))
 	{
 		monsters[3].moveX(false);
 		monsters[3].animate(1);
@@ -764,13 +764,13 @@ if (gameState == 1)
 		}
 		if((monsters[3].x4 - 5) < (monsters[3].x))
 		{
-			aim3 = 4;
+			monsters[3].aim = 4;
 		}
 	}
 	
 	
 	//reiterate for enemy 4
-	if((aim4 == 1) && (monsters[4].y < monsters[4].y1))
+	if((monsters[4].aim == 1) && (monsters[4].y < monsters[4].y1))
 	{
 		monsters[4].moveY(false);
 		monsters[4].animate(3);
@@ -784,12 +784,12 @@ if (gameState == 1)
 		}
 		if((monsters[4].y1 - 5) < (monsters[4].y))
 		{
-			aim4 = 2;	
+			monsters[4].aim = 2;	
 		}
 	}
 	
 	
-	if((aim4 == 2) && (monsters[4].x > monsters[4].x2))
+	if((monsters[4].aim == 2) && (monsters[4].x > monsters[4].x2))
 	{
 		monsters[4].moveX(true);
 		monsters[4].animate(0);
@@ -803,11 +803,11 @@ if (gameState == 1)
 		}
 		if((monsters[4].x2 + 5) > (monsters[4].x))
 		{
-			aim4 = 3;
+			monsters[4].aim = 3;
 		}
 	}
 	
-	if((aim4 == 3) && (monsters[4].y > monsters[4].y3))
+	if((monsters[4].aim == 3) && (monsters[4].y > monsters[4].y3))
 	{
 		monsters[4].moveY(true);
 		monsters[4].animate(2);
@@ -821,10 +821,10 @@ if (gameState == 1)
 		}
 		if((monsters[4].y3 + 5) > (monsters[4].y))
 		{
-			aim4 = 4;
+			monsters[4].aim = 4;
 		}
 	}
-	if((aim4 == 4) && (monsters[4].x < monsters[4].x4))
+	if((monsters[4].aim == 4) && (monsters[4].x < monsters[4].x4))
 	{
 		monsters[4].moveX(false);
 		monsters[4].animate(1);
@@ -839,7 +839,7 @@ if (gameState == 1)
 
 		if((monsters[4].x4 - 5) < (monsters[4].x))
 		{
-			aim4 = 1;
+			monsters[4].aim = 1;
 		}
 	}
 	
