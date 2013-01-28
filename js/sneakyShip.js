@@ -162,6 +162,7 @@ function Monster()
 	this.img.src = "images/enemyDown1.png";
 	this.base = "enemy";
 	this.speed = 50;
+	this.aim = 1;
 }
 Monster.prototype = new Actor(); // inherit
 Monster.prototype.setBounds = function(arr)
@@ -211,10 +212,6 @@ for(var i = monsters.length - 1; i >= 0; --i)
 	m.setBounds(mBounds[i]);
 }
 
-monsters[0].aim = 1;
-monsters[1].aim = 1;
-monsters[2].aim = 1;
-monsters[3].aim = 1;
 monsters[4].aim = 3;
 
 function Archer()
@@ -477,9 +474,6 @@ if (gameState == 1)
 			monsters[0].aim = 2;	
 		}
 	}
-	
-	
-	
 	if((monsters[0].aim == 2) && (monsters[0].x > monsters[0].x2))
 	{
 		monsters[0].moveX(true);
@@ -492,13 +486,11 @@ if (gameState == 1)
 				spotter = 0;
 			}
 		}
-
 		if((monsters[0].x2 + 5) > (monsters[0].x))
 		{
 			monsters[0].aim = 3;
 		}
 	}
-	
 	if((monsters[0].aim == 3) && (monsters[0].y > monsters[0].y3))
 	{
 		monsters[0].moveY(true);
@@ -511,7 +503,6 @@ if (gameState == 1)
 				spotter = 0;
 			}
 		}
-
 		if((monsters[0].y3 + 5) > (monsters[0].y))
 		{
 			monsters[0].aim = 4;
@@ -529,7 +520,6 @@ if (gameState == 1)
 				spotter = 0;
 			}
 		}
-
 		if((monsters[0].x4 - 5) < (monsters[0].x))
 		{
 			monsters[0].aim = 1;
@@ -556,9 +546,6 @@ if (gameState == 1)
 			monsters[1].aim = 2;	
 		}
 	}
-	
-	
-	
 	if((monsters[1].aim == 2) && (monsters[1].x > monsters[1].x2))
 	{
 		monsters[1].moveX(true);
@@ -576,7 +563,6 @@ if (gameState == 1)
 			monsters[1].aim = 3;
 		}
 	}
-	
 	if((monsters[1].aim == 3) && (monsters[1].y > monsters[1].y3))
 	{
 		monsters[1].moveY(true);
@@ -606,7 +592,6 @@ if (gameState == 1)
 				spotter = 1;
 			}
 		}
-
 		if((monsters[1].x4 - 5) < (monsters[1].x))
 		{
 			monsters[1].aim = 1;
@@ -634,9 +619,6 @@ if (gameState == 1)
 			monsters[2].aim = 4;	
 		}
 	}
-	
-	
-	
 	if((monsters[2].aim == 4) && (monsters[2].x > monsters[2].x4))
 	{
 		monsters[2].moveX(true);
@@ -654,7 +636,6 @@ if (gameState == 1)
 			monsters[2].aim = 1;
 		}
 	}
-	
 	if((monsters[2].aim == 1) && (monsters[2].y > monsters[2].y1))
 	{
 		monsters[2].moveY(true);
@@ -711,9 +692,6 @@ if (gameState == 1)
 			monsters[3].aim = 3;	
 		}
 	}
-	
-	
-	
 	if((monsters[3].aim == 1) && (monsters[3].x > monsters[3].x2))
 	{
 		monsters[3].moveX(true);
@@ -726,13 +704,11 @@ if (gameState == 1)
 				spotter = 3;
 			}
 		}
-
 		if((monsters[3].x2 + 5) > (monsters[3].x))
 		{
 			monsters[3].aim = 2;
 		}
 	}
-	
 	if((monsters[3].aim == 4) && (monsters[3].y > monsters[3].y3))
 	{
 		monsters[3].moveY(true);
@@ -787,8 +763,6 @@ if (gameState == 1)
 			monsters[4].aim = 2;	
 		}
 	}
-	
-	
 	if((monsters[4].aim == 2) && (monsters[4].x > monsters[4].x2))
 	{
 		monsters[4].moveX(true);
@@ -806,7 +780,6 @@ if (gameState == 1)
 			monsters[4].aim = 3;
 		}
 	}
-	
 	if((monsters[4].aim == 3) && (monsters[4].y > monsters[4].y3))
 	{
 		monsters[4].moveY(true);
@@ -836,7 +809,6 @@ if (gameState == 1)
 				spotter = 4;
 			}
 		}
-
 		if((monsters[4].x4 - 5) < (monsters[4].x))
 		{
 			monsters[4].aim = 1;
