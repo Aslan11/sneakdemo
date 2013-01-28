@@ -581,111 +581,45 @@ var arrest = function()
 	
 }
 
+
+var nextStep = [1, 2, 3, 0];
+
 var stepDowner = function()
 {
-	if(stepDown == 0)
-	{
-		heroImage.src = "images/heroDown1.png";
-		setTimeout(function(){stepDown = 1;}, 50);
-	}
-	else if(stepDown == 1)
-	{
-		heroImage.src = "images/heroDown2.png";
-		setTimeout(function(){stepDown = 2;}, 50);
-	}
-	else if(stepDown == 2)
-	{
-		heroImage.src = "images/heroDown3.png";
-		setTimeout(function(){stepDown = 3;}, 50);
-	}
-	else if(stepDown == 3)
-	{
-		heroImage.src = "images/heroDown4.png";
-		setTimeout(function(){stepDown = 0;}, 50);
-	}
-
+	heroImage.src = "images/heroDown" + (stepDown + 1 )+ ".png";
+	setTimeout(function(){
+		stepDown = nextStep[stepDown];
+	}, 50);
 };
+
+
 //re iterate for up
 var stepUpper = function()
 {
-	if(stepUp == 0)
-	{
-		heroImage.src = "images/heroUp1.png";
-		setTimeout(function(){stepUp = 1;}, 50);
-	}
-	else if(stepUp == 1)
-	{
-		heroImage.src = "images/heroUp2.png";
-		setTimeout(function(){stepUp = 2;}, 50);
-	}
-	else if(stepUp == 2)
-	{
-		heroImage.src = "images/heroUp3.png";
-		setTimeout(function(){stepUp = 3;}, 50);
-	}
-	else if(stepUp == 3)
-	{
-		heroImage.src = "images/heroUp4.png";
-		setTimeout(function(){stepUp = 0;}, 50);
-	}
+
+	heroImage.src = "images/heroUp" + (stepUp + 1) + ".png";
+	setTimeout(function(){
+		stepUp = nextStep[stepUp];
+	}, 50);
 };
-
-//end reiterate up
-
 
 // re iterate for left
 var stepLeft = function()
 {
-	if(stepL == 0)
-	{
-		heroImage.src = "images/heroL1.png";
-		setTimeout(function(){stepL = 1;}, 50);
-	}
-	else if(stepL == 1)
-	{
-		heroImage.src = "images/heroL2.png";
-		setTimeout(function(){stepL = 2;}, 50);
-	}
-	else if(stepL == 2)
-	{
-		heroImage.src = "images/heroL3.png";
-		setTimeout(function(){stepL = 3;}, 50);
-	}
-	else if(stepL == 3)
-	{
-		heroImage.src = "images/heroL4.png";
-		setTimeout(function(){stepL = 0;}, 50);
-	}
+	heroImage.src = "images/heroL"+(stepL + 1)+".png";
+	setTimeout(function(){
+		stepL = nextStep[stepL];
+	}, 50);
 };
-
-// end left
-
 
 // re iterate right!
 var stepRight = function()
 {
-	if(stepR == 0)
-	{
-		heroImage.src = "images/heroLR1.png";
-		setTimeout(function(){stepR = 1;}, 50);
-	}
-	else if(stepR == 1)
-	{
-		heroImage.src = "images/heroLR2.png";
-		setTimeout(function(){stepR = 2;}, 50);
-	}
-	else if(stepR == 2)
-	{
-		heroImage.src = "images/heroLR3.png";
-		setTimeout(function(){stepR = 3;}, 50);
-	}
-	else if(stepR == 3)
-	{
-		heroImage.src = "images/heroLR4.png";
-		setTimeout(function(){stepR = 0;}, 50);
-	}
-	};
-// end right
+	heroImage.src = "images/heroLR" + (stepR + 1) + ".png";
+	setTimeout(function(){
+		stepR = nextStep[stepR];
+	}, 50);
+};
 
 
 
