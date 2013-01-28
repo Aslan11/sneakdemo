@@ -333,22 +333,18 @@ var reset = function() {
 	++gameState;
 };
 
-var arrest = function() 
+function arrest() 
 {
 	heroSpotted = true;
 	haltReady = true;
 	
-	for(var i = monsters.length - 1; i>=0; --i)
+	var m = monsters[spotter];
+	if((gridx == m.gridX && gridy == m.gridY) ||
+	   (gridx + 1 == m.gridX && gridy == m.gridY) ||
+	   (gridx == m.gridX && gridy + 1 == m.gridY))
 	{
-		var m = monsters[i];
-		if((gridx == m.gridX && gridy == m.gridY) ||
-		   (gridx + 1 == m.gridX && gridy == m.gridY) ||
-		   (gridx == m.gridX && gridy + 1 == m.gridY))
-		{
-			heroImage.src = "images/hero3.png";
-			reset();
-			return;
-		}
+		heroImage.src = "images/hero3.png";
+		reset();
 	}
 }
 
@@ -1083,26 +1079,10 @@ var render = function ()
 		{
 			ctx.drawImage(arrow3Image, arrow3.x, arrow3.y);
 		}
-		if(haltReady && spotter == 0)
+		if(haltReady && spotter >= 0)
 		{
-			ctx.drawImage(haltImage, (monsters[0].x - 70), (monsters[0].y - 50))
-		}
-		
-		if(haltReady && spotter == 1)
-		{
-			ctx.drawImage(haltImage, (monsters[1].x - 70), (monsters[1].y - 50))
-		}
-		if(haltReady && spotter == 2)
-		{
-			ctx.drawImage(haltImage, (monsters[2].x - 70), (monsters[2].y - 50))
-		}
-		if(haltReady && spotter == 3)
-		{
-			ctx.drawImage(haltImage, (monsters[3].x - 70), (monsters[3].y - 50))
-		}
-		if(haltReady && spotter == 4)
-		{
-			ctx.drawImage(haltImage, (monsters[4].x - 70), (monsters[4].y - 50))
+			var m = monsters[spotter];
+			ctx.drawImage(haltImage, m.x - 70, m.y - 50);
 		}
 	}
 		
