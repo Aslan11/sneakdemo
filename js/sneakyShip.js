@@ -183,27 +183,31 @@ var aim2 = 1;
 var aim3 = 1;
 var aim4 = 3;
 
-// Archer1 image
-var archer1Ready = false;
-var archer1Image = new Image();
-archer1Image.onload = function() {
-	archer1Ready = true;
+function Archer()
+{
+	this.ready = false;
+	this.img = new Image();
+	this.img.onload = this.setReady(this);
+	this.img.src = "images/archer1.png";
+}
+Archer.prototype.setReady = function(which) {
+	return function() {
+		which.ready = true;
+	};
 };
-archer1Image.src = "images/archer1.png";
-// Archer2 image
-var archer2Ready = false;
-var archer2Image = new Image();
-archer2Image.onload = function() {
-	archer2Ready = true;
+Archer.prototype.setState = function(s) {
+	this.img.src = "images/archer" + (1 + s) + ".png";
 };
-archer2Image.src = "images/archer1.png";
-// Archer3 image
-var archer3Ready = false;
-var archer3Image = new Image();
-archer3Image.onload = function() {
-	archer3Ready = true;
+Archer.prototype.draw = function() {
+	if(this.ready) ctx.drawImage(this.img, this.x, this.y);
 };
-archer3Image.src = "images/archer1.png";
+
+var archers = new Array(3);
+for(var i = 2; i >= 0; --i)
+{
+	archers[i] = new Archer();
+}
+
 // arrow1 image
 var arrow1Ready = false;
 var arrow1Image = new Image();
@@ -239,8 +243,6 @@ var arrow3 = {
 	speed: 270
 };
 
-var archer1 = {}, archer2 = {}, archer3 = {};
-
 var tock = {
 	speed: 300
 };
@@ -269,15 +271,14 @@ var mRespawn = function ()
 		m.y = mLocs[i][1];
 	}
 	
-	archer1.x = 352;
-	archer1.y = 322;
-	
-	archer2.x = 352;
-	archer2.y = 219;
-	
-	archer3.x = 352;
-	archer3.y = 110;
-	
+	var aLocs = [322, 219, 110];
+	for(var c = archers.length - 1; c>=0; --c)
+	{
+		var a = archers[c];
+		a.x = 352;
+		a.y = aLocs[c];
+	}
+
 	arrow1.x = 352;
 	arrow1.y = 322;
 	
@@ -287,6 +288,7 @@ var mRespawn = function ()
 	arrow3.x = 352;
 	arrow3.y = 110;
 };
+
 
 //var detected = function()
 //{
@@ -298,6 +300,7 @@ var reset = function() {
 	aim2 = 1;
 	aim3 = 1;
 	aim4 = 3;
+
 	hero.x = 65;
 	hero.y = 458;
 	arrow1Ready = false;
@@ -922,37 +925,34 @@ if (gameState == 1)
 	//ready the archers:
 	////////////////////////////////////////
 	if ((hero.x > 330) && (hero.y > 375))
-		archer1Image.src = "images/archer1.png";
+		archers[0].setState(0);
 	if ((hero.x > 330) && (hero.y < 375))
-		archer1Image.src = "images/archer2.png";
+		archers[0].setState(1);
 	if ((hero.x > 330) && (hero.y < 340))
-		archer1Image.src = "images/archer3.png";
-	
+		archers[0].setState(2);
 	if ((hero.x > 330) && (hero.y < 320))
 	{
-		archer1Image.src = "images/archer4.png";
+		archers[0].setState(3);
 		arrow1Ready = true;
 	}
 
 	if ((hero.x > 330) && (hero.y < 300))
-	 	archer2Image.src = "images/archer2.png";
+		archers[1].setState(1);
 	if ((hero.x > 330) && (hero.y < 255))
-		archer2Image.src = "images/archer3.png";
-
+		archers[1].setState(2);
 	if ((hero.x > 330) && (hero.y < 230))
 	{
-		archer2Image.src = "images/archer4.png";
+		archers[1].setState(3);
 		arrow2Ready = true;
 	}
 
 	if ((hero.x > 330) && (hero.y < 211))
-		archer3Image.src = "images/archer2.png";
+		archers[2].setState(1);
 	if ((hero.x > 330) && (hero.y < 174))
-		archer3Image.src = "images/archer3.png";
-	
+		archers[2].setState(2);
 	if ((hero.x > 330) && (hero.y < 139))
 	{
-		archer3Image.src = "images/archer4.png";
+		archers[2].setState(3);
 		arrow3Ready = true;
 	}
 
@@ -1021,23 +1021,11 @@ var render = function ()
 		}
 
 		for(var i = monsters.length - 1; i>=0; --i)
-		{
 			monsters[i].draw();
-		}
 	
-		if(archer1Ready)
-		{
-			ctx.drawImage(archer1Image, archer1.x, archer1.y);
-		}
-	
-		if(archer2Ready)
-		{
-			ctx.drawImage(archer2Image, archer2.x, archer2.y);
-		}
-		if(archer3Ready)
-		{
-			ctx.drawImage(archer3Image, archer3.x, archer3.y);
-		}
+		for(var i = archers.length - 1; i>=0; --i)
+			archers[i].draw();
+
 		if(arrow1Ready)
 		{
 			ctx.drawImage(arrow1Image, arrow1.x, arrow1.y);
