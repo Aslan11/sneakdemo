@@ -18,13 +18,9 @@ var tockNew = 0;
 //Hero Step function
 /////////////////////////////////////
 var stepDown = 0;
-var eStepD = 0;
 var stepUp = 0;
-var eStepU = 0;
 var stepL = 0;
-var eStepL = 0;
 var stepR = 0;
-var eStepR= 0;
 var tiested = 0;
 var oldLx = 0;
 var oldRx = 0;
@@ -50,10 +46,6 @@ var eGridy = 0;
 var e1Stepper = 0;
 var e1NewX = 0;
 var e1NewY = 0;
-var e1StepL = 0;
-var e1StepR = 0;
-var e1StepU = 0;
-var e1StepD = 0;
 var e1Facing = 0;
 var e1GridX = 0;
 var e1Gridy = 0;
@@ -62,10 +54,6 @@ var e1Gridy = 0;
 var e2Stepper = 0;
 var e2NewX = 0;
 var e2NewY = 0;
-var e2StepL = 0;
-var e2StepR = 0;
-var e2StepU = 0;
-var e2StepD = 0;
 var e2Facing = 0;
 var e2GridX = 0;
 var e2Gridy = 0;
@@ -74,10 +62,6 @@ var e2Gridy = 0;
 var e3Stepper = 0;
 var e3NewX = 0;
 var e3NewY = 0;
-var e3StepL = 0;
-var e3StepR = 0;
-var e3StepU = 0;
-var e3StepD = 0;
 var e3Facing = 0;
 var e3GridX = 0;
 var e3Gridy = 0;
@@ -87,10 +71,6 @@ var e3Gridy = 0;
 var e4Stepper = 0;
 var e4NewX = 0;
 var e4NewY = 0;
-var e4StepL = 0;
-var e4StepR = 0;
-var e4StepU = 0;
-var e4StepD = 0;
 var e4GridX = 0;
 var e4Gridy = 0;
 
@@ -135,18 +115,12 @@ var aim4 = 3;
 var targ41y = 226;
 var targ42x =  12;
 var targ43y = 30;
-var targ44x = 120
- 
-var level2 = new Array(32);
-for(i=0; i<32; i++)
-{
-	level2[i] = new Array(30);
-}
+var targ44x = 120;
 
 //Generate map of objects
 var myArray = new Array(32);
 //make map of objects 2 dimensional
-for(i=0; i<32; i++)
+for(var i=0; i<32; i++)
 {
 	myArray[i] = new Array(30);
 }
@@ -159,18 +133,18 @@ var i = 0;
 var k1 = 0;
 var i1 = 0;
 // myArray[32][30] (i)(k)
-for(z = 0; z < mapDigits.length; z++)
+for(var z = 0; z < mapDigits.length; z++)
 {
 	if ((mapDigits.charAt(z))==(' '))
 	{
-		k = k + 1;
+		++k;
 		i = 0;
 		
 	}
 	else if((mapDigits.charAt(z))!=(' '))
 	{
 		myArray[i][k]=mapDigits.charAt(z);
-		i = i + 1;
+		++i;
 	}
 }
 
@@ -572,10 +546,12 @@ var dirs = ["Left", "Right", "Up", "Down"];
 function eStepSwitcher(whichImg)
 {
 	this.img = whichImg;
+	this.state = 0;
 }
-eStepSwitcher.prototype.step = function(dir, amt) {
-	amt += 1;
-	this.img.src = "images/enemy" + dirs[dir] + amt + ".png";
+eStepSwitcher.prototype.step = function(dir) {
+	++this.state;
+	if(this.state == 4) this.state = 0;
+	this.img.src = "images/enemy" + dirs[dir] + (1 + this.state) + ".png";
 };
 var stepE1 = new eStepSwitcher(monsterImage);
 var stepE2 = new eStepSwitcher(monster1Image);
@@ -595,26 +571,7 @@ var eAnimateD = function()
 		{
 			if(eStepper % 10 == 0)
 				{
-					if(eStepD == 0)
-						{
-							stepE1.step(3, 0);
-							eStepD = 1;
-						}
-					else if(eStepD == 1)
-						{
-							stepE1.step(3, 1);
-							eStepD = 2;
-						}
-					else if(eStepD == 2)
-						{
-							stepE1.step(3, 2);
-							eStepD = 3;
-						}
-					else if(eStepD == 3)
-						{
-							stepE1.step(3, 3);
-							eStepD = 0;
-						}
+					stepE1.step(3);
 				}
 	
 		}
@@ -632,26 +589,7 @@ var e1AnimateD = function()
 		{
 			if(e1Stepper % 10 == 0)
 				{
-					if(e1StepD == 0)
-						{
-							stepE2.step(3, 0);
-							e1StepD = 1;
-						}
-					else if(e1StepD == 1)
-						{
-							stepE2.step(3, 1);
-							e1StepD = 2;
-						}
-					else if(e1StepD == 2)
-						{
-							stepE2.step(3, 2);
-							e1StepD = 3;
-						}
-					else if(e1StepD == 3)
-						{
-							stepE2.step(3, 3);
-							e1StepD = 0;
-						}
+					stepE2.step(3);
 				}
 	
 		}
@@ -669,26 +607,7 @@ var e2AnimateD = function()
 		{
 			if(e2Stepper % 10 == 0)
 				{
-					if(e2StepD == 0)
-						{
-							stepE3.step(3, 0);
-							e2StepD = 1;
-						}
-					else if(e2StepD == 1)
-						{
-							stepE3.step(3, 1);
-							e2StepD = 2;
-						}
-					else if(e2StepD == 2)
-						{
-							stepE3.step(3, 2);
-							e2StepD = 3;
-						}
-					else if(e2StepD == 3)
-						{
-							stepE3.step(3, 3);
-							e2StepD = 0;
-						}
+					stepE3.step(3);
 				}
 	
 		}
@@ -706,26 +625,7 @@ var e3AnimateD = function()
 		{
 			if(e3Stepper % 10 == 0)
 				{
-					if(e3StepD == 0)
-						{
-							stepE4.step(3, 0);
-							e3StepD = 1;
-						}
-					else if(e3StepD == 1)
-						{
-							stepE4.step(3, 1);
-							e3StepD = 2;
-						}
-					else if(e3StepD == 2)
-						{
-							stepE4.step(3, 2);
-							e3StepD = 3;
-						}
-					else if(e3StepD == 3)
-						{
-							stepE4.step(3, 3);
-							e3StepD = 0;
-						}
+					stepE4.step(3);
 				}
 	
 		}
@@ -742,33 +642,11 @@ var e4AnimateD = function()
 		{
 			if(e4Stepper % 10 == 0)
 				{
-					if(e4StepD == 0)
-						{
-							stepE5.step(3, 0);
-							e4StepD = 1;
-						}
-					else if(e4StepD == 1)
-						{
-							stepE5.step(3, 1);
-							e4StepD = 2;
-						}
-					else if(e4StepD == 2)
-						{
-							stepE5.step(3, 2);
-							e4StepD = 3;
-						}
-					else if(e4StepD == 3)
-						{
-							stepE5.step(3, 3);
-							e4StepD = 0;
-						}
+					stepE5.step(3);
 				}
 	
 		}
 };
-
-
-
 
 
 //Reiterate for up
@@ -823,26 +701,7 @@ var eAnimateU = function()
 		{
 			if(eStepper % 10 == 0)
 				{
-					if(eStepU == 0)
-						{
-							stepE1.step(2, 0);
-							eStepU = 1;
-						}
-					else if(eStepU == 1)
-						{
-							stepE1.step(2, 1);
-							eStepU = 2;
-						}
-					else if(eStepU == 2)
-						{
-							stepE1.step(2, 2);
-							eStepU = 3;
-						}
-					else if(eStepU == 3)
-						{
-							stepE1.step(2, 3);
-							eStepU = 0;
-						}
+					stepE1.step(2);
 				}
 	
 		}
@@ -860,26 +719,7 @@ var e1AnimateU = function()
 		{
 			if(e1Stepper % 10 == 0)
 				{
-					if(e1StepU == 0)
-						{
-							stepE2.step(2, 0);
-							e1StepU = 1;
-						}
-					else if(e1StepU == 1)
-						{
-							stepE2.step(2, 1);
-							e1StepU = 2;
-						}
-					else if(e1StepU == 2)
-						{
-							stepE2.step(2, 2);
-							e1StepU = 3;
-						}
-					else if(e1StepU == 3)
-						{
-							stepE2.step(2, 3);
-							e1StepU = 0;
-						}
+					stepE2.step(2);
 				}
 	
 		}
@@ -897,26 +737,7 @@ var e2AnimateU = function()
 		{
 			if(e2Stepper % 10 == 0)
 				{
-					if(e2StepU == 0)
-						{
-							stepE3.step(2, 0);
-							e2StepU = 1;
-						}
-					else if(e2StepU == 1)
-						{
-							stepE3.step(2, 1);
-							e2StepU = 2;
-						}
-					else if(e2StepU == 2)
-						{
-							stepE3.step(2, 2);
-							e2StepU = 3;
-						}
-					else if(e2StepU == 3)
-						{
-							stepE3.step(2, 3);
-							e2StepU = 0;
-						}
+					stepE3.step(2);
 				}
 	
 		}
@@ -934,26 +755,7 @@ var e3AnimateU = function()
 		{
 			if(e3Stepper % 10 == 0)
 				{
-					if(e3StepU == 0)
-						{
-							stepE4.step(2, 0);
-							e3StepU = 1;
-						}
-					else if(e3StepU == 1)
-						{
-							stepE4.step(2, 1);
-							e3StepU = 2;
-						}
-					else if(e3StepU == 2)
-						{
-							stepE4.step(2, 2);
-							e3StepU = 3;
-						}
-					else if(e3StepU == 3)
-						{
-							stepE4.step(2, 3);
-							e3StepU = 0;
-						}
+					stepE4.step(2);
 				}
 	
 		}
@@ -971,26 +773,7 @@ var e4AnimateU = function()
 		{
 			if(e4Stepper % 10 == 0)
 				{
-					if(e4StepU == 0)
-						{
-							stepE5.step(2, 0);
-							e4StepU = 1;
-						}
-					else if(e4StepU == 1)
-						{
-							stepE5.step(2, 1);
-							e4StepU = 2;
-						}
-					else if(e4StepU == 2)
-						{
-							stepE5.step(2, 2);
-							e4StepU = 3;
-						}
-					else if(e4StepU == 3)
-						{
-							stepE5.step(2, 3);
-							e4StepU = 0;
-						}
+					stepE5.step(2);
 				}
 	
 		}
@@ -1048,26 +831,7 @@ var eAnimateL = function()
 		{
 			if(eStepper % 10 == 0)
 				{
-					if(eStepL == 0)
-						{
-							stepE1.step(0, 0);
-							eStepL = 1;
-						}
-					else if(eStepL == 1)
-						{
-							stepE1.step(0, 1);
-							eStepL = 2;
-						}
-					else if(eStepL == 2)
-						{
-							stepE1.step(0, 2);
-							eStepL = 3;
-						}
-					else if(eStepL == 3)
-						{
-							stepE1.step(0, 3);
-							eStepL = 0;
-						}
+					stepE1.step(0);
 				}
 	
 		}
@@ -1086,26 +850,7 @@ var e1AnimateL = function()
 	{
 		if(e1Stepper % 10 == 0)
 		{
-			if(e1StepL == 0)
-			{
-				stepE2.step(0, 0);
-				e1StepL = 1;
-			}
-			else if(e1StepL == 1)
-			{
-				stepE2.step(0, 1);
-				e1StepL = 2;
-			}
-			else if(e1StepL == 2)
-			{
-				stepE2.step(0, 2);
-				e1StepL = 3;
-			}
-			else if(e1StepL == 3)
-			{
-				stepE2.step(0, 3);
-				e1StepL = 0;
-			}
+			stepE2.step(0);
 		}
 	}
 };
@@ -1122,26 +867,7 @@ var e2AnimateL = function()
 	{
 		if(e2Stepper % 10 == 0)
 		{
-			if(e2StepL == 0)
-			{
-				stepE3.step(0, 0);
-				e2StepL = 1;
-			}
-			else if(e2StepL == 1)
-			{
-				stepE3.step(0, 1);
-				e2StepL = 2;
-			}
-			else if(e2StepL == 2)
-			{
-				stepE3.step(0, 2);
-				e2StepL = 3;
-			}
-			else if(e2StepL == 3)
-			{
-				stepE3.step(0, 3);
-				e2StepL = 0;
-			}
+			stepE3.step(0);
 		}
 	}
 };
@@ -1158,26 +884,7 @@ var e3AnimateL = function()
 	{
 		if(e3Stepper % 10 == 0)
 		{
-			if(e3StepL == 0)
-			{
-				stepE4.step(0, 0);
-				e3StepL = 1;
-			}
-			else if(e3StepL == 1)
-			{
-				stepE4.step(0, 1);
-				e3StepL = 2;
-			}
-			else if(e3StepL == 2)
-			{
-				stepE4.step(0, 2);
-				e3StepL = 3;
-			}
-			else if(e3StepL == 3)
-			{
-				stepE4.step(0, 3);
-				e3StepL = 0;
-			}
+			stepE4.step(0);
 		}
 	}
 };
@@ -1194,26 +901,7 @@ var e4AnimateL = function()
 		{
 			if(e4Stepper % 10 == 0)
 				{
-					if(e4StepL == 0)
-						{
-							stepE5.step(0, 0);
-							e4StepL = 1;
-						}
-					else if(e4StepL == 1)
-						{
-							stepE5.step(0, 1);
-							e4StepL = 2;
-						}
-					else if(e4StepL == 2)
-						{
-							stepE5.step(0, 2);
-							e4StepL = 3;
-						}
-					else if(e4StepL == 3)
-						{
-							stepE5.step(0, 3);
-							e4StepL = 0;
-						}
+					stepE5.step(0);
 				}
 	
 		}
@@ -1276,26 +964,7 @@ var eAnimateR = function()
 		{
 			if(eStepper % 10 == 0)
 				{
-					if(eStepR == 0)
-						{
-							stepE1.step(1, 0);
-							eStepR = 1;
-						}
-					else if(eStepR == 1)
-						{
-							stepE1.step(1, 1);
-							eStepR = 2;
-						}
-					else if(eStepR == 2)
-						{
-							stepE1.step(1, 2);
-							eStepR = 3;
-						}
-					else if(eStepR == 3)
-						{
-							stepE1.step(1, 3);
-							eStepR = 0;
-						}
+					stepE1.step(1);
 				}
 	
 		}
@@ -1313,26 +982,7 @@ var e1AnimateR = function()
 		{
 			if(e1Stepper % 10 == 0)
 				{
-					if(e1StepR == 0)
-						{
-							stepE2.step(1, 0);
-							e1StepR = 1;
-						}
-					else if(e1StepR == 1)
-						{
-							stepE2.step(1, 1);
-							e1StepR = 2;
-						}
-					else if(e1StepR == 2)
-						{
-							stepE2.step(1, 2);
-							e1StepR = 3;
-						}
-					else if(e1StepR == 3)
-						{
-							stepE2.step(1, 3);
-							e1StepR = 0;
-						}
+					stepE2.step(1);
 				}
 	
 		}
@@ -1350,26 +1000,7 @@ var e2AnimateR = function()
 		{
 			if(e2Stepper % 10 == 0)
 				{
-					if(e2StepR == 0)
-						{
-							stepE3.step(1, 0);
-							e2StepR = 1;
-						}
-					else if(e2StepR == 1)
-						{
-							stepE3.step(1, 1);
-							e2StepR = 2;
-						}
-					else if(e2StepR == 2)
-						{
-							stepE3.step(1, 2);
-							e2StepR = 3;
-						}
-					else if(e2StepR == 3)
-						{
-							stepE3.step(1, 3);
-							e2StepR = 0;
-						}
+					stepE3.step(1);
 				}
 	
 		}
@@ -1387,26 +1018,7 @@ var e3AnimateR = function()
 		{
 			if(e3Stepper % 10 == 0)
 				{
-					if(e3StepR == 0)
-						{
-							stepE4.step(1, 0);
-							e3StepR = 1;
-						}
-					else if(e3StepR == 1)
-						{
-							stepE4.step(1, 1);
-							e3StepR = 2;
-						}
-					else if(e3StepR == 2)
-						{
-							stepE4.step(1, 2);
-							e3StepR = 3;
-						}
-					else if(e3StepR == 3)
-						{
-							stepE4.step(1, 3);
-							e3StepR = 0;
-						}
+					stepE4.step(1);
 				}
 	
 		}
@@ -1424,26 +1036,7 @@ var e4AnimateR = function()
 		{
 			if(e4Stepper % 10 == 0)
 				{
-					if(e4StepR == 0)
-						{
-							stepE5.step(1, 0);
-							e4StepR = 1;
-						}
-					else if(e4StepR == 1)
-						{
-							stepE5.step(1, 1);
-							e4StepR = 2;
-						}
-					else if(e4StepR == 2)
-						{
-							stepE5.step(1, 2);
-							e4StepR = 3;
-						}
-					else if(e4StepR == 3)
-						{
-							stepE5.step(1, 3);
-							e4StepR = 0;
-						}
+					stepE5.step(1);
 				}
 	
 		}
