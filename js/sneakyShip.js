@@ -212,23 +212,26 @@ for(var i = monsters.length - 1; i >= 0; --i)
 
 monsters[4].aim = 3;
 
+
+function Arrow()
+{
+	Actor.prototype.constructor.call(this);
+	this.img.src = "images/arrow.png";
+	this.speed = 250;
+}
+Arrow.prototype = new Actor();
+Arrow.prototype.step = function() {};
+
 function Archer()
 {
-	this.ready = false;
-	this.img = new Image();
-	this.img.onload = this.setReady(this);
+	Actor.prototype.constructor.call(this);
 	this.img.src = "images/archer1.png";
+
+	this.arrow = new Arrow();
 }
-Archer.prototype.setReady = function(which) {
-	return function() {
-		which.ready = true;
-	};
-};
+Archer.prototype = new Actor();
 Archer.prototype.setState = function(s) {
 	this.img.src = "images/archer" + (1 + s) + ".png";
-};
-Archer.prototype.draw = function() {
-	if(this.ready) ctx.drawImage(this.img, this.x, this.y);
 };
 
 var archers = new Array(3);
@@ -236,38 +239,14 @@ for(var i = 2; i >= 0; --i)
 {
 	archers[i] = new Archer();
 }
-
-// arrow1 image
-var arrow1Ready = false;
-var arrow1Image = new Image();
-arrow1Image.src = "images/arrow.png";
-
-// arrow2 image
-var arrow2Ready = false;
-var arrow2Image = new Image();
-arrow2Image.src = "images/arrow.png";
-
-// arrow3 image
-var arrow3Ready = false;
-var arrow3Image = new Image();
-arrow3Image.src = "images/arrow.png";
+//increase speed of last arrow
+archers[2].arrow.speed += 20;
 
 var spotter = 0;
 
 
 // Game objects
 // speed = movement in pixels per second **** adding speed to cope for lag***** 120 up from 100
-var arrow1 = {
-	speed: 250
-};
-
-var arrow2 = {
-	speed: 250
-};
-
-var arrow3 = {
-	speed: 270
-};
 
 var tock = {
 	speed: 300
@@ -297,22 +276,14 @@ var mRespawn = function ()
 		m.y = mLocs[i][1];
 	}
 	
-	var aLocs = [322, 219, 110];
+	var archLocs = [322, 219, 110];
 	for(var c = archers.length - 1; c>=0; --c)
 	{
 		var a = archers[c];
-		a.x = 352;
-		a.y = aLocs[c];
-	}
+		a.x = a.arrow.x = 352;
+		a.y = a.arrow.y = archLocs[c];
 
-	arrow1.x = 352;
-	arrow1.y = 322;
-	
-	arrow2.x = 352;
-	arrow2.y = 219;
-	
-	arrow3.x = 352;
-	arrow3.y = 110;
+	}
 };
 
 
@@ -329,9 +300,9 @@ var reset = function() {
 
 	hero.x = 65;
 	hero.y = 458;
-	arrow1Ready = false;
-	arrow2Ready = false;
-	arrow3Ready = false;
+	archers[0].arrow.fired = false;
+	archers[1].arrow.fired = false;
+	archers[2].arrow.fired = false;
 	if (gameState < 4)
 		mRespawn();
 		
@@ -819,17 +790,15 @@ if (gameState == 1)
 			monsters[2].y += monsters[2].speed * modifier;
 		arrest();
 	}
-	if((arrow1Ready) && (arrow1.x < 480))
-		arrow1.x += arrow1.speed * modifier;
-	
-	if((arrow2Ready) && (arrow2.x < 480))
-		arrow2.x += arrow2.speed * modifier;
-	
-	if((arrow3Ready) && (arrow3.x < 480))
-		arrow3.x += arrow3.speed * modifier;
-	
-	
 
+	for(var i = 0; i < archers.length; ++i)
+	{
+		var arrow = archers[i].arrow;
+		if(arrow.fired && arrow.x < 480)
+		{
+			arrow.moveX(false);
+		}
+	}
 
 	//ready the archers:
 	////////////////////////////////////////
@@ -842,7 +811,7 @@ if (gameState == 1)
 	if ((hero.x > 330) && (hero.y < 320))
 	{
 		archers[0].setState(3);
-		arrow1Ready = true;
+		archers[0].arrow.fired = true;
 	}
 
 	if ((hero.x > 330) && (hero.y < 300))
@@ -852,7 +821,7 @@ if (gameState == 1)
 	if ((hero.x > 330) && (hero.y < 230))
 	{
 		archers[1].setState(3);
-		arrow2Ready = true;
+		archers[1].arrow.fired = true;
 	}
 
 	if ((hero.x > 330) && (hero.y < 211))
@@ -862,7 +831,7 @@ if (gameState == 1)
 	if ((hero.x > 330) && (hero.y < 139))
 	{
 		archers[2].setState(3);
-		arrow3Ready = true;
+		archers[2].arrow.fired = true;
 	}
 
 }
@@ -930,22 +899,12 @@ var render = function ()
 			monsters[i].draw();
 	
 		for(var i = archers.length - 1; i>=0; --i)
-			archers[i].draw();
+		{
+			var arch = archers[i];
+			arch.draw();
+			arch.arrow.draw();
+		}
 
-		if(arrow1Ready)
-		{
-			ctx.drawImage(arrow1Image, arrow1.x, arrow1.y);
-		}
-	
-		if(arrow2Ready)
-		{
-			ctx.drawImage(arrow2Image, arrow2.x, arrow2.y);
-		}
-	
-		if(arrow3Ready)
-		{
-			ctx.drawImage(arrow3Image, arrow3.x, arrow3.y);
-		}
 		if(haltReady && spotter >= 0)
 		{
 			var m = monsters[spotter];
