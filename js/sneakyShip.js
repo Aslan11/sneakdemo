@@ -34,7 +34,6 @@ var gridy = 0;
 var eStepper = 0;
 var eNewX = 0;
 var eNewY = 0;
-var eFacing = 0;
 var eGridX = 0;
 var eGridy = 0;
 //Enemy 2 step variables
@@ -42,7 +41,6 @@ var eGridy = 0;
 var e1Stepper = 0;
 var e1NewX = 0;
 var e1NewY = 0;
-var e1Facing = 0;
 var e1GridX = 0;
 var e1Gridy = 0;
 //Enemy 3 step variables
@@ -50,7 +48,6 @@ var e1Gridy = 0;
 var e2Stepper = 0;
 var e2NewX = 0;
 var e2NewY = 0;
-var e2Facing = 0;
 var e2GridX = 0;
 var e2Gridy = 0;
 //Enemy 4 step variables
@@ -58,7 +55,6 @@ var e2Gridy = 0;
 var e3Stepper = 0;
 var e3NewX = 0;
 var e3NewY = 0;
-var e3Facing = 0;
 var e3GridX = 0;
 var e3Gridy = 0;
 
@@ -72,44 +68,6 @@ var e4Gridy = 0;
 
 // add variables for arrest method
 var heroSpotted = false;
-
-//Add points for the monsters[0] to pat to:
-///////////////////////////////////////
-var aim = 1;
-var targ2x =  12;
-var targ3y = 335;
-var targ4x = 120;
-
-//add points for the monsters[1] to pat to:
-///////////////////////////////////////////
-var aim1 = 1;
-var targ11y = 226;
-var targ13y = 30;
-var targ14x = 120
-
-//add points for the monsters[2] to pat to:
-///////////////////////////////////////////
-var aim2 = 1;
-var targ21y = 144;
-var targ22x =  310;
-var targ23y = 295;
-var targ24x = 162;
-
-//add points for the monsters[3] to pat to:
-///////////////////////////////////////////
-var aim3 = 1;
-var targ32y = 440;
-var targ31x =  155;
-var targ34y = 288;
-var targ33x = 310;
-
-//add points for monsters[0] 1.1(4) to pat to:
-//////////////////////////////////////////
-var aim4 = 3;
-var targ41y = 226;
-var targ42x =  12;
-var targ43y = 30;
-var targ44x = 120;
 
 //Generate map of objects
 var myArray = new Array(32);
@@ -146,27 +104,8 @@ for(var z = 0; z < mapDigits.length; z++)
 //game running?
 var running = false;
 
-//facing 
-var faced = 0;
-var facing = 0;
-
-
 // tock
-
-
 tockReady = false;
-
-var tockImage = new Image();
-tockImage.src = "images/rPortal.png";
-
-var leftDoor = new Image();
-leftDoor.src = "images/doorLeft.png";
-
-var rightDoor = new Image();
-rightDoor.src = "images/doorRight.png";
-
-var deckImage = new Image();
-deckImage.src = "images/deck.png";
 
 var darknessImage = new Image();
 darknessImage.src = "images/fall.png";
@@ -189,42 +128,6 @@ hedgeImage3.src = "images/hedge3.png";
 var waterImage = new Image();
 waterImage.src = "images/water.png";
 
-var purpsImage = new Image();
-purpsImage.src = "images/pestilence.png";
-
-var LcornerImage = new Image();
-LcornerImage.src = "images/upLcorner.png";
-
-var RcornerImage = new Image();
-RcornerImage.src = "images/upRcorner.png";
-
-var backWallImage = new Image();
-backWallImage.src = "images/backWall.png";
-
-var leftWallImage = new Image();
-leftWallImage.src = "images/leftWall.png";
-
-var rightWallImage = new Image();
-rightWallImage.src = "images/rightWall.png";
-
-var tileImage = new Image();
-tileImage.src = "images/tile.png";
-
-var carpetImage = new Image();
-carpetImage.src = "images/carpetFill.png";
-
-var darkImage = new Image();
-darkImage.src = "images/darkTile.png";
-
-var keyTile =  new Image()
-keyTile.src = "images/yPortal1.png";
-
-var keyTile2 = new Image();
-keyTile2.src = "images/yPortal1.png";
-
-var reflector = new Image();
-reflector.src = "images/reflecta1.png"
-
 // Background image
 var bgReady = false;
 var bgImage = new Image();
@@ -244,7 +147,6 @@ var heroImage = new Image();
 heroImage.onload = function () {
 	heroReady = true;
 }; heroImage.src = "images/hero2.png";
-
 
 var dirs = ["Left", "Right", "Up", "Down"];
 function Monster()
@@ -277,6 +179,46 @@ for(var i = 0; i < 5; ++i)
 {
 	monsters[i] = new Monster();
 }
+
+//Add points for the monster to pat to:
+///////////////////////////////////////
+var aim = 1;
+monsters[0].y1 = 438;
+monsters[0].x2 =  12;
+monsters[0].y3 = 335;
+monsters[0].x4 = 120;
+
+//add points for the monster1 to pat to:
+///////////////////////////////////////////
+var aim1 = 1;
+monsters[1].y1 = 226;
+monsters[1].x2 =  12;
+monsters[1].y3 = 30;
+monsters[1].x4 = 120
+
+//add points for the monster2 to pat to:
+///////////////////////////////////////////
+var aim2 = 1;
+monsters[2].y1 = 144;
+monsters[2].x2 =  310;
+monsters[2].y3 = 295;
+monsters[2].x4 = 162;
+
+//add points for the monster3 to pat to:
+///////////////////////////////////////////
+var aim3 = 1;
+monsters[3].y2 = 440;
+monsters[3].x1 =  155;
+monsters[3].y4 = 288;
+monsters[3].x3 = 310;
+
+//add points for monster 1.1(4) to pat to:
+//////////////////////////////////////////
+var aim4 = 3;
+monsters[4].y1 = 226;
+monsters[4].x2 =  12;
+monsters[4].y3 = 30;
+monsters[4].x4 = 120
 
 // Archer1 image
 var archer1Ready = false;
@@ -333,9 +275,6 @@ var arrow2 = {
 var arrow3 = {
 	speed: 270
 };
-//movement in pixels per second
-monsters[0].yBound = 438;
-monsters[1].xBound = 12;
 
 var archer1 = {
 };
@@ -418,7 +357,7 @@ var reset = function() {
 		
 	heroSpotted = false;
 	haltReady = false;
-	gameState = gameState + 1;
+	++gameState;
 };
 
 var arrest = function() 
@@ -451,9 +390,8 @@ var arrest = function()
 
 
 var dirs = ["Left", "Right", "Up", "Down"];
-function stepSwitcher(isHero, whichImg)
+function stepSwitcher(whichImg)
 {
-	this.isHero = isHero;
 	this.img = whichImg;
 	this.state = 0;
 }
@@ -461,10 +399,9 @@ stepSwitcher.prototype.step = function(dir)
 {
 	++this.state;
 	if(this.state == 4) this.state = 0;
-	this.img.src = "images/" + (this.isHero ? "hero" : "enemy") + dirs[dir] + (1 + this.state) + ".png";
+	this.img.src = "images/hero" + dirs[dir] + (1 + this.state) + ".png";
 };
-
-var hStepper = new stepSwitcher(true, heroImage);
+var hStepper = new stepSwitcher(heroImage);
 
 
 //re iterate for enemy down
@@ -472,10 +409,10 @@ var hStepper = new stepSwitcher(true, heroImage);
 var eAnimateD = function()
 {
 		eNewY = Math.floor(monsters[0].y);
-		eStepper = monsters[0].yBound - monsters[0].y;
+		eStepper = monsters[0].y1 - monsters[0].y;
 		eStepper = Math.floor(eStepper);
 	
-	if(eNewY != monsters[0].yBound)
+	if(eNewY != monsters[0].y1)
 		{
 			if(eStepper % 10 == 0)
 				{
@@ -490,10 +427,10 @@ var eAnimateD = function()
 var e1AnimateD = function()
 {
 		e1NewY = Math.floor(monsters[1].y);
-		e1Stepper = monsters[0].yBound - monsters[1].y;
+		e1Stepper = monsters[0].y1 - monsters[1].y;
 		e1Stepper = Math.floor(e1Stepper);
 	
-	if(e1NewY != targ11y)
+	if(e1NewY != monsters[1].y1)
 		{
 			if(e1Stepper % 10 == 0)
 				{
@@ -508,10 +445,10 @@ var e1AnimateD = function()
 var e2AnimateD = function()
 {
 		e2NewY = Math.floor(monsters[2].y);
-		e2Stepper = targ21y - monsters[2].y;
+		e2Stepper = monsters[2].y1 - monsters[2].y;
 		e2Stepper = Math.floor(e2Stepper);
 	
-	if(e2NewY != targ21y)
+	if(e2NewY != monsters[2].y1)
 		{
 			if(e2Stepper % 10 == 0)
 				{
@@ -526,10 +463,10 @@ var e2AnimateD = function()
 var e3AnimateD = function()
 {
 		e3NewY = Math.floor(monsters[3].y);
-		e3Stepper = targ32y - monsters[3].y;
+		e3Stepper = monsters[3].y2 - monsters[3].y;
 		e3Stepper = Math.floor(e3Stepper);
 	
-	if(e3NewY != targ32y)
+	if(e3NewY != monsters[3].y2)
 		{
 			if(e3Stepper % 10 == 0)
 				{
@@ -543,10 +480,10 @@ var e3AnimateD = function()
 var e4AnimateD = function()
 {
 		e4NewY = Math.floor(monsters[4].y);
-		e4Stepper = targ41y - monsters[4].y;
+		e4Stepper = monsters[4].y1 - monsters[4].y;
 		e4Stepper = Math.floor(e4Stepper);
 	
-	if(e4NewY != targ41y)
+	if(e4NewY != monsters[4].y1)
 		{
 			if(e4Stepper % 10 == 0)
 				{
@@ -583,10 +520,10 @@ var animateU = function()
 var eAnimateU = function()
 {
 		eNewY = Math.floor(monsters[0].y);
-		eStepper = monsters[0].y - targ3y;
+		eStepper = monsters[0].y - monsters[3].y;
 		eStepper = Math.floor(eStepper);
 	
-	if(eNewY != targ3y)
+	if(eNewY != monsters[3].y)
 		{
 			if(eStepper % 10 == 0)
 				{
@@ -601,10 +538,10 @@ var eAnimateU = function()
 var e1AnimateU = function()
 {
 		e1NewY = Math.floor(monsters[1].y);
-		e1Stepper = monsters[1].y - targ13y;
+		e1Stepper = monsters[1].y - monsters[1].y3;
 		e1Stepper = Math.floor(e1Stepper);
 	
-	if(e1NewY != targ13y)
+	if(e1NewY != monsters[1].y3)
 		{
 			if(e1Stepper % 10 == 0)
 				{
@@ -619,10 +556,10 @@ var e1AnimateU = function()
 var e2AnimateU = function()
 {
 		e2NewY = Math.floor(monsters[2].y);
-		e2Stepper = monsters[2].y - targ23y;
+		e2Stepper = monsters[2].y - monsters[2].y3;
 		e2Stepper = Math.floor(e2Stepper);
 	
-	if(e2NewY != targ23y)
+	if(e2NewY != monsters[2].y3)
 		{
 			if(e2Stepper % 10 == 0)
 				{
@@ -637,10 +574,10 @@ var e2AnimateU = function()
 var e3AnimateU = function()
 {
 		e3NewY = Math.floor(monsters[3].y);
-		e3Stepper = monsters[3].y - targ34y;
+		e3Stepper = monsters[3].y - monsters[3].y4;
 		e3Stepper = Math.floor(e3Stepper);
 	
-	if(e3NewY != targ34y)
+	if(e3NewY != monsters[3].y4)
 		{
 			if(e3Stepper % 10 == 0)
 				{
@@ -655,10 +592,10 @@ var e3AnimateU = function()
 var e4AnimateU = function()
 {
 		e4NewY = Math.floor(monsters[4].y);
-		e4Stepper = monsters[4].y - targ43y;
+		e4Stepper = monsters[4].y - monsters[4].y3;
 		e4Stepper = Math.floor(e4Stepper);
 	
-	if(e4NewY != targ43y)
+	if(e4NewY != monsters[4].y3)
 		{
 			if(e4Stepper % 10 == 0)
 				{
@@ -694,10 +631,10 @@ var animateL = function()
 var eAnimateL = function()
 {
 		eNewX = Math.floor(monsters[0].x);
-		eStepper = monsters[0].x - targ2x;
+		eStepper = monsters[0].x - monsters[0].x2;
 		eStepper = Math.floor(eStepper);
 	
-	if(eNewX != targ2x)
+	if(eNewX != monsters[0].x2)
 		{
 			if(eStepper % 10 == 0)
 				{
@@ -713,10 +650,10 @@ var eAnimateL = function()
 var e1AnimateL = function()
 {
 	e1NewX = Math.floor(monsters[1].x);
-	e1Stepper = monsters[1].x - monsters[1].xBound;
+	e1Stepper = monsters[1].x - monsters[1].x2;
 	e1Stepper = Math.floor(e1Stepper);
 	
-	if(e1NewX != monsters[1].xBound)
+	if(e1NewX != monsters[1].x2)
 	{
 		if(e1Stepper % 10 == 0)
 		{
@@ -730,10 +667,10 @@ var e1AnimateL = function()
 var e2AnimateL = function()
 {
 	e2NewX = Math.floor(monsters[2].x);
-	e2Stepper = monsters[2].x - targ22x;
+	e2Stepper = monsters[2].x - monsters[2].x2;
 	e2Stepper = Math.floor(e2Stepper);
 	
-	if(e2NewX != targ22x)
+	if(e2NewX != monsters[2].x2)
 	{
 		if(e2Stepper % 10 == 0)
 		{
@@ -747,10 +684,10 @@ var e2AnimateL = function()
 var e3AnimateL = function()
 {
 	e3NewX = Math.floor(monsters[3].x);
-	e3Stepper = monsters[3].x - targ33x;
+	e3Stepper = monsters[3].x - monsters[3].x3;
 	e3Stepper = Math.floor(e3Stepper);
 	
-	if(e3NewX != targ33x)
+	if(e3NewX != monsters[3].x3)
 	{
 		if(e3Stepper % 10 == 0)
 		{
@@ -764,10 +701,10 @@ var e3AnimateL = function()
 var e4AnimateL = function()
 {
 	e4NewX = Math.floor(monsters[4].x);
-	e4Stepper = monsters[4].x - targ42x;
+	e4Stepper = monsters[4].x - monsters[4].x2;
 	e4Stepper = Math.floor(e4Stepper);
 	
-	if(e4NewX != targ42x)
+	if(e4NewX != monsters[4].x2)
 		{
 			if(e4Stepper % 10 == 0)
 				{
@@ -808,10 +745,10 @@ var animateR = function()
 var eAnimateR = function()
 {
 		eNewX = Math.floor(monsters[0].x);
-		eStepper = targ4x - monsters[0].x;
+		eStepper = monsters[4].x - monsters[0].x;
 		eStepper = Math.floor(eStepper);
 	
-	if(eNewX != targ4x)
+	if(eNewX != monsters[4].x)
 		{
 			if(eStepper % 10 == 0)
 				{
@@ -826,10 +763,10 @@ var eAnimateR = function()
 var e1AnimateR = function()
 {
 		e1NewX = Math.floor(monsters[1].x);
-		e1Stepper = targ14x - monsters[1].x;
+		e1Stepper = monsters[1].x4 - monsters[1].x;
 		e1Stepper = Math.floor(e1Stepper);
 	
-	if(e1NewX != targ14x)
+	if(e1NewX != monsters[1].x4)
 		{
 			if(e1Stepper % 10 == 0)
 				{
@@ -844,10 +781,10 @@ var e1AnimateR = function()
 var e2AnimateR = function()
 {
 		e2NewX = Math.floor(monsters[2].x);
-		e2Stepper = targ24x - monsters[2].x;
+		e2Stepper = monsters[2].x4 - monsters[2].x;
 		e2Stepper = Math.floor(e2Stepper);
 	
-	if(e2NewX != targ24x)
+	if(e2NewX != monsters[2].x4)
 		{
 			if(e2Stepper % 10 == 0)
 				{
@@ -862,10 +799,10 @@ var e2AnimateR = function()
 var e3AnimateR = function()
 {
 		e3NewX = Math.floor(monsters[3].x);
-		e3Stepper = targ33x - monsters[3].x;
+		e3Stepper = monsters[3].x3 - monsters[3].x;
 		e3Stepper = Math.floor(e3Stepper);
 	
-	if(e3NewX != targ33x)
+	if(e3NewX != monsters[3].x3)
 		{
 			if(e3Stepper % 10 == 0)
 				{
@@ -880,10 +817,10 @@ var e3AnimateR = function()
 var e4AnimateR = function()
 {
 		e4NewX = Math.floor(monsters[4].x);
-		e4Stepper = targ44x - monsters[4].x;
+		e4Stepper = monsters[4].x4 - monsters[4].x;
 		e4Stepper = Math.floor(e4Stepper);
 	
-	if(e4NewX != targ44x)
+	if(e4NewX != monsters[4].x4)
 		{
 			if(e4Stepper % 10 == 0)
 				{
@@ -957,7 +894,7 @@ var update = function (modifier)
 	
 	
 }
-//level 2 if gamestate = 4 collision
+//level 2 if gameState = 4 collision
 	
 	if(gameState != 1)
 	{
@@ -1012,7 +949,7 @@ var update = function (modifier)
 	//move from spawn to target 1
 if (gameState == 1)
 {
-	if((aim == 1) && (monsters[0].y < monsters[0].yBound))
+	if((aim == 1) && (monsters[0].y < monsters[0].y1))
 	{	
 		monsters[0].y += monsters[0].speed * modifier;
 		eAnimateD();
@@ -1024,7 +961,7 @@ if (gameState == 1)
 				spotter = 0;
 			}
 		}
-		if((monsters[0].yBound - 5) < (monsters[0].y))
+		if((monsters[0].y1 - 5) < (monsters[0].y))
 		{
 			aim = 2;	
 		}
@@ -1032,7 +969,7 @@ if (gameState == 1)
 	
 	
 	
-	if((aim == 2) && (monsters[0].x > targ2x))
+	if((aim == 2) && (monsters[0].x > monsters[0].x2))
 	{
 		monsters[0].x -= monsters[0].speed * modifier;
 		eAnimateL();
@@ -1045,13 +982,13 @@ if (gameState == 1)
 			}
 		}
 
-		if((targ2x + 5) > (monsters[0].x))
+		if((monsters[0].x2 + 5) > (monsters[0].x))
 		{
 			aim = 3;
 		}
 	}
 	
-	if((aim == 3) && (monsters[0].y > targ3y))
+	if((aim == 3) && (monsters[0].y > monsters[0].y3))
 	{
 		monsters[0].y -= monsters[0].speed * modifier;
 		eAnimateU();
@@ -1064,12 +1001,12 @@ if (gameState == 1)
 			}
 		}
 
-		if((targ3y + 5) > (monsters[0].y))
+		if((monsters[0].y3 + 5) > (monsters[0].y))
 		{
 			aim = 4;
 		}
 	}
-	if((aim == 4) && (monsters[0].x < targ4x))
+	if((aim == 4) && (monsters[0].x < monsters[0].x4))
 	{
 		monsters[0].x += monsters[0].speed * modifier;
 		eAnimateR();
@@ -1082,7 +1019,7 @@ if (gameState == 1)
 			}
 		}
 
-		if((targ4x - 5) < (monsters[0].x))
+		if((monsters[0].x4 - 5) < (monsters[0].x))
 		{
 			aim = 1;
 		}
@@ -1091,7 +1028,7 @@ if (gameState == 1)
 	//re iterate for enemy1
 	////////////////////////////////////
 	
-	if((aim1 == 1) && (monsters[1].y < targ11y))
+	if((aim1 == 1) && (monsters[1].y < monsters[1].y1))
 	{
 		monsters[1].y += monsters[1].speed * modifier;
 		e1AnimateD();
@@ -1103,7 +1040,7 @@ if (gameState == 1)
 				spotter = 1;
 			}
 		}
-		if((targ11y - 5) < (monsters[1].y))
+		if((monsters[1].y1 - 5) < (monsters[1].y))
 		{
 			aim1 = 2;	
 		}
@@ -1111,7 +1048,7 @@ if (gameState == 1)
 	
 	
 	
-	if((aim1 == 2) && (monsters[1].x > monsters[1].xBound))
+	if((aim1 == 2) && (monsters[1].x > monsters[1].x2))
 	{
 		monsters[1].x -= monsters[1].speed * modifier;
 		e1AnimateL();
@@ -1123,13 +1060,13 @@ if (gameState == 1)
 				spotter = 1;
 			}
 		}
-		if((monsters[1].xBound + 5) > (monsters[1].x))
+		if((monsters[1].x2 + 5) > (monsters[1].x))
 		{
 			aim1 = 3;
 		}
 	}
 	
-	if((aim1 == 3) && (monsters[1].y > targ13y))
+	if((aim1 == 3) && (monsters[1].y > monsters[1].y3))
 	{
 		monsters[1].y -= monsters[1].speed * modifier;
 		e1AnimateU();
@@ -1141,12 +1078,12 @@ if (gameState == 1)
 				spotter = 1;
 			} 
 		}
-		if((targ13y + 5) > (monsters[1].y))
+		if((monsters[1].y3 + 5) > (monsters[1].y))
 		{
 			aim1 = 4;
 		}
 	}
-	if((aim1 == 4) && (monsters[1].x < targ14x))
+	if((aim1 == 4) && (monsters[1].x < monsters[1].x4))
 	{
 		monsters[1].x += monsters[1].speed * modifier;
 		e1AnimateR();
@@ -1159,7 +1096,7 @@ if (gameState == 1)
 			}
 		}
 
-		if((targ14x - 5) < (monsters[1].x))
+		if((monsters[1].x4 - 5) < (monsters[1].x))
 		{
 			aim1 = 1;
 		}
@@ -1169,7 +1106,7 @@ if (gameState == 1)
 	//re iterate for enemy2
 	////////////////////////////////////
 	
-	if((aim2 == 3) && (monsters[2].y < targ23y))
+	if((aim2 == 3) && (monsters[2].y < monsters[2].y3))
 	{
 		monsters[2].y += monsters[2].speed * modifier;
 		e2AnimateD();
@@ -1181,7 +1118,7 @@ if (gameState == 1)
 				spotter = 2;
 			}
 		}
-		if((targ23y - 5) < (monsters[2].y))
+		if((monsters[2].y3 - 5) < (monsters[2].y))
 		{
 			aim2 = 4;	
 		}
@@ -1189,7 +1126,7 @@ if (gameState == 1)
 	
 	
 	
-	if((aim2 == 4) && (monsters[2].x > targ24x))
+	if((aim2 == 4) && (monsters[2].x > monsters[2].x4))
 	{
 		monsters[2].x -= monsters[2].speed * modifier;
 		e2AnimateL();
@@ -1201,13 +1138,13 @@ if (gameState == 1)
 				spotter = 2;
 			}
 		}
-		if((targ24x + 5) > (monsters[2].x))
+		if((monsters[2].x4 + 5) > (monsters[2].x))
 		{
 			aim2 = 1;
 		}
 	}
 	
-	if((aim2 == 1) && (monsters[2].y > targ21y))
+	if((aim2 == 1) && (monsters[2].y > monsters[2].y1))
 	{
 		monsters[2].y -= monsters[2].speed * modifier;
 		e2AnimateU();
@@ -1219,12 +1156,12 @@ if (gameState == 1)
 				spotter = 2;
 			}
 		}
-		if((targ21y + 5) > (monsters[2].y))
+		if((monsters[2].y1 + 5) > (monsters[2].y))
 		{
 			aim2 = 2;
 		}
 	}
-	if((aim2 == 2) && (monsters[2].x < targ22x))
+	if((aim2 == 2) && (monsters[2].x < monsters[2].x2))
 	{
 		monsters[2].x += monsters[2].speed * modifier;
 		e2AnimateR();
@@ -1236,7 +1173,7 @@ if (gameState == 1)
 				spotter = 2;
 			}
 		}
-		if((targ22x - 5) < (monsters[2].x))
+		if((monsters[2].x2 - 5) < (monsters[2].x))
 		{
 			aim2 = 3;
 		}
@@ -1246,7 +1183,7 @@ if (gameState == 1)
 	//re iterate for enemy3
 	////////////////////////////////////
 	
-	if((aim3 == 2) && (monsters[3].y < targ32y))
+	if((aim3 == 2) && (monsters[3].y < monsters[3].y2))
 	{
 		monsters[3].y += monsters[3].speed * modifier;
 		e3AnimateD();
@@ -1258,7 +1195,7 @@ if (gameState == 1)
 				spotter = 3;
 			}
 		}
-		if((targ32y - 5) < (monsters[3].y))
+		if((monsters[3].y2 - 5) < (monsters[3].y))
 		{
 			aim3 = 3;	
 		}
@@ -1266,7 +1203,7 @@ if (gameState == 1)
 	
 	
 	
-	if((aim3 == 1) && (monsters[3].x > targ31x))
+	if((aim3 == 1) && (monsters[3].x > monsters[3].x1))
 	{
 		monsters[3].x -= monsters[3].speed * modifier;
 		e3AnimateL();
@@ -1279,13 +1216,13 @@ if (gameState == 1)
 			}
 		}
 
-		if((targ31x + 5) > (monsters[3].x))
+		if((monsters[3].x1 + 5) > (monsters[3].x))
 		{
 			aim3 = 2;
 		}
 	}
 	
-	if((aim3 == 4) && (monsters[3].y > targ34y))
+	if((aim3 == 4) && (monsters[3].y > monsters[3].y4))
 	{
 		monsters[3].y -= monsters[3].speed * modifier;
 		e3AnimateU();
@@ -1297,12 +1234,12 @@ if (gameState == 1)
 				spotter = 3;
 			}
 		}
-		if((targ34y + 5) > (monsters[3].y))
+		if((monsters[3].y4 + 5) > (monsters[3].y))
 		{
 			aim3 = 1;
 		}
 	}
-	if((aim3 == 3) && (monsters[3].x < targ33x))
+	if((aim3 == 3) && (monsters[3].x < monsters[3].x3))
 	{
 		monsters[3].x += monsters[3].speed * modifier;
 		e3AnimateR();
@@ -1314,7 +1251,7 @@ if (gameState == 1)
 				spotter = 3;
 			}
 		}
-		if((targ33x - 5) < (monsters[3].x))
+		if((monsters[3].x3 - 5) < (monsters[3].x))
 		{
 			aim3 = 4;
 		}
@@ -1322,7 +1259,7 @@ if (gameState == 1)
 	
 	
 	//reiterate for enemy 4
-	if((aim4 == 1) && (monsters[4].y < targ41y))
+	if((aim4 == 1) && (monsters[4].y < monsters[4].y1))
 	{
 		monsters[4].y += monsters[4].speed * modifier;
 		e4AnimateD();
@@ -1334,14 +1271,14 @@ if (gameState == 1)
 				spotter = 4;
 			}
 		}
-		if((targ41y - 5) < (monsters[4].y))
+		if((monsters[4].y1 - 5) < (monsters[4].y))
 		{
 			aim4 = 2;	
 		}
 	}
 	
 	
-	if((aim4 == 2) && (monsters[4].x > targ42x))
+	if((aim4 == 2) && (monsters[4].x > monsters[4].x2))
 	{
 		monsters[4].x -= monsters[4].speed * modifier;
 		e4AnimateL();
@@ -1353,13 +1290,13 @@ if (gameState == 1)
 				spotter = 4;
 			}
 		}
-		if((targ42x + 5) > (monsters[4].x))
+		if((monsters[4].x2 + 5) > (monsters[4].x))
 		{
 			aim4 = 3;
 		}
 	}
 	
-	if((aim4 == 3) && (monsters[4].y > targ43y))
+	if((aim4 == 3) && (monsters[4].y > monsters[4].y3))
 	{
 		monsters[4].y -= monsters[4].speed * modifier;
 		e4AnimateU();
@@ -1371,12 +1308,12 @@ if (gameState == 1)
 				spotter = 4;
 			}
 		}
-		if((targ43y + 5) > (monsters[4].y))
+		if((monsters[4].y3 + 5) > (monsters[4].y))
 		{
 			aim4 = 4;
 		}
 	}
-	if((aim4 == 4) && (monsters[4].x < targ44x))
+	if((aim4 == 4) && (monsters[4].x < monsters[4].x4))
 	{
 		monsters[4].x += monsters[4].speed * modifier;
 		e4AnimateR();
@@ -1389,7 +1326,7 @@ if (gameState == 1)
 			}
 		}
 
-		if((targ44x - 5) < (monsters[4].x))
+		if((monsters[4].x4 - 5) < (monsters[4].x))
 		{
 			aim4 = 1;
 		}
@@ -1398,30 +1335,30 @@ if (gameState == 1)
 	if(haltReady && spotter == 3)
 		{
 			if(hero.x < monsters[3].x)
-   			monsters[3].x -= monsters[3].speed * modifier;
+			monsters[3].x -= monsters[3].speed * modifier;
   		 	else if(hero.x > monsters[3].x)
-   			monsters[3].x += monsters[3].speed * modifier;
+			monsters[3].x += monsters[3].speed * modifier;
  		  	
  		  	if(hero.y < monsters[3].y)
   			monsters[3].y -= monsters[3].speed * modifier;
-    		else if (hero.y > monsters[3].y)
-    		monsters[3].y += monsters[3].speed * modifier;
-    		arrest();
+ 		else if (hero.y > monsters[3].y)
+ 		monsters[3].y += monsters[3].speed * modifier;
+ 		arrest();
 
 			
 		}
 	if(haltReady && spotter == 2)
 		{
 			if(hero.x < monsters[2].x)
-    		monsters[2].x -= monsters[2].speed * modifier;
-    		else if (hero.x > monsters[2].x)
-    		monsters[2].x += monsters[2].speed * modifier;
-    		
-    		if(hero.y < monsters[2].y)
-    		monsters[2].y -= monsters[2].speed * modifier;
-    		else if (hero.y > monsters[2].y)
-    		monsters[2].y += monsters[2].speed * modifier;
-    		arrest();
+ 		monsters[2].x -= monsters[2].speed * modifier;
+ 		else if (hero.x > monsters[2].x)
+ 		monsters[2].x += monsters[2].speed * modifier;
+ 		
+ 		if(hero.y < monsters[2].y)
+ 		monsters[2].y -= monsters[2].speed * modifier;
+ 		else if (hero.y > monsters[2].y)
+ 		monsters[2].y += monsters[2].speed * modifier;
+ 		arrest();
 		}	
 	if((arrow1Ready) && (arrow1.x < 480))
 	arrow1.x += arrow1.speed * modifier;
@@ -1435,82 +1372,82 @@ if (gameState == 1)
 	
 
 
-    //ready the archers:
-    ////////////////////////////////////////
-    if ((hero.x > 330) && (hero.y > 375))
-    	archer1Image.src = "images/archer1.png";
-    	
-    if ((hero.x > 330) && (hero.y < 375))
-    	archer1Image.src = "images/archer2.png";
-    
-    if ((hero.x > 330) && (hero.y < 340))
-    	archer1Image.src = "images/archer3.png";
-    	
-    if ((hero.x > 330) && (hero.y < 320))
-    	{
-    		archer1Image.src = "images/archer4.png";
-    		arrow1Ready = true;
-    	}
-    if ((hero.x > 330) && (hero.y < 300))
-    	archer2Image.src = "images/archer2.png";
-    
-    if ((hero.x > 330) && (hero.y < 255))
-    	archer2Image.src = "images/archer3.png";
-    	
-    if ((hero.x > 330) && (hero.y < 230))
-    {
-    	archer2Image.src = "images/archer4.png";
-    	arrow2Ready = true;
-    }
-    if ((hero.x > 330) && (hero.y < 211))
-    	archer3Image.src = "images/archer2.png";
-    
-    if ((hero.x > 330) && (hero.y < 174))
-    	archer3Image.src = "images/archer3.png";
-    	
-    if ((hero.x > 330) && (hero.y < 139))
-    {
-    	archer3Image.src = "images/archer4.png";
-    	arrow3Ready = true;
-    }
-    
+	//ready the archers:
+	////////////////////////////////////////
+	if ((hero.x > 330) && (hero.y > 375))
+ 	archer1Image.src = "images/archer1.png";
+ 	
+	if ((hero.x > 330) && (hero.y < 375))
+ 	archer1Image.src = "images/archer2.png";
+	
+	if ((hero.x > 330) && (hero.y < 340))
+ 	archer1Image.src = "images/archer3.png";
+ 	
+	if ((hero.x > 330) && (hero.y < 320))
+ 	{
+ 		archer1Image.src = "images/archer4.png";
+ 		arrow1Ready = true;
+ 	}
+	if ((hero.x > 330) && (hero.y < 300))
+ 	archer2Image.src = "images/archer2.png";
+	
+	if ((hero.x > 330) && (hero.y < 255))
+ 	archer2Image.src = "images/archer3.png";
+ 	
+	if ((hero.x > 330) && (hero.y < 230))
+	{
+ 	archer2Image.src = "images/archer4.png";
+ 	arrow2Ready = true;
+	}
+	if ((hero.x > 330) && (hero.y < 211))
+ 	archer3Image.src = "images/archer2.png";
+	
+	if ((hero.x > 330) && (hero.y < 174))
+ 	archer3Image.src = "images/archer3.png";
+ 	
+	if ((hero.x > 330) && (hero.y < 139))
+	{
+ 	archer3Image.src = "images/archer4.png";
+ 	arrow3Ready = true;
+	}
+	
 }
-    	
-    if(gameState == 2)
-    bgImage.src = "images/gameOver.png";
-    
-    if(gameState == 3)
-    bgImage.src = "images/success1.png";
-    
-    if(gameState == 0)
-    bgImage.src = "images/start.png";
-       	
-   	if(ticker == 0)
-   	{
-   	if(tock.x < 512)
-   	{
-   		tock.x += tock.speed * modifier;
-   	}
-   	}
-   	if(tock.x > 512)
-   	{
-   		ticker = 1;
-   	}
-   	if(ticker == 1)
-   	{
-   		if(tock.x > 0)
-   		{
-   			tock.x -= tock.speed * modifier;
-   		}
-   	}
-   	if (tock.x < 0)
-   	{
-   		ticker = 0;
-   	}
+ 	
+	if(gameState == 2)
+	bgImage.src = "images/gameOver.png";
+	
+	if(gameState == 3)
+	bgImage.src = "images/success1.png";
+	
+	if(gameState == 0)
+	bgImage.src = "images/start.png";
+		
+	if(ticker == 0)
+	{
+	if(tock.x < 512)
+	{
+		tock.x += tock.speed * modifier;
+	}
+	}
+	if(tock.x > 512)
+	{
+		ticker = 1;
+	}
+	if(ticker == 1)
+	{
+		if(tock.x > 0)
+		{
+			tock.x -= tock.speed * modifier;
+		}
+	}
+	if (tock.x < 0)
+	{
+		ticker = 0;
+	}
 	
  
-   	tockGrid = Math.ceil((tock.x)/16);   	
-   	   
+	tockGrid = Math.ceil((tock.x)/16);
+	   
 };
 
 // Draw everything
@@ -1608,7 +1545,7 @@ var render = function ()
 	ctx.font = "24px Helvetica";
 	ctx.textAlign = "left";
 	ctx.textBaseline = "top";
-    ctx.fillText("Gamestate: " + gameState, 32, 32);
+	ctx.fillText("Gamestate: " + gameState, 32, 32);
 	**/	
 	
 };
@@ -1620,10 +1557,10 @@ var render = function ()
 //var tempFPS = [0],
 //	iter = 0,
 //   load = document.getElementById('load'),
-//    fps = document.getElementById('fps'),
-    then = Date.now(),
-    now = 0,
-    delta = 0;
+//	fps = document.getElementById('fps'),
+	then = Date.now(),
+	now = 0,
+	delta = 0;
 
 /*****************************************************************************************************
 * Changes here
