@@ -688,28 +688,8 @@ var stepRight = function()
 // end right
 
 
-// re iterate all for enemy animation
-///////////////////////////////////////////////////////
-var eBasicLeft = function(whichImg, stepAmt)
-{
-	whichImg.src = "images/enemyLeft"+(stepAmt + 1)+".png";
-};
 
-var eBasicRight = function(whichImg, stepAmt)
-{
-	whichImg.src = "images/enemyRight"+(stepAmt + 1)+".png";
-};
-
-var eBasicUp = function(whichImg, stepAmt)
-{
-	whichImg.src = "images/enemyUp"+(stepAmt + 1)+".png";
-};
-
-var eBasicDown = function(whichImg, stepAmt)
-{
-	whichImg.src = "images/enemyDown"+(stepAmt + 1)+".png";
-};
-
+// set up image stepping functions for enemies
 
 var dirs = ["Left", "Right", "Up", "Down"];
 function eStepSwitcher(whichImg)
