@@ -239,7 +239,6 @@ archers[2].arrow.speed += 20;
 
 var spotter = 0;
 
-
 // Game objects
 // speed = movement in pixels per second **** adding speed to cope for lag***** 120 up from 100
 
@@ -355,18 +354,16 @@ var update = function ()
 	}
 //level 2 if gameState = 4 collision
 	
-	if(gameState != 1)
+	if(gameState != 1 && 32 in keysDown) // Player hits space 
 	{
-	if (32 in keysDown) 
-	 { // Player hits space
-	 	if (gameState == 3)
-	 	{
-	 		hero.x = 248;
-	 		hero.y = 458;
-	 		tockReady = true;
-	 		tock.x = 0;
-	 		tock.y = 464;
-	 		gameState = 0;
+		if (gameState == 3)
+		{
+			hero.x = 248;
+			hero.y = 458;
+			tockReady = true;
+			tock.x = 0;
+			tock.y = 464;
+			gameState = 0;
 	 	}
 		if (gameState == 2)
 		{
@@ -383,24 +380,17 @@ var update = function ()
 			hero.x = 65;
 			hero.y = 458;
 		}
-	 }
 	}
-	if(gameState == 4)
+	if(gameState == 4 && 88 in keysDown)
 	{
-		if (88 in keysDown)
-		{
-			gameState = 0;
-		}
+		gameState = 0;
 	}
-	if(gameState == 1)
-	{
-	if ((hero.x > 205) && (hero.x < 270))
+	if(gameState == 1 && (hero.x > 205 && hero.x < 270))
 	{
 		if (hero.y < 40)
 		{
 			gameState = 3;
 		}
-	}
 	}
 	
 	
@@ -421,7 +411,7 @@ if (gameState == 1)
 		}
 		if((monsters[0].y1 - 5) < (monsters[0].y))
 		{
-			monsters[0].aim = 2;	
+			monsters[0].aim = 2;
 		}
 	}
 	if((monsters[0].aim == 2) && (monsters[0].x > monsters[0].x2))
@@ -473,73 +463,79 @@ if (gameState == 1)
 		}
 	}
 	
+	function runMonster(index)
+	{
+	var m = monsters[index];
+	if((m.aim == 1) && (m.y < m.y1))
+	{
+		m.moveY(false);
+		if(((m.x - 10) < (hero.x)) && ((hero.x) < (m.x + 10)))
+		{
+			if ((m.y < hero.y) && (hero.y < 245))
+			{
+				arrest(); 
+				spotter = index;
+			}
+		}
+		if((m.y1 - 5) < (m.y))
+		{
+			m.aim = 2;	
+		}
+	}
+	if((m.aim == 2) && (m.x > m.x2))
+	{
+		m.moveX(true);
+		if(((m.y - 10) < (hero.y)) && ((hero.y) < (m.y + 10)))
+		{
+			if (hero.x < m.x)
+			{
+				arrest(); 
+				spotter = index;
+			}
+		}
+		if((m.x2 + 5) > (m.x))
+		{
+			m.aim = 3;
+		}
+	}
+	if((m.aim == 3) && (m.y > m.y3))
+	{
+		m.moveY(true);
+		if(((m.x - 10) < (hero.x)) && ((hero.x) < (m.x + 10)))
+		{
+			if ((m.y > hero.y) && (hero.y < 200))
+			{
+				arrest(); 
+				spotter = index;
+			}
+		}
+		if((m.y3 + 5) > (m.y))
+		{
+			m.aim = 4;
+		}
+	}
+	if((m.aim == 4) && (m.x < m.x4))
+	{
+		m.moveX(false);
+		if(((m.y - 10) < (hero.y)) && ((hero.y) < (m.y + 5)))
+		{
+			if ((hero.x > m.x) && (hero.x < 120))
+			{
+				arrest(); 
+				spotter = index;
+			}
+		}
+		if((m.x4 - 5) < (m.x))
+		{
+			m.aim = 1;
+		}
+	}
+	}
+
 	//re iterate for enemy1
 	////////////////////////////////////
 	
-	if((monsters[1].aim == 1) && (monsters[1].y < monsters[1].y1))
-	{
-		monsters[1].moveY(false);
-		if(((monsters[1].x - 10) < (hero.x)) && ((hero.x) < (monsters[1].x + 10)))
-		{
-			if ((monsters[1].y < hero.y) && (hero.y < 245))
-			{
-				arrest(); 
-				spotter = 1;
-			}
-		}
-		if((monsters[1].y1 - 5) < (monsters[1].y))
-		{
-			monsters[1].aim = 2;	
-		}
-	}
-	if((monsters[1].aim == 2) && (monsters[1].x > monsters[1].x2))
-	{
-		monsters[1].moveX(true);
-		if(((monsters[1].y - 10) < (hero.y)) && ((hero.y) < (monsters[1].y + 10)))
-		{
-			if (hero.x < monsters[1].x)
-			{
-				arrest(); 
-				spotter = 1;
-			}
-		}
-		if((monsters[1].x2 + 5) > (monsters[1].x))
-		{
-			monsters[1].aim = 3;
-		}
-	}
-	if((monsters[1].aim == 3) && (monsters[1].y > monsters[1].y3))
-	{
-		monsters[1].moveY(true);
-		if(((monsters[1].x - 10) < (hero.x)) && ((hero.x) < (monsters[1].x + 10)))
-		{
-			if ((monsters[1].y > hero.y) && (hero.y < 200))
-			{
-				arrest();
-				spotter = 1;
-			} 
-		}
-		if((monsters[1].y3 + 5) > (monsters[1].y))
-		{
-			monsters[1].aim = 4;
-		}
-	}
-	if((monsters[1].aim == 4) && (monsters[1].x < monsters[1].x4))
-	{
-		monsters[1].moveX(false);
-		if(((monsters[1].y - 10) < (hero.y)) && ((hero.y) < (monsters[1].y + 5)))
-		{
-			if ((hero.x > monsters[1].x) && (hero.x < 120))
-			{
-				arrest(); 
-				spotter = 1;
-			}
-		}
-		if((monsters[1].x4 - 5) < (monsters[1].x))
-		{
-			monsters[1].aim = 1;
-		}
-	}
+	runMonster(1);
 	
 	
 	//re iterate for enemy2
@@ -669,7 +665,7 @@ if (gameState == 1)
 		{
 			if ((hero.x > monsters[3].x) && (hero.x < 325))
 			{
-				arrest(); 
+				arrest();
 				spotter = 3;
 			}
 		}
@@ -681,70 +677,7 @@ if (gameState == 1)
 	
 	
 	//reiterate for enemy 4
-	if((monsters[4].aim == 1) && (monsters[4].y < monsters[4].y1))
-	{
-		monsters[4].moveY(false);
-		if(((monsters[4].x - 10) < (hero.x)) && ((hero.x) < (monsters[4].x + 10)))
-		{
-			if ((monsters[4].y < hero.y) && (hero.y < 245))
-			{
-				arrest(); 
-				spotter = 4;
-			}
-		}
-		if((monsters[4].y1 - 5) < (monsters[4].y))
-		{
-			monsters[4].aim = 2;	
-		}
-	}
-	if((monsters[4].aim == 2) && (monsters[4].x > monsters[4].x2))
-	{
-		monsters[4].moveX(true);
-		if(((monsters[4].y - 10) < (hero.y)) && ((hero.y) < (monsters[4].y + 10)))
-		{
-			if (hero.x < monsters[4].x)
-			{
-				arrest(); 
-				spotter = 4;
-			}
-		}
-		if((monsters[4].x2 + 5) > (monsters[4].x))
-		{
-			monsters[4].aim = 3;
-		}
-	}
-	if((monsters[4].aim == 3) && (monsters[4].y > monsters[4].y3))
-	{
-		monsters[4].moveY(true);
-		if(((monsters[4].x - 10) < (hero.x)) && ((hero.x) < (monsters[4].x + 10)))
-		{
-			if ((monsters[4].y > hero.y) && (hero.y < 200))
-			{
-				arrest(); 
-				spotter = 4;
-			}
-		}
-		if((monsters[4].y3 + 5) > (monsters[4].y))
-		{
-			monsters[4].aim = 4;
-		}
-	}
-	if((monsters[4].aim == 4) && (monsters[4].x < monsters[4].x4))
-	{
-		monsters[4].moveX(false);
-		if(((monsters[4].y - 10) < (hero.y)) && ((hero.y) < (monsters[4].y + 5)))
-		{
-			if ((hero.x > monsters[4].x) && (hero.x < 120))
-			{
-				arrest(); 
-				spotter = 4;
-			}
-		}
-		if((monsters[4].x4 - 5) < (monsters[4].x))
-		{
-			monsters[4].aim = 1;
-		}
-	}
+	runMonster(4);
 	
 	if(haltReady && spotter == 3)
 	{
