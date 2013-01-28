@@ -198,17 +198,17 @@ monsters[1].x4 = 120
 ///////////////////////////////////////////
 var aim2 = 1;
 monsters[2].y1 = 144;
-monsters[2].x2 =  310;
+monsters[2].x2 = 310;
 monsters[2].y3 = 295;
 monsters[2].x4 = 162;
 
 //add points for the monster3 to pat to:
 ///////////////////////////////////////////
 var aim3 = 1;
-monsters[3].y2 = 440;
-monsters[3].x1 =  155;
-monsters[3].y4 = 288;
-monsters[3].x3 = 310;
+monsters[3].y1 = 440;
+monsters[3].x2 = 155;
+monsters[3].y3 = 288;
+monsters[3].x4 = 310;
 
 //add points for monster 1.1(4) to pat to:
 //////////////////////////////////////////
@@ -461,10 +461,10 @@ var e2AnimateD = function()
 var e3AnimateD = function()
 {
 		e3NewY = Math.floor(monsters[3].y);
-		e3Stepper = monsters[3].y2 - monsters[3].y;
+		e3Stepper = monsters[3].y1 - monsters[3].y;
 		e3Stepper = Math.floor(e3Stepper);
 	
-	if(e3NewY != monsters[3].y2)
+	if(e3NewY != monsters[3].y1)
 		{
 			if(e3Stepper % 10 == 0)
 				{
@@ -572,10 +572,10 @@ var e2AnimateU = function()
 var e3AnimateU = function()
 {
 		e3NewY = Math.floor(monsters[3].y);
-		e3Stepper = monsters[3].y - monsters[3].y4;
+		e3Stepper = monsters[3].y - monsters[3].y3;
 		e3Stepper = Math.floor(e3Stepper);
 	
-	if(e3NewY != monsters[3].y4)
+	if(e3NewY != monsters[3].y3)
 		{
 			if(e3Stepper % 10 == 0)
 				{
@@ -682,10 +682,10 @@ var e2AnimateL = function()
 var e3AnimateL = function()
 {
 	e3NewX = Math.floor(monsters[3].x);
-	e3Stepper = monsters[3].x - monsters[3].x3;
+	e3Stepper = monsters[3].x - monsters[3].x4;
 	e3Stepper = Math.floor(e3Stepper);
 	
-	if(e3NewX != monsters[3].x3)
+	if(e3NewX != monsters[3].x4)
 	{
 		if(e3Stepper % 10 == 0)
 		{
@@ -797,10 +797,10 @@ var e2AnimateR = function()
 var e3AnimateR = function()
 {
 		e3NewX = Math.floor(monsters[3].x);
-		e3Stepper = monsters[3].x3 - monsters[3].x;
+		e3Stepper = monsters[3].x4 - monsters[3].x;
 		e3Stepper = Math.floor(e3Stepper);
 	
-	if(e3NewX != monsters[3].x3)
+	if(e3NewX != monsters[3].x4)
 		{
 			if(e3Stepper % 10 == 0)
 				{
@@ -1181,7 +1181,7 @@ if (gameState == 1)
 	//re iterate for enemy3
 	////////////////////////////////////
 	
-	if((aim3 == 2) && (monsters[3].y < monsters[3].y2))
+	if((aim3 == 2) && (monsters[3].y < monsters[3].y1))
 	{
 		monsters[3].y += monsters[3].speed * modifier;
 		e3AnimateD();
@@ -1193,7 +1193,7 @@ if (gameState == 1)
 				spotter = 3;
 			}
 		}
-		if((monsters[3].y2 - 5) < (monsters[3].y))
+		if((monsters[3].y1 - 5) < (monsters[3].y))
 		{
 			aim3 = 3;	
 		}
@@ -1201,7 +1201,7 @@ if (gameState == 1)
 	
 	
 	
-	if((aim3 == 1) && (monsters[3].x > monsters[3].x1))
+	if((aim3 == 1) && (monsters[3].x > monsters[3].x2))
 	{
 		monsters[3].x -= monsters[3].speed * modifier;
 		e3AnimateL();
@@ -1214,13 +1214,13 @@ if (gameState == 1)
 			}
 		}
 
-		if((monsters[3].x1 + 5) > (monsters[3].x))
+		if((monsters[3].x2 + 5) > (monsters[3].x))
 		{
 			aim3 = 2;
 		}
 	}
 	
-	if((aim3 == 4) && (monsters[3].y > monsters[3].y4))
+	if((aim3 == 4) && (monsters[3].y > monsters[3].y3))
 	{
 		monsters[3].y -= monsters[3].speed * modifier;
 		e3AnimateU();
@@ -1232,12 +1232,12 @@ if (gameState == 1)
 				spotter = 3;
 			}
 		}
-		if((monsters[3].y4 + 5) > (monsters[3].y))
+		if((monsters[3].y3 + 5) > (monsters[3].y))
 		{
 			aim3 = 1;
 		}
 	}
-	if((aim3 == 3) && (monsters[3].x < monsters[3].x3))
+	if((aim3 == 3) && (monsters[3].x < monsters[3].x4))
 	{
 		monsters[3].x += monsters[3].speed * modifier;
 		e3AnimateR();
@@ -1249,7 +1249,7 @@ if (gameState == 1)
 				spotter = 3;
 			}
 		}
-		if((monsters[3].x3 - 5) < (monsters[3].x))
+		if((monsters[3].x4 - 5) < (monsters[3].x))
 		{
 			aim3 = 4;
 		}
