@@ -102,44 +102,24 @@ heroImage.onload = function () {
 	heroReady = true;
 }; heroImage.src = "images/hero2.png";
 
-var dirs = ["Left", "Right", "Up", "Down"];
-function Monster()
+function Actor()
 {
 	this.img = new Image();
-	this.img.src = "images/enemyDown1.png";
 	this.ready = false;
 	this.img.onload = this.setReady(this);
-	this.speed = 50;
-
 	this.state = 0;
 }
-Monster.prototype.setReady = function(theMonster) {
+Actor.prototype.setReady = function(actor) {
 	return function() {
-		theMonster.ready = true;
+		actor.ready = true;
 	}
 };
-Monster.prototype.draw = function() {
-	if(this.ready) ctx.drawImage(this.img, this.x, this.y);
+Actor.prototype.draw = function() {
+	//if(this.ready)
+	 ctx.drawImage(this.img, this.x, this.y);
 };
-Monster.prototype.step = function(dir)
-{
-	++this.state;
-	if(this.state == 4) this.state = 0;
-	this.img.src = "images/enemy" + dirs[dir] + (1 + this.state) + ".png";
-};
-Monster.prototype.setBounds = function(arr)
-{
-	this.y1 = arr[0];
-	this.x2 = arr[1];
-	this.y3 = arr[2];
-	this.x4 = arr[3];
-};
-
-// x2, x4, y3, y1
-// left, right, up, down
-
-var order = [2, 4, 3, 1];
-Monster.prototype.animate = function(dir) {
+Actor.prototype.animate = function(dir) {
+	var order = [2, 4, 3, 1];
 	var focus = dir >= 2 ? "y" : "x";
 
 	var newAmt = Math.floor(this[focus]);
@@ -153,6 +133,44 @@ Monster.prototype.animate = function(dir) {
 		}
 	}
 };
+Actor.prototype.step = function(dir)
+{
+	var dirs = ["Left", "Right", "Up", "Down"];
+	++this.state;
+	if(this.state == 4) this.state = 0;
+	this.img.src = "images/" + this.base + dirs[dir] + (1 + this.state) + ".png";
+};
+function Monster()
+{
+	Actor.prototype.constructor.call(this);
+	this.img.src = "images/enemyDown1.png";
+	this.base = "enemy";
+	this.speed = 50;
+}
+Monster.prototype = new Actor(); // inherit
+Monster.prototype.setBounds = function(arr)
+{
+	this.y1 = arr[0];
+	this.x2 = arr[1];
+	this.y3 = arr[2];
+	this.x4 = arr[3];
+};
+function Hero(w)
+{
+	Actor.prototype.constructor.call(this);
+	this.img = w;
+	this.base = "hero";
+	this.speed = 120;
+}
+Hero.prototype = new Actor();
+
+
+// x2, x4, y3, y1
+// left, right, up, down
+var hero = new Hero(heroImage);
+
+
+
 
 var monsters = new Array();
 for(var i = 0; i < 5; ++i)
@@ -227,10 +245,7 @@ var spotter = 0;
 
 
 // Game objects
-var hero = {
-	speed: 120 // movement in pixels per second **** adding speed to cope for lag***** 120 up from 100
-};
-
+// speed = movement in pixels per second **** adding speed to cope for lag***** 120 up from 100
 var arrow1 = {
 	speed: 250
 };
@@ -324,81 +339,9 @@ function arrest()
 	   (gridx + 1 == m.gridX && gridy == m.gridY) ||
 	   (gridx == m.gridX && gridy + 1 == m.gridY))
 	{
-		heroImage.src = "images/hero3.png";
 		reset();
 	}
 }
-
-
-var dirs = ["Left", "Right", "Up", "Down"];
-function stepSwitcher(whichImg)
-{
-	this.img = whichImg;
-	this.state = 0;
-}
-stepSwitcher.prototype.step = function(dir)
-{
-	++this.state;
-	if(this.state == 4) this.state = 0;
-	this.img.src = "images/hero" + dirs[dir] + (1 + this.state) + ".png";
-};
-var hStepper = new stepSwitcher(heroImage);
-
-//Reiterate for up
-var animateU = function()
-{
-	if(oldUy != hero.y)
-		{
-			newy = hero.y;
-			newy = Math.round(newy);
-			stepper = newy - oldUy;
-		}
-	
-	if(newy != oldUy)
-		{
-			if(stepper%10 == 0)
-				{
-					hStepper.step(2);
-				}
-	
-		}
-};
-var animateL = function()
-{
-	if(oldLx != hero.x)
-		{
-			newx = hero.x;
-			newx = Math.round(newx);
-			stepper = oldLx - newx;
-		}
-	
-	if(newx != oldLx)
-		{
-			if(stepper % 10 == 0)
-				{
-					hStepper.step(0);
-				}
-	
-		}
-};
-var animateR = function()
-{
-	if(oldRx != hero.x)
-		{
-			newx = hero.x;
-			newx = Math.round(newx);
-			stepper = oldRx - newx;
-		}
-	
-	if(newx != oldRx)
-		{
-			if(stepper % 10 == 0)
-				{
-					hStepper.step(1);
-				}
-	
-		}
-};
 
 // Update game objects
 var update = function (modifier)
@@ -421,28 +364,28 @@ var update = function (modifier)
 		{
 			if (38 in keysDown) { // Player holding up
 				hero.y -= hero.speed * modifier;
-				hStepper.step(2);
+				hero.step(2);
 			}
 		}
 		if (myArray[gridx][(gridy + 1)] == 0)
 		{
 			if (40 in keysDown) { // Player holding down
 				hero.y += hero.speed * modifier;
-				hStepper.step(3);
+				hero.step(3);
 			}
 		}
 		if (myArray[(gridx - 1)][gridy] == 0)
 		{
 			if (37 in keysDown) { // Player holding left
 				hero.x -= hero.speed * modifier;
-				hStepper.step(0);
+				hero.step(0);
 			}
 		}
 		if(myArray[(gridx + 1)][gridy] == 0)
 		{
 			if (39 in keysDown) { // Player holding right
 				hero.x += hero.speed * modifier;
-				hStepper.step(1);
+				hero.step(1);
 			}
 		}
 	}
@@ -1015,10 +958,7 @@ var render = function ()
 			}
 		}
 
-		if (heroReady) 
-		{
-			ctx.drawImage(heroImage, hero.x, hero.y);
-		}
+		hero.draw();
 
 		for(var i = monsters.length - 1; i>=0; --i)
 			monsters[i].draw();
@@ -1047,9 +987,6 @@ var render = function ()
 		}
 	}
 		
-		
-	if(gameState == 1) ctx.drawImage(heroImage, hero.x, hero.y);
-		
 /*
 	ctx.fillStyle = "rgb(250, 250, 250)";
 	ctx.font = "24px Helvetica";
@@ -1065,7 +1002,7 @@ var render = function ()
 *****************************************************************************************************/
 //var tempFPS = [0],
 //	iter = 0,
-//   load = document.getElementById('load'),
+//	load = document.getElementById('load'),
 //	fps = document.getElementById('fps'),
 	then = Date.now(),
 	now = 0,
