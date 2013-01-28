@@ -356,6 +356,26 @@ arrow3Image.src = "images/arrow.png";
 var spotter = 0;
 
 
+
+function GameObj(img)
+{
+	this.imgFile = imgFile;
+}
+GameObj.prototype.drawInGame = function()
+{
+	ctx.drawImage(this.imgFile, this.x, this.y);
+};
+function Enemy()
+{
+	this.img = "";
+};
+Enemy.prototype = {
+	step : function(direction, state)
+	{
+
+	}
+};
+
 // Game objects
 var hero = {
 	speed: 120 // movement in pixels per second **** adding speed to cope for lag***** 120 up from 100
@@ -672,401 +692,120 @@ var stepRight = function()
 
 // re iterate all for enemy animation
 ///////////////////////////////////////////////////////
+var eBasicLeft = function(whichImg, stepAmt)
+{
+	whichImg.src = "images/enemyLeft"+(stepAmt + 1)+".png";
+};
+
+var eBasicRight = function(whichImg, stepAmt)
+{
+	whichImg.src = "images/enemyRight"+(stepAmt + 1)+".png";
+};
+
+var eBasicUp = function(whichImg, stepAmt)
+{
+	whichImg.src = "images/enemyUp"+(stepAmt + 1)+".png";
+};
+
+var eBasicDown = function(whichImg, stepAmt)
+{
+	whichImg.src = "images/enemyDown"+(stepAmt + 1)+".png";
+};
+
+
+
 var eStepLeft = function(eStepL)
 {
-	if(eStepL == 0)
-	{
-		monsterImage.src = "images/enemyLeft1.png";
-	}
-	else if(eStepL == 1)
-	{
-		monsterImage.src = "images/enemyLeft2.png";
-	}
-	else if(eStepL == 2)
-	{
-		monsterImage.src = "images/enemyLeft3.png";
-	}
-	else if(eStepL == 3)
-	{
-		monsterImage.src = "images/enemyLeft4.png";
-	}
+	eBasicLeft(monsterImage, eStepL);
 };
-
 var eStepRight = function(eStepR)
 {
-	if(eStepR == 0)
-	{
-		monsterImage.src = "images/enemyRight1.png";
-	}
-	else if(eStepR == 1)
-	{
-		monsterImage.src = "images/enemyRight2.png";
-	}
-	else if(eStepR == 2)
-	{
-		monsterImage.src = "images/enemyRight3.png";
-	}
-	else if(eStepR == 3)
-	{
-		monsterImage.src = "images/enemyRight4.png";
-	}
+	eBasicRight(monsterImage, eStepR);
 };
-
 var eStepUp = function(eStepU)
 {
-	if(eStepU == 0)
-	{
-		monsterImage.src = "images/enemyUp1.png";
-	}
-	else if(eStepU == 1)
-	{
-		monsterImage.src = "images/enemyUp2.png";
-	}
-	else if(eStepU == 2)
-	{
-		monsterImage.src = "images/enemyUp3.png";
-	}
-	else if(eStepU == 3)
-	{
-		monsterImage.src = "images/enemyUp4.png";
-	}
+	eBasicUp(monsterImage, eStepU);
 };
-
 var eStepDown = function(eStepD)
 {
-	if(eStepD == 0)
-	{
-		monsterImage.src = "images/enemyDown1.png";
-	}
-	else if(eStepD == 1)
-	{
-		monsterImage.src = "images/enemyDown2.png";
-	}
-	else if(eStepD == 2)
-	{
-		monsterImage.src = "images/enemyDown3.png";
-	}
-	else if(eStepD == 3)
-	{
-		monsterImage.src = "images/enemyDown4.png";
-	}
+	eBasicDown(monsterImage, eStepD);
 };
 
 //Re iterate for all enemy1
 /////////////////////////////////////
-var e1StepLeft = function(e1StepL)
+var e1StepLeft = function(eStepL)
 {
-	if(e1StepL == 0)
-	{
-		monster1Image.src = "images/enemyLeft1.png";
-	}
-	else if(e1StepL == 1)
-	{
-		monster1Image.src = "images/enemyLeft2.png";
-	}
-	else if(e1StepL == 2)
-	{
-		monster1Image.src = "images/enemyLeft3.png";
-	}
-	else if(e1StepL == 3)
-	{
-		monster1Image.src = "images/enemyLeft4.png";
-	}
+	eBasicLeft(monster1Image, eStepL);
 };
-
-var e1StepRight = function(e1StepR)
+var e1StepRight = function(eStepR)
 {
-	if(e1StepR == 0)
-	{
-		monster1Image.src = "images/enemyRight1.png";
-	}
-	else if(e1StepR == 1)
-	{
-		monster1Image.src = "images/enemyRight2.png";
-	}
-	else if(e1StepR == 2)
-	{
-		monster1Image.src = "images/enemyRight3.png";
-	}
-	else if(e1StepR == 3)
-	{
-		monster1Image.src = "images/enemyRight4.png";
-	}
+	eBasicRight(monster1Image, eStepR);
 };
-
-var e1StepUp = function(e1StepU)
+var e1StepUp = function(eStepU)
 {
-	if(e1StepU == 0)
-	{
-		monster1Image.src = "images/enemyUp1.png";
-	}
-	else if(e1StepU == 1)
-	{
-		monster1Image.src = "images/enemyUp2.png";
-	}
-	else if(e1StepU == 2)
-	{
-		monster1Image.src = "images/enemyUp3.png";
-	}
-	else if(e1StepU == 3)
-	{
-		monster1Image.src = "images/enemyUp4.png";
-	}
+	eBasicUp(monster1Image, eStepU);
 };
-
-var e1StepDown = function(e1StepD)
+var e1StepDown = function(eStepD)
 {
-	if(e1StepD == 0)
-	{
-		monster1Image.src = "images/enemyDown1.png";
-	}
-	else if(e1StepD == 1)
-	{
-		monster1Image.src = "images/enemyDown2.png";
-	}
-	else if(e1StepD == 2)
-	{
-		monster1Image.src = "images/enemyDown3.png";
-	}
-	else if(e1StepD == 3)
-	{
-		monster1Image.src = "images/enemyDown4.png";
-	}
+	eBasicDown(monster1Image, eStepD);
 };
 
 //Re iterate for all enemy2
 /////////////////////////////////////
-var e2StepLeft = function(e2StepL)
+var e2StepLeft = function(eStepL)
 {
-	if(e2StepL == 0)
-	{
-		monster2Image.src = "images/enemyLeft1.png";
-	}
-	else if(e2StepL == 1)
-	{
-		monster2Image.src = "images/enemyLeft2.png";
-	}
-	else if(e2StepL == 2)
-	{
-		monster2Image.src = "images/enemyLeft3.png";
-	}
-	else if(e2StepL == 3)
-	{
-		monster2Image.src = "images/enemyLeft4.png";
-	}
+	eBasicLeft(monster2Image, eStepL);
 };
-
-var e2StepRight = function(e2StepR)
+var e2StepRight = function(eStepR)
 {
-	if(e2StepR == 0)
-	{
-		monster2Image.src = "images/enemyRight1.png";
-	}
-	else if(e2StepR == 1)
-	{
-		monster2Image.src = "images/enemyRight2.png";
-	}
-	else if(e2StepR == 2)
-	{
-		monster2Image.src = "images/enemyRight3.png";
-	}
-	else if(e2StepR == 3)
-	{
-		monster2Image.src = "images/enemyRight4.png";
-	}
+	eBasicRight(monster2Image, eStepR);
 };
-
-var e2StepUp = function(e2StepU)
+var e2StepUp = function(eStepU)
 {
-	if(e2StepU == 0)
-	{
-		monster2Image.src = "images/enemyUp1.png";
-	}
-	else if(e2StepU == 1)
-	{
-		monster2Image.src = "images/enemyUp2.png";
-	}
-	else if(e2StepU == 2)
-	{
-		monster2Image.src = "images/enemyUp3.png";
-	}
-	else if(e2StepU == 3)
-	{
-		monster2Image.src = "images/enemyUp4.png";
-	}
+	eBasicUp(monster2Image, eStepU);
 };
-
-var e2StepDown = function(e2StepD)
+var e2StepDown = function(eStepD)
 {
-	// todo: check if e2StepD is in range?
-	monster2Image.src = "images/enemyDown" + (e2StepD + 1) + ".png";
+	eBasicDown(monster2Image, eStepD);
 };
-
 
 //Re iterate for all enemy3
 /////////////////////////////////////
-var e3StepLeft = function(e3StepL)
+var e3StepLeft = function(eStepL)
 {
-	if(e3StepL == 0)
-	{
-		monster3Image.src = "images/enemyLeft1.png";
-	}
-	else if(e3StepL == 1)
-	{
-		monster3Image.src = "images/enemyLeft2.png";
-	}
-	else if(e3StepL == 2)
-	{
-		monster3Image.src = "images/enemyLeft3.png";
-	}
-	else if(e3StepL == 3)
-	{
-		monster3Image.src = "images/enemyLeft4.png";
-	}
+	eBasicLeft(monster3Image, eStepL);
 };
-
-var e3StepRight = function(e3StepR)
+var e3StepRight = function(eStepR)
 {
-	if(e3StepR == 0)
-	{
-		monster3Image.src = "images/enemyRight1.png";
-	}
-	else if(e3StepR == 1)
-	{
-		monster3Image.src = "images/enemyRight2.png";
-	}
-	else if(e3StepR == 2)
-	{
-		monster3Image.src = "images/enemyRight3.png";
-	}
-	else if(e3StepR == 3)
-	{
-		monster3Image.src = "images/enemyRight4.png";
-	}
+	eBasicRight(monster3Image, eStepR);
 };
-
-var e3StepUp = function(e3StepU)
+var e3StepUp = function(eStepU)
 {
-	if(e3StepU == 0)
-	{
-		monster3Image.src = "images/enemyUp1.png";
-	}
-	else if(e3StepU == 1)
-	{
-		monster3Image.src = "images/enemyUp2.png";
-	}
-	else if(e3StepU == 2)
-	{
-		monster3Image.src = "images/enemyUp3.png";
-	}
-	else if(e3StepU == 3)
-	{
-		monster3Image.src = "images/enemyUp4.png";
-	}
+	eBasicUp(monster3Image, eStepU);
 };
-
-var e3StepDown = function(e3StepD)
+var e3StepDown = function(eStepD)
 {
-	if(e3StepD == 0)
-	{
-		monster3Image.src = "images/enemyDown1.png";
-	}
-	else if(e3StepD == 1)
-	{
-		monster3Image.src = "images/enemyDown2.png";
-	}
-	else if(e3StepD == 2)
-	{
-		monster3Image.src = "images/enemyDown3.png";
-	}
-	else if(e3StepD == 3)
-	{
-		monster3Image.src = "images/enemyDown4.png";
-	}
+	eBasicDown(monster3Image, eStepD);
 };
 
 //Re iterate for all enemy4
 /////////////////////////////////////
-var e4StepLeft = function(e4StepL)
+var e4StepLeft = function(eStepL)
 {
-	if(e4StepL == 0)
-	{
-		monster4Image.src = "images/enemyLeft1.png";
-	}
-	else if(e3StepL == 1)
-	{
-		monster4Image.src = "images/enemyLeft2.png";
-	}
-	else if(e3StepL == 2)
-	{
-		monster4Image.src = "images/enemyLeft3.png";
-	}
-	else if(e4StepL == 3)
-	{
-		monster4Image.src = "images/enemyLeft4.png";
-	}
+	eBasicLeft(monster4Image, eStepL);
 };
-
-var e4StepRight = function(e4StepR)
+var e4StepRight = function(eStepR)
 {
-	if(e4StepR == 0)
-	{
-		monster4Image.src = "images/enemyRight1.png";
-	}
-	else if(e4StepR == 1)
-	{
-		monster4Image.src = "images/enemyRight2.png";
-	}
-	else if(e4StepR == 2)
-	{
-		monster4Image.src = "images/enemyRight3.png";
-	}
-	else if(e4StepR == 3)
-	{
-		monster4Image.src = "images/enemyRight4.png";
-	}
+	eBasicRight(monster4Image, eStepR);
 };
-
-var e4StepUp = function(e4StepU)
+var e4StepUp = function(eStepU)
 {
-	if(e4StepU == 0)
-	{
-		monster4Image.src = "images/enemyUp1.png";
-	}
-	else if(e4StepU == 1)
-	{
-		monster4Image.src = "images/enemyUp2.png";
-	}
-	else if(e4StepU == 2)
-	{
-		monster4Image.src = "images/enemyUp3.png";
-	}
-	else if(e4StepU == 3)
-	{
-		monster4Image.src = "images/enemyUp4.png";
-	}
+	eBasicUp(monster4Image, eStepU);
 };
-
-var e4StepDown = function(e4StepD)
+var e4StepDown = function(eStepD)
 {
-	if(e4StepD == 0)
-	{
-		monster4Image.src = "images/enemyDown1.png";
-	}
-	else if(e4StepD == 1)
-	{
-		monster4Image.src = "images/enemyDown2.png";
-	}
-	else if(e4StepD == 2)
-	{
-		monster4Image.src = "images/enemyDown3.png";
-	}
-	else if(e4StepD == 3)
-	{
-		monster4Image.src = "images/enemyDown4.png";
-	}
+	eBasicDown(monster4Image, eStepD);
 };
-
 
 //re iterate for enemy down
 ////////////////////////////////
