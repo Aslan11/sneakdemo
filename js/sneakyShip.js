@@ -359,11 +359,11 @@ var spotter = 0;
 
 function GameObj(img)
 {
-	this.imgFile = imgFile;
+	this.curImg = img;
 }
 GameObj.prototype.drawInGame = function()
 {
-	ctx.drawImage(this.imgFile, this.x, this.y);
+	ctx.drawImage(this.curImg, this.x, this.y);
 };
 function Enemy()
 {
@@ -435,8 +435,7 @@ addEventListener("keydown", function (e) {
 
 addEventListener("keyup", function (e) {
 	delete keysDown[e.keyCode];
-	heroImage.src = "images/hero2.png";
-    
+	heroImage.src = "images/hero2.png"; 
 }, false);
 
 var mRespawn = function () 
@@ -496,7 +495,6 @@ var reset = function() {
 	heroSpotted = false;
 	haltReady = false;
 	gameState = gameState + 1;
-	
 };
 
 var arrest = function() 
@@ -713,99 +711,20 @@ var eBasicDown = function(whichImg, stepAmt)
 };
 
 
-
-var eStepLeft = function(eStepL)
+var dirs = ["Left", "Right", "Up", "Down"];
+function eStepSwitcher(whichImg)
 {
-	eBasicLeft(monsterImage, eStepL);
+	this.img = whichImg;
+}
+eStepSwitcher.prototype.step = function(dir, amt) {
+	amt += 1;
+	this.img.src = "images/enemy" + dirs[dir] + amt + ".png";
 };
-var eStepRight = function(eStepR)
-{
-	eBasicRight(monsterImage, eStepR);
-};
-var eStepUp = function(eStepU)
-{
-	eBasicUp(monsterImage, eStepU);
-};
-var eStepDown = function(eStepD)
-{
-	eBasicDown(monsterImage, eStepD);
-};
-
-//Re iterate for all enemy1
-/////////////////////////////////////
-var e1StepLeft = function(eStepL)
-{
-	eBasicLeft(monster1Image, eStepL);
-};
-var e1StepRight = function(eStepR)
-{
-	eBasicRight(monster1Image, eStepR);
-};
-var e1StepUp = function(eStepU)
-{
-	eBasicUp(monster1Image, eStepU);
-};
-var e1StepDown = function(eStepD)
-{
-	eBasicDown(monster1Image, eStepD);
-};
-
-//Re iterate for all enemy2
-/////////////////////////////////////
-var e2StepLeft = function(eStepL)
-{
-	eBasicLeft(monster2Image, eStepL);
-};
-var e2StepRight = function(eStepR)
-{
-	eBasicRight(monster2Image, eStepR);
-};
-var e2StepUp = function(eStepU)
-{
-	eBasicUp(monster2Image, eStepU);
-};
-var e2StepDown = function(eStepD)
-{
-	eBasicDown(monster2Image, eStepD);
-};
-
-//Re iterate for all enemy3
-/////////////////////////////////////
-var e3StepLeft = function(eStepL)
-{
-	eBasicLeft(monster3Image, eStepL);
-};
-var e3StepRight = function(eStepR)
-{
-	eBasicRight(monster3Image, eStepR);
-};
-var e3StepUp = function(eStepU)
-{
-	eBasicUp(monster3Image, eStepU);
-};
-var e3StepDown = function(eStepD)
-{
-	eBasicDown(monster3Image, eStepD);
-};
-
-//Re iterate for all enemy4
-/////////////////////////////////////
-var e4StepLeft = function(eStepL)
-{
-	eBasicLeft(monster4Image, eStepL);
-};
-var e4StepRight = function(eStepR)
-{
-	eBasicRight(monster4Image, eStepR);
-};
-var e4StepUp = function(eStepU)
-{
-	eBasicUp(monster4Image, eStepU);
-};
-var e4StepDown = function(eStepD)
-{
-	eBasicDown(monster4Image, eStepD);
-};
+var stepE1 = new eStepSwitcher(monsterImage);
+var stepE2 = new eStepSwitcher(monster1Image);
+var stepE3 = new eStepSwitcher(monster2Image);
+var stepE4 = new eStepSwitcher(monster3Image);
+var stepE5 = new eStepSwitcher(monster4Image);
 
 //re iterate for enemy down
 ////////////////////////////////
@@ -817,26 +736,26 @@ var eAnimateD = function()
 	
 	if(eNewY != targ1y)
 		{
-			if(eStepper%(10) == 0)
+			if(eStepper % 10 == 0)
 				{
 					if(eStepD == 0)
 						{
-							eStepDown(0);
+							stepE1.step(3, 0);
 							eStepD = 1;
 						}
 					else if(eStepD == 1)
 						{
-							eStepDown(1);
+							stepE1.step(3, 1);
 							eStepD = 2;
 						}
 					else if(eStepD == 2)
 						{
-							eStepDown(2);
+							stepE1.step(3, 2);
 							eStepD = 3;
 						}
 					else if(eStepD == 3)
 						{
-							eStepDown(3);
+							stepE1.step(3, 3);
 							eStepD = 0;
 						}
 				}
@@ -854,26 +773,26 @@ var e1AnimateD = function()
 	
 	if(e1NewY != targ11y)
 		{
-			if(e1Stepper%(10) == 0)
+			if(e1Stepper % 10 == 0)
 				{
 					if(e1StepD == 0)
 						{
-							e1StepDown(0);
+							stepE2.step(3, 0);
 							e1StepD = 1;
 						}
 					else if(e1StepD == 1)
 						{
-							e1StepDown(1);
+							stepE2.step(3, 1);
 							e1StepD = 2;
 						}
 					else if(e1StepD == 2)
 						{
-							e1StepDown(2);
+							stepE2.step(3, 2);
 							e1StepD = 3;
 						}
 					else if(e1StepD == 3)
 						{
-							e1StepDown(3);
+							stepE2.step(3, 3);
 							e1StepD = 0;
 						}
 				}
@@ -891,26 +810,26 @@ var e2AnimateD = function()
 	
 	if(e2NewY != targ21y)
 		{
-			if(e2Stepper%(10) == 0)
+			if(e2Stepper % 10 == 0)
 				{
 					if(e2StepD == 0)
 						{
-							e2StepDown(0);
+							stepE3.step(3, 0);
 							e2StepD = 1;
 						}
 					else if(e2StepD == 1)
 						{
-							e2StepDown(1);
+							stepE3.step(3, 1);
 							e2StepD = 2;
 						}
 					else if(e2StepD == 2)
 						{
-							e2StepDown(2);
+							stepE3.step(3, 2);
 							e2StepD = 3;
 						}
 					else if(e2StepD == 3)
 						{
-							e2StepDown(3);
+							stepE3.step(3, 3);
 							e2StepD = 0;
 						}
 				}
@@ -928,26 +847,26 @@ var e3AnimateD = function()
 	
 	if(e3NewY != targ32y)
 		{
-			if(e3Stepper%(10) == 0)
+			if(e3Stepper % 10 == 0)
 				{
 					if(e3StepD == 0)
 						{
-							e3StepDown(0);
+							stepE4.step(3, 0);
 							e3StepD = 1;
 						}
 					else if(e3StepD == 1)
 						{
-							e3StepDown(1);
+							stepE4.step(3, 1);
 							e3StepD = 2;
 						}
 					else if(e3StepD == 2)
 						{
-							e3StepDown(2);
+							stepE4.step(3, 2);
 							e3StepD = 3;
 						}
 					else if(e3StepD == 3)
 						{
-							e3StepDown(3);
+							stepE4.step(3, 3);
 							e3StepD = 0;
 						}
 				}
@@ -964,26 +883,26 @@ var e4AnimateD = function()
 	
 	if(e4NewY != targ41y)
 		{
-			if(e4Stepper%(10) == 0)
+			if(e4Stepper % 10 == 0)
 				{
 					if(e4StepD == 0)
 						{
-							e4StepDown(0);
+							stepE5.step(3, 0);
 							e4StepD = 1;
 						}
 					else if(e4StepD == 1)
 						{
-							e4StepDown(1);
+							stepE5.step(3, 1);
 							e4StepD = 2;
 						}
 					else if(e4StepD == 2)
 						{
-							e4StepDown(2);
+							stepE5.step(3, 2);
 							e4StepD = 3;
 						}
 					else if(e4StepD == 3)
 						{
-							e4StepDown(3);
+							stepE5.step(3, 3);
 							e4StepD = 0;
 						}
 				}
@@ -1045,26 +964,26 @@ var eAnimateU = function()
 	
 	if(eNewY != targ3y)
 		{
-			if(eStepper%(10) == 0)
+			if(eStepper % 10 == 0)
 				{
 					if(eStepU == 0)
 						{
-							eStepUp(0);
+							stepE1.step(2, 0);
 							eStepU = 1;
 						}
 					else if(eStepU == 1)
 						{
-							eStepUp(1);
+							stepE1.step(2, 1);
 							eStepU = 2;
 						}
 					else if(eStepU == 2)
 						{
-							eStepUp(2);
+							stepE1.step(2, 2);
 							eStepU = 3;
 						}
 					else if(eStepU == 3)
 						{
-							eStepUp(3);
+							stepE1.step(2, 3);
 							eStepU = 0;
 						}
 				}
@@ -1082,26 +1001,26 @@ var e1AnimateU = function()
 	
 	if(e1NewY != targ13y)
 		{
-			if(e1Stepper%(10) == 0)
+			if(e1Stepper % 10 == 0)
 				{
 					if(e1StepU == 0)
 						{
-							e1StepUp(0);
+							stepE2.step(2, 0);
 							e1StepU = 1;
 						}
 					else if(e1StepU == 1)
 						{
-							e1StepUp(1);
+							stepE2.step(2, 1);
 							e1StepU = 2;
 						}
 					else if(e1StepU == 2)
 						{
-							e1StepUp(2);
+							stepE2.step(2, 2);
 							e1StepU = 3;
 						}
 					else if(e1StepU == 3)
 						{
-							e1StepUp(3);
+							stepE2.step(2, 3);
 							e1StepU = 0;
 						}
 				}
@@ -1119,26 +1038,26 @@ var e2AnimateU = function()
 	
 	if(e2NewY != targ23y)
 		{
-			if(e2Stepper%(10) == 0)
+			if(e2Stepper % 10 == 0)
 				{
 					if(e2StepU == 0)
 						{
-							e2StepUp(0);
+							stepE3.step(2, 0);
 							e2StepU = 1;
 						}
 					else if(e2StepU == 1)
 						{
-							e2StepUp(1);
+							stepE3.step(2, 1);
 							e2StepU = 2;
 						}
 					else if(e2StepU == 2)
 						{
-							e2StepUp(2);
+							stepE3.step(2, 2);
 							e2StepU = 3;
 						}
 					else if(e2StepU == 3)
 						{
-							e2StepUp(3);
+							stepE3.step(2, 3);
 							e2StepU = 0;
 						}
 				}
@@ -1156,26 +1075,26 @@ var e3AnimateU = function()
 	
 	if(e3NewY != targ34y)
 		{
-			if(e3Stepper%(10) == 0)
+			if(e3Stepper % 10 == 0)
 				{
 					if(e3StepU == 0)
 						{
-							e3StepUp(0);
+							stepE4.step(2, 0);
 							e3StepU = 1;
 						}
 					else if(e3StepU == 1)
 						{
-							e3StepUp(1);
+							stepE4.step(2, 1);
 							e3StepU = 2;
 						}
 					else if(e3StepU == 2)
 						{
-							e3StepUp(2);
+							stepE4.step(2, 2);
 							e3StepU = 3;
 						}
 					else if(e3StepU == 3)
 						{
-							e3StepUp(3);
+							stepE4.step(2, 3);
 							e3StepU = 0;
 						}
 				}
@@ -1193,26 +1112,26 @@ var e4AnimateU = function()
 	
 	if(e4NewY != targ43y)
 		{
-			if(e4Stepper%(10) == 0)
+			if(e4Stepper % 10 == 0)
 				{
 					if(e4StepU == 0)
 						{
-							e4StepUp(0);
+							stepE5.step(2, 0);
 							e4StepU = 1;
 						}
 					else if(e4StepU == 1)
 						{
-							e4StepUp(1);
+							stepE5.step(2, 1);
 							e4StepU = 2;
 						}
 					else if(e4StepU == 2)
 						{
-							e4StepUp(2);
+							stepE5.step(2, 2);
 							e4StepU = 3;
 						}
 					else if(e4StepU == 3)
 						{
-							e4StepUp(3);
+							stepE5.step(2, 3);
 							e4StepU = 0;
 						}
 				}
@@ -1233,7 +1152,7 @@ var animateL = function()
 	
 	if(newx != oldLx)
 		{
-			if(stepper%(10) == 0)
+			if(stepper % 10 == 0)
 				{
 					if(stepL == 0)
 						{
@@ -1270,26 +1189,26 @@ var eAnimateL = function()
 	
 	if(eNewX != targ2x)
 		{
-			if(eStepper%(10) == 0)
+			if(eStepper % 10 == 0)
 				{
 					if(eStepL == 0)
 						{
-							eStepLeft(0);
+							stepE1.step(0, 0);
 							eStepL = 1;
 						}
 					else if(eStepL == 1)
 						{
-							eStepLeft(1);
+							stepE1.step(0, 1);
 							eStepL = 2;
 						}
 					else if(eStepL == 2)
 						{
-							eStepLeft(2);
+							stepE1.step(0, 2);
 							eStepL = 3;
 						}
 					else if(eStepL == 3)
 						{
-							eStepLeft(3);
+							stepE1.step(0, 3);
 							eStepL = 0;
 						}
 				}
@@ -1308,26 +1227,26 @@ var e1AnimateL = function()
 	
 	if(e1NewX != targ12x)
 	{
-		if(e1Stepper%(10) == 0)
+		if(e1Stepper % 10 == 0)
 		{
 			if(e1StepL == 0)
 			{
-				e1StepLeft(0);
+				stepE2.step(0, 0);
 				e1StepL = 1;
 			}
 			else if(e1StepL == 1)
 			{
-				e1StepLeft(1);
+				stepE2.step(0, 1);
 				e1StepL = 2;
 			}
 			else if(e1StepL == 2)
 			{
-				e1StepLeft(2);
+				stepE2.step(0, 2);
 				e1StepL = 3;
 			}
 			else if(e1StepL == 3)
 			{
-				e1StepLeft(3);
+				stepE2.step(0, 3);
 				e1StepL = 0;
 			}
 		}
@@ -1344,26 +1263,26 @@ var e2AnimateL = function()
 	
 	if(e2NewX != targ22x)
 	{
-		if(e2Stepper%(10) == 0)
+		if(e2Stepper % 10 == 0)
 		{
 			if(e2StepL == 0)
 			{
-				e2StepLeft(0);
+				stepE3.step(0, 0);
 				e2StepL = 1;
 			}
 			else if(e2StepL == 1)
 			{
-				e2StepLeft(1);
+				stepE3.step(0, 1);
 				e2StepL = 2;
 			}
 			else if(e2StepL == 2)
 			{
-				e2StepLeft(2);
+				stepE3.step(0, 2);
 				e2StepL = 3;
 			}
 			else if(e2StepL == 3)
 			{
-				e2StepLeft(3);
+				stepE3.step(0, 3);
 				e2StepL = 0;
 			}
 		}
@@ -1380,26 +1299,26 @@ var e3AnimateL = function()
 	
 	if(e3NewX != targ33x)
 	{
-		if(e3Stepper%(10) == 0)
+		if(e3Stepper % 10 == 0)
 		{
 			if(e3StepL == 0)
 			{
-				e3StepLeft(0);
+				stepE4.step(0, 0);
 				e3StepL = 1;
 			}
 			else if(e3StepL == 1)
 			{
-				e3StepLeft(1);
+				stepE4.step(0, 1);
 				e3StepL = 2;
 			}
 			else if(e3StepL == 2)
 			{
-				e3StepLeft(2);
+				stepE4.step(0, 2);
 				e3StepL = 3;
 			}
 			else if(e3StepL == 3)
 			{
-				e3StepLeft(3);
+				stepE4.step(0, 3);
 				e3StepL = 0;
 			}
 		}
@@ -1416,26 +1335,26 @@ var e4AnimateL = function()
 	
 	if(e4NewX != targ42x)
 		{
-			if(e4Stepper%(10) == 0)
+			if(e4Stepper % 10 == 0)
 				{
 					if(e4StepL == 0)
 						{
-							e4StepLeft(0);
+							stepE5.step(0, 0);
 							e4StepL = 1;
 						}
 					else if(e4StepL == 1)
 						{
-							e4StepLeft(1);
+							stepE5.step(0, 1);
 							e4StepL = 2;
 						}
 					else if(e4StepL == 2)
 						{
-							e4StepLeft(2);
+							stepE5.step(0, 2);
 							e4StepL = 3;
 						}
 					else if(e4StepL == 3)
 						{
-							e4StepLeft(3);
+							stepE5.step(0, 3);
 							e4StepL = 0;
 						}
 				}
@@ -1461,7 +1380,7 @@ var animateR = function()
 	
 	if(newx != oldRx)
 		{
-			if(stepper%(10) == 0)
+			if(stepper % 10 == 0)
 				{
 					if(stepR == 0)
 						{
@@ -1498,26 +1417,26 @@ var eAnimateR = function()
 	
 	if(eNewX != targ4x)
 		{
-			if(eStepper%(10) == 0)
+			if(eStepper % 10 == 0)
 				{
 					if(eStepR == 0)
 						{
-							eStepRight(0);
+							stepE1.step(1, 0);
 							eStepR = 1;
 						}
 					else if(eStepR == 1)
 						{
-							eStepRight(1);
+							stepE1.step(1, 1);
 							eStepR = 2;
 						}
 					else if(eStepR == 2)
 						{
-							eStepRight(2);
+							stepE1.step(1, 2);
 							eStepR = 3;
 						}
 					else if(eStepR == 3)
 						{
-							eStepRight(3);
+							stepE1.step(1, 3);
 							eStepR = 0;
 						}
 				}
@@ -1535,26 +1454,26 @@ var e1AnimateR = function()
 	
 	if(e1NewX != targ14x)
 		{
-			if(e1Stepper%(10) == 0)
+			if(e1Stepper % 10 == 0)
 				{
 					if(e1StepR == 0)
 						{
-							e1StepRight(0);
+							stepE2.step(1, 0);
 							e1StepR = 1;
 						}
 					else if(e1StepR == 1)
 						{
-							e1StepRight(1);
+							stepE2.step(1, 1);
 							e1StepR = 2;
 						}
 					else if(e1StepR == 2)
 						{
-							e1StepRight(2);
+							stepE2.step(1, 2);
 							e1StepR = 3;
 						}
 					else if(e1StepR == 3)
 						{
-							e1StepRight(3);
+							stepE2.step(1, 3);
 							e1StepR = 0;
 						}
 				}
@@ -1572,26 +1491,26 @@ var e2AnimateR = function()
 	
 	if(e2NewX != targ24x)
 		{
-			if(e2Stepper%(10) == 0)
+			if(e2Stepper % 10 == 0)
 				{
 					if(e2StepR == 0)
 						{
-							e2StepRight(0);
+							stepE3.step(1, 0);
 							e2StepR = 1;
 						}
 					else if(e2StepR == 1)
 						{
-							e2StepRight(1);
+							stepE3.step(1, 1);
 							e2StepR = 2;
 						}
 					else if(e2StepR == 2)
 						{
-							e2StepRight(2);
+							stepE3.step(1, 2);
 							e2StepR = 3;
 						}
 					else if(e2StepR == 3)
 						{
-							e2StepRight(3);
+							stepE3.step(1, 3);
 							e2StepR = 0;
 						}
 				}
@@ -1609,26 +1528,26 @@ var e3AnimateR = function()
 	
 	if(e3NewX != targ33x)
 		{
-			if(e3Stepper%(10) == 0)
+			if(e3Stepper % 10 == 0)
 				{
 					if(e3StepR == 0)
 						{
-							e3StepRight(0);
+							stepE4.step(1, 0);
 							e3StepR = 1;
 						}
 					else if(e3StepR == 1)
 						{
-							e3StepRight(1);
+							stepE4.step(1, 1);
 							e3StepR = 2;
 						}
 					else if(e3StepR == 2)
 						{
-							e3StepRight(2);
+							stepE4.step(1, 2);
 							e3StepR = 3;
 						}
 					else if(e3StepR == 3)
 						{
-							e3StepRight(3);
+							stepE4.step(1, 3);
 							e3StepR = 0;
 						}
 				}
@@ -1646,26 +1565,26 @@ var e4AnimateR = function()
 	
 	if(e4NewX != targ44x)
 		{
-			if(e4Stepper%(10) == 0)
+			if(e4Stepper % 10 == 0)
 				{
 					if(e4StepR == 0)
 						{
-							e4StepRight(0);
+							stepE5.step(1, 0);
 							e4StepR = 1;
 						}
 					else if(e4StepR == 1)
 						{
-							e4StepRight(1);
+							stepE5.step(1, 1);
 							e4StepR = 2;
 						}
 					else if(e4StepR == 2)
 						{
-							e4StepRight(2);
+							stepE5.step(1, 2);
 							e4StepR = 3;
 						}
 					else if(e4StepR == 3)
 						{
-							e4StepRight(3);
+							stepE5.step(1, 3);
 							e4StepR = 0;
 						}
 				}
