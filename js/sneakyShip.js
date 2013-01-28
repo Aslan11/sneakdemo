@@ -97,13 +97,6 @@ var haltReady = false;
 var haltImage = new Image();
 haltImage.src = "images/halt.png";
 
-// Hero image
-var heroReady = false;
-var heroImage = new Image();
-heroImage.onload = function () {
-	heroReady = true;
-}; heroImage.src = "images/hero2.png";
-
 function Actor()
 {
 	this.img = new Image();
@@ -138,15 +131,6 @@ Actor.prototype.moveX=function(isLeft)
 };
 Actor.prototype.step = function(dir)
 {
-	// delay monster steps for smoother animation
-	if(this.base == "enemy")
-	{
-		var now = new Date();
-		if(now - this.lastStep < 150) return;
-		else {
-			this.lastStep = now;
-		}
-	}
 	var dirs = ["Left", "Right", "Up", "Down"];
 
 	++this.state;
@@ -163,6 +147,19 @@ function Monster()
 	this.lastStep = new Date();
 }
 Monster.prototype = new Actor(); // inherit
+Monster.prototype.step = function(dir) {
+	// delay monster steps for smoother animation
+	var now = new Date();
+	if(now - this.lastStep < 250) {
+		return;
+	}
+	else {
+		this.lastStep = now;
+		Actor.prototype.step.call(this, dir);
+	}
+};
+// x2, x4, y3, y1
+// left, right, up, down
 Monster.prototype.setBounds = function(arr)
 {
 	this.y1 = arr[0];
@@ -173,18 +170,16 @@ Monster.prototype.setBounds = function(arr)
 function Hero(w)
 {
 	Actor.prototype.constructor.call(this);
-	this.img = w;
 	this.base = "hero";
 	this.speed = 120;
+	this.stand();
 }
 Hero.prototype = new Actor();
-
-
-// x2, x4, y3, y1
-// left, right, up, down
-var hero = new Hero(heroImage);
-
-
+Hero.prototype.stand = function()
+{
+	this.img.src= "images/hero2.png";
+};
+var hero = new Hero();
 
 
 var monsters = new Array();
@@ -261,7 +256,7 @@ addEventListener("keydown", function (e) {
 
 addEventListener("keyup", function (e) {
 	delete keysDown[e.keyCode];
-	heroImage.src = "images/hero2.png"; 
+	hero.stand();
 }, false);
 
 var mRespawn = function () 
