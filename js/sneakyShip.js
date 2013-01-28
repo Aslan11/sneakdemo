@@ -15,9 +15,8 @@ var tockOld = 0;
 var tockNew = 0;
 
 
-//Hero Step function
+//Hero Step variables
 /////////////////////////////////////
-var tiested = 0;
 var oldLx = 0;
 var oldRx = 0;
 var oldy = 0;
@@ -42,13 +41,7 @@ for(var i=0; i<32; i++)
 
 var mapDigits = "11111111111110000011111111111111 11100001110000000000020000000001 10000000010000000000000000000001 10000000010000000000000000000001 10042240010000000000011111111001 10023320011111111111110000000001 10023320000000000000010000000001 10042240000000000000010042424001 10023320011111111110010024242001 10023320010000000000010024342001 10042240010000000000010042324001 10023320010021111120010024342001 10023320010014434410010042324001 10042240010014232410010024342001 10000000010013333310010042324001 10000000010014232410010024342001 11400004110014434410010042324001 10000000010021111120010024342001 10004400010000000000010042324001 10000000010000000000010024342001 11400004110021111120010042424001 10000000010014434410010024242001 10000000010014232410010000000001 10014410010013333310010000000001 10040040010014232410011111111001 10040040010014434410000000000001 10014410010021111120000000000001 10000000010000000000010000000001 10000000010000000000010000000001 11110011111111111111111111111111";
 
-var k = 0;
-var i = 0;
-
-var k1 = 0;
-var i1 = 0;
-// myArray[32][30] (i)(k)
-for(var z = 0; z < mapDigits.length; z++)
+for(var i = 0, k = 0, z = 0; z < mapDigits.length; z++)
 {
 	if ((mapDigits.charAt(z))==(' '))
 	{
@@ -134,6 +127,13 @@ Monster.prototype.step = function(dir)
 	if(this.state == 4) this.state = 0;
 	this.img.src = "images/enemy" + dirs[dir] + (1 + this.state) + ".png";
 };
+Monster.prototype.setBounds = function(arr)
+{
+	this.y1 = arr[0];
+	this.x2 = arr[1];
+	this.y3 = arr[2];
+	this.x4 = arr[3];
+};
 
 // x2, x4, y3, y1
 // left, right, up, down
@@ -160,45 +160,28 @@ for(var i = 0; i < 5; ++i)
 	monsters[i] = new Monster();
 }
 
-//Add points for the monster to pat to:
+//Add points for the monsters to pat to:
 ///////////////////////////////////////
+
+var mBounds = [
+	[438, 12, 335, 120],
+	[226, 12, 30 , 120],
+	[144, 310, 295, 162],
+	[440, 155, 288, 310],
+	[226, 12, 30, 120]
+];
+
+for(var i = monsters.length - 1; i >= 0; --i)
+{
+	var m = monsters[i];
+	m.setBounds(mBounds[i]);
+}
+
 var aim = 1;
-monsters[0].y1 = 438;
-monsters[0].x2 =  12;
-monsters[0].y3 = 335;
-monsters[0].x4 = 120;
-
-//add points for the monster1 to pat to:
-///////////////////////////////////////////
 var aim1 = 1;
-monsters[1].y1 = 226;
-monsters[1].x2 =  12;
-monsters[1].y3 = 30;
-monsters[1].x4 = 120
-
-//add points for the monster2 to pat to:
-///////////////////////////////////////////
 var aim2 = 1;
-monsters[2].y1 = 144;
-monsters[2].x2 = 310;
-monsters[2].y3 = 295;
-monsters[2].x4 = 162;
-
-//add points for the monster3 to pat to:
-///////////////////////////////////////////
 var aim3 = 1;
-monsters[3].y1 = 440;
-monsters[3].x2 = 155;
-monsters[3].y3 = 288;
-monsters[3].x4 = 310;
-
-//add points for monster 1.1(4) to pat to:
-//////////////////////////////////////////
 var aim4 = 3;
-monsters[4].y1 = 226;
-monsters[4].x2 =  12;
-monsters[4].y3 = 30;
-monsters[4].x4 = 120
 
 // Archer1 image
 var archer1Ready = false;
@@ -276,20 +259,15 @@ addEventListener("keyup", function (e) {
 
 var mRespawn = function () 
 {
-	monsters[0].x = 115;
-	monsters[0].y = 384;
-	
-	monsters[1].x = 115;
-	monsters[1].y = 60;
-	
-	monsters[2].x = 160;
-	monsters[2].y = 214;
-	
-	monsters[3].x = 305;
-	monsters[3].y = 290;
-	
-	monsters[4].x = 12;
-	monsters[4].y = 208;
+
+	var mLocs = [[115, 384], [115, 60], [160, 214], [305, 290], [12, 208]];
+
+	for(var i = monsters.length - 1; i >=0; --i)
+	{
+		var m = monsters[i];
+		m.x = mLocs[i][0];
+		m.y = mLocs[i][1];
+	}
 	
 	archer1.x = 352;
 	archer1.y = 322;
@@ -436,40 +414,35 @@ var update = function (modifier)
 	}
 	if(heroSpotted == false)
 	{
-
-	if (myArray[gridx][(gridy - 1)] == 0)
-	{	
-	if (38 in keysDown) { // Player holding up
-		hero.y -= hero.speed * modifier;
-		hStepper.step(2);
-		
+		if (myArray[gridx][(gridy - 1)] == 0)
+		{
+			if (38 in keysDown) { // Player holding up
+				hero.y -= hero.speed * modifier;
+				hStepper.step(2);
+			}
+		}
+		if (myArray[gridx][(gridy + 1)] == 0)
+		{
+			if (40 in keysDown) { // Player holding down
+				hero.y += hero.speed * modifier;
+				hStepper.step(3);
+			}
+		}
+		if (myArray[(gridx - 1)][gridy] == 0)
+		{
+			if (37 in keysDown) { // Player holding left
+				hero.x -= hero.speed * modifier;
+				hStepper.step(0);
+			}
+		}
+		if(myArray[(gridx + 1)][gridy] == 0)
+		{
+			if (39 in keysDown) { // Player holding right
+				hero.x += hero.speed * modifier;
+				hStepper.step(1);
+			}
+		}
 	}
-	}
-	if (myArray[gridx][(gridy + 1)] == 0)
-	{
-	if (40 in keysDown) { // Player holding down
-		
-		hero.y += hero.speed * modifier;
-		hStepper.step(3);
-	}
-	}
-	if (myArray[(gridx - 1)][gridy] == 0)
-	{
-	if (37 in keysDown) { // Player holding left
-		hero.x -= hero.speed * modifier;
-		hStepper.step(0);
-	}
-	}
-	if(myArray[(gridx + 1)][gridy] == 0)
-	{
-	if (39 in keysDown) { // Player holding right
-		hero.x += hero.speed * modifier;
-		hStepper.step(1);
-	}
-	}
-	
-	
-}
 //level 2 if gameState = 4 collision
 	
 	if(gameState != 1)
