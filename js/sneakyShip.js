@@ -116,14 +116,12 @@ pillarImage.src = "images/pillar.png";
 var clearImage = new Image();
 clearImage.src = "images/clear.png";
 
-var hedgeImage = new Image();
-hedgeImage.src = "images/hedge.png";
-
-var hedgeImage2 = new Image();
-hedgeImage2.src = "images/hedge2.png";
-
-var hedgeImage3 = new Image();
-hedgeImage3.src = "images/hedge3.png";
+var hedges = new Array();
+for(var i = 0; i < 3; ++i)
+{
+	hedges[i] = new Image();
+	hedges[i].src = "images/hedge" + (i + 1) + ".png";
+}
 
 var waterImage = new Image();
 waterImage.src = "images/water.png";
@@ -1333,41 +1331,39 @@ if (gameState == 1)
 	}
 	
 	if(haltReady && spotter == 3)
-		{
-			if(hero.x < monsters[3].x)
+	{
+		if(hero.x < monsters[3].x)
 			monsters[3].x -= monsters[3].speed * modifier;
-  		 	else if(hero.x > monsters[3].x)
+		else if(hero.x > monsters[3].x)
 			monsters[3].x += monsters[3].speed * modifier;
- 		  	
- 		  	if(hero.y < monsters[3].y)
-  			monsters[3].y -= monsters[3].speed * modifier;
- 		else if (hero.y > monsters[3].y)
- 		monsters[3].y += monsters[3].speed * modifier;
- 		arrest();
-
-			
-		}
+		
+		if(hero.y < monsters[3].y)
+			monsters[3].y -= monsters[3].speed * modifier;
+		else if (hero.y > monsters[3].y)
+			monsters[3].y += monsters[3].speed * modifier;
+		arrest();
+	}
 	if(haltReady && spotter == 2)
-		{
-			if(hero.x < monsters[2].x)
- 		monsters[2].x -= monsters[2].speed * modifier;
- 		else if (hero.x > monsters[2].x)
- 		monsters[2].x += monsters[2].speed * modifier;
- 		
- 		if(hero.y < monsters[2].y)
- 		monsters[2].y -= monsters[2].speed * modifier;
- 		else if (hero.y > monsters[2].y)
- 		monsters[2].y += monsters[2].speed * modifier;
- 		arrest();
-		}	
+	{
+		if(hero.x < monsters[2].x)
+			monsters[2].x -= monsters[2].speed * modifier;
+		else if (hero.x > monsters[2].x)
+			monsters[2].x += monsters[2].speed * modifier;
+		
+		if(hero.y < monsters[2].y)
+			monsters[2].y -= monsters[2].speed * modifier;
+		else if (hero.y > monsters[2].y)
+			monsters[2].y += monsters[2].speed * modifier;
+		arrest();
+	}
 	if((arrow1Ready) && (arrow1.x < 480))
-	arrow1.x += arrow1.speed * modifier;
+		arrow1.x += arrow1.speed * modifier;
 	
 	if((arrow2Ready) && (arrow2.x < 480))
-	arrow2.x += arrow2.speed * modifier;
+		arrow2.x += arrow2.speed * modifier;
 	
 	if((arrow3Ready) && (arrow3.x < 480))
-	arrow3.x += arrow3.speed * modifier;
+		arrow3.x += arrow3.speed * modifier;
 	
 	
 
@@ -1375,59 +1371,55 @@ if (gameState == 1)
 	//ready the archers:
 	////////////////////////////////////////
 	if ((hero.x > 330) && (hero.y > 375))
- 	archer1Image.src = "images/archer1.png";
- 	
+		archer1Image.src = "images/archer1.png";
 	if ((hero.x > 330) && (hero.y < 375))
- 	archer1Image.src = "images/archer2.png";
-	
+		archer1Image.src = "images/archer2.png";
 	if ((hero.x > 330) && (hero.y < 340))
- 	archer1Image.src = "images/archer3.png";
- 	
-	if ((hero.x > 330) && (hero.y < 320))
- 	{
- 		archer1Image.src = "images/archer4.png";
- 		arrow1Ready = true;
- 	}
-	if ((hero.x > 330) && (hero.y < 300))
- 	archer2Image.src = "images/archer2.png";
+		archer1Image.src = "images/archer3.png";
 	
+	if ((hero.x > 330) && (hero.y < 320))
+	{
+		archer1Image.src = "images/archer4.png";
+		arrow1Ready = true;
+	}
+
+	if ((hero.x > 330) && (hero.y < 300))
+	 	archer2Image.src = "images/archer2.png";
 	if ((hero.x > 330) && (hero.y < 255))
- 	archer2Image.src = "images/archer3.png";
- 	
+		archer2Image.src = "images/archer3.png";
+
 	if ((hero.x > 330) && (hero.y < 230))
 	{
- 	archer2Image.src = "images/archer4.png";
- 	arrow2Ready = true;
+		archer2Image.src = "images/archer4.png";
+		arrow2Ready = true;
 	}
+
 	if ((hero.x > 330) && (hero.y < 211))
- 	archer3Image.src = "images/archer2.png";
-	
+		archer3Image.src = "images/archer2.png";
 	if ((hero.x > 330) && (hero.y < 174))
- 	archer3Image.src = "images/archer3.png";
- 	
+		archer3Image.src = "images/archer3.png";
+	
 	if ((hero.x > 330) && (hero.y < 139))
 	{
- 	archer3Image.src = "images/archer4.png";
- 	arrow3Ready = true;
+		archer3Image.src = "images/archer4.png";
+		arrow3Ready = true;
 	}
-	
+
 }
- 	
-	if(gameState == 2)
-	bgImage.src = "images/gameOver.png";
-	
-	if(gameState == 3)
-	bgImage.src = "images/success1.png";
-	
-	if(gameState == 0)
-	bgImage.src = "images/start.png";
-		
+
+	switch(gameState)
+	{
+		case 2: bgImage.src = "images/gameOver.png"; break;
+		case 3:	bgImage.src = "images/success1.png"; break;
+		case 0: bgImage.src = "images/start.png"; break;
+	}
+
 	if(ticker == 0)
 	{
-	if(tock.x < 512)
-	{
-		tock.x += tock.speed * modifier;
-	}
+		if(tock.x < 512)
+		{
+			tock.x += tock.speed * modifier;
+		}
 	}
 	if(tock.x > 512)
 	{
@@ -1444,10 +1436,8 @@ if (gameState == 1)
 	{
 		ticker = 0;
 	}
-	
- 
-	tockGrid = Math.ceil((tock.x)/16);
-	   
+
+	tockGrid = Math.ceil((tock.x)/16);  
 };
 
 // Draw everything
@@ -1460,16 +1450,16 @@ var render = function ()
 	}
 	if (gameState == 1)
 	{
-		for(q = 0; q < 32; q++)
+		for(var q = 0; q < 32; q++)
 		{
-			for(w = 0; w < 30; w++)
+			for(var w = 0; w < 30; w++)
 			{
 				switch(myArray[q][w])
 				{
-					case "1": ctx.drawImage(hedgeImage, 16*q, 16*w); break;
-					case "2": ctx.drawImage(hedgeImage2,16*q, 16*w); break;
+					case "1": ctx.drawImage(hedges[0], 16*q, 16*w); break;
+					case "2": ctx.drawImage(hedges[1],16*q, 16*w); break;
 					case "3": ctx.drawImage(waterImage, 16*q, 16*w); break;
-					case "4": ctx.drawImage(hedgeImage3,16*q, 16*w); break;
+					case "4": ctx.drawImage(hedges[2],16*q, 16*w); break;
 				}
 			}
 		}
@@ -1535,19 +1525,15 @@ var render = function ()
 	}
 		
 		
-		if(gameState == 1)
-		ctx.drawImage(heroImage, hero.x, hero.y);
+	if(gameState == 1) ctx.drawImage(heroImage, hero.x, hero.y);
 		
-	
-
-	/**
+/*
 	ctx.fillStyle = "rgb(250, 250, 250)";
 	ctx.font = "24px Helvetica";
 	ctx.textAlign = "left";
 	ctx.textBaseline = "top";
 	ctx.fillText("Gamestate: " + gameState, 32, 32);
-	**/	
-	
+*/
 };
 
 
