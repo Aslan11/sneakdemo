@@ -53,7 +53,7 @@ for(var i = 0, k = 0, z = 0; z < mapDigits.length; z++)
 	}
 	else if((mapDigits.charAt(z))!=(' '))
 	{
-		myArray[i][k]=mapDigits.charAt(z);
+		myArray[i][k]=Number(mapDigits.charAt(z));
 		++i;
 	}
 }
@@ -534,7 +534,6 @@ if (gameState == 1)
 
 	//re iterate for enemy1
 	////////////////////////////////////
-	
 	runMonster(1);
 	
 	
@@ -794,17 +793,13 @@ var render = function ()
 	}
 	if (gameState == 1)
 	{
+		var images = [hedges[0],  hedges[1], waterImage, hedges[2]];
 		for(var q = 0; q < 32; q++)
 		{
 			for(var w = 0; w < 30; w++)
 			{
-				switch(myArray[q][w])
-				{
-					case "1": ctx.drawImage(hedges[0], 16*q, 16*w); break;
-					case "2": ctx.drawImage(hedges[1],16*q, 16*w); break;
-					case "3": ctx.drawImage(waterImage, 16*q, 16*w); break;
-					case "4": ctx.drawImage(hedges[2],16*q, 16*w); break;
-				}
+				var n = myArray[q][w] - 1;
+				if(n >= 0) ctx.drawImage(images[n], 16*q, 16*w);
 			}
 		}
 
