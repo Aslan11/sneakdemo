@@ -267,9 +267,11 @@ var mRespawn = function ()
 	for(var i = monsters.length - 1; i >=0; --i)
 	{
 		var m = monsters[i];
+		m.aim = 1;
 		m.x = mLocs[i][0];
 		m.y = mLocs[i][1];
 	}
+	monsters[4].aim = 3;
 	
 	var archLocs = [322, 219, 110];
 	for(var c = archers.length - 1; c>=0; --c)
@@ -277,7 +279,7 @@ var mRespawn = function ()
 		var a = archers[c];
 		a.x = a.arrow.x = 352;
 		a.y = a.arrow.y = archLocs[c];
-
+		a.arrow.fired = false;
 	}
 };
 
@@ -287,22 +289,15 @@ var mRespawn = function ()
 	
 // Reset the game when the player catches a monsters[0]
 var reset = function() {
-	monsters[0].aim = 1;
-	monsters[1].aim = 1;
-	monsters[2].aim = 1;
-	monsters[3].aim = 1;
-	monsters[4].aim = 3;
-
 	hero.x = 65;
 	hero.y = 458;
-	archers[0].arrow.fired = false;
-	archers[1].arrow.fired = false;
-	archers[2].arrow.fired = false;
+
 	if (gameState < 4)
 		mRespawn();
 		
 	heroSpotted = false;
 	haltReady = false;
+
 	++gameState;
 };
 
