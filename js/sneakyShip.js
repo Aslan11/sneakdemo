@@ -29,28 +29,6 @@ var stepper = 0;
 var gridx = 0;
 var gridy = 0;
 
-//Enemy step variables
-///////////////////////////////////////
-var eGridX = 0;
-var eGridy = 0;
-//Enemy 2 step variables
-//////////////////////////////////////
-var e1GridX = 0;
-var e1Gridy = 0;
-//Enemy 3 step variables
-//////////////////////////////////////
-var e2GridX = 0;
-var e2Gridy = 0;
-//Enemy 4 step variables
-//////////////////////////////////////
-var e3GridX = 0;
-var e3Gridy = 0;
-
-//Enemy 5 step variables
-//////////////////////////////////////
-var e4GridX = 0;
-var e4Gridy = 0;
-
 // add variables for arrest method
 var heroSpotted = false;
 
@@ -360,26 +338,17 @@ var arrest = function()
 	heroSpotted = true;
 	haltReady = true;
 	
-	if (
-		((gridx == eGridX)&&(gridy == eGridy)) ||
-		((gridx == e1GridX)&&(gridy == e1Gridy)) ||
-		((gridx == e2GridX)&&(gridy == e2Gridy)) ||
-		((gridx == e3GridX)&&(gridy == e3Gridy)) ||
-		((gridx == e4GridX)&&(gridy == e4Gridy)) ||
-		((gridx + 1 == eGridX)&&(gridy == eGridy)) ||
-		((gridx + 1 == e1GridX)&&(gridy == e1Gridy)) ||
-		((gridx + 1 == e2GridX)&&(gridy == e2Gridy)) ||
-		((gridx + 1 == e3GridX)&&(gridy == e3Gridy)) ||
-		((gridx + 1 == e4GridX)&&(gridy == e4Gridy)) ||
-		((gridx == eGridX)&&(gridy + 1  == eGridy)) ||
-		((gridx == e1GridX)&&(gridy + 1  == e1Gridy)) ||
-		((gridx == e2GridX)&&(gridy + 1  == e2Gridy)) ||
-		((gridx == e3GridX)&&(gridy + 1  == e3Gridy)) ||
-		((gridx == e4GridX)&&(gridy + 1  == e4Gridy))
-		)
+	for(var i = monsters.length - 1; i>=0; --i)
 	{
-		heroImage.src = "images/hero3.png";
-		reset();
+		var m = monsters[i];
+		if((gridx == m.gridX && gridy == m.gridY) ||
+		   (gridx + 1 == m.gridX && gridy == m.gridY) ||
+		   (gridx == m.gridX && gridy + 1 == m.gridY))
+		{
+			heroImage.src = "images/hero3.png";
+			reset();
+			return;
+		}
 	}
 }
 
@@ -462,20 +431,12 @@ var update = function (modifier)
 	gridy = Math.ceil(hero.y/16);
 	if(gameState == 1)
 	{
-	eGridX = Math.ceil(monsters[0].x/16);
-	eGridy = Math.ceil(monsters[0].y/16);
-	
-	e1GridX = Math.ceil(monsters[1].x/16);
-	e1Gridy = Math.ceil(monsters[1].y/16);
-	
-	e2GridX = Math.ceil(monsters[2].x/16);
-	e2Gridy = Math.ceil(monsters[2].y/16);
-	
-	e3GridX = Math.ceil(monsters[3].x/16);
-	e3Gridy = Math.ceil(monsters[3].y/16);
-	
-	e4GridX = Math.ceil(monsters[4].x/16);
-	e4Gridy = Math.ceil(monsters[4].y/16);
+		for(var i = monsters.length - 1; i>=0; --i)
+		{
+			var m = monsters[i];
+			m.gridX = Math.ceil(m.x / 16);
+			m.gridY = Math.ceil(m.y / 16);	
+		}
 	}
 	if(heroSpotted == false)
 	{
