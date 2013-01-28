@@ -92,8 +92,6 @@ bgImage.src = "images/background.png";
 
 //speech bubble image
 var haltReady = false;
-var haltImage = new Image();
-haltImage.src = "images/halt.png";
 
 function Actor()
 {
@@ -108,8 +106,7 @@ Actor.prototype.setReady = function(actor) {
 	}
 };
 Actor.prototype.draw = function() {
-	//if(this.ready)
-	 ctx.drawImage(this.img, this.x, this.y);
+	if(this.ready) ctx.drawImage(this.img, this.x, this.y);
 };
 Actor.prototype.moveBasic=function(isX, param)
 {
@@ -165,7 +162,12 @@ Monster.prototype.setBounds = function(arr)
 	this.y3 = arr[2];
 	this.x4 = arr[3];
 };
-function Hero(w)
+Monster.prototype.haltImage = new Image();
+Monster.prototype.haltImage.src = "images/halt.png";
+Monster.prototype.haltBubble = function() {
+	ctx.drawImage(this.haltImage, this.x - 70, this.y - 50);
+};
+function Hero()
 {
 	Actor.prototype.constructor.call(this);
 	this.base = "hero";
@@ -803,8 +805,7 @@ var render = function ()
 
 		if(haltReady && spotter >= 0)
 		{
-			var m = monsters[spotter];
-			ctx.drawImage(haltImage, m.x - 70, m.y - 50);
+			monsters[spotter].haltBubble();
 		}
 	}
 		
