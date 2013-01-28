@@ -14,6 +14,8 @@ var tockGrid = 0;
 var tockOld = 0;
 var tockNew = 0;
 
+var modifier;
+
 
 //Hero Step variables
 /////////////////////////////////////
@@ -132,6 +134,20 @@ Actor.prototype.animate = function(dir) {
 			this.step(dir);
 		}
 	}
+};
+Actor.prototype.moveBasic=function(isX, param)
+{
+	var amt = this.speed * modifier;
+	if(param) this[isX ? "x" : "y"] -= amt;
+	else this[isX ? "x" : "y"] += amt;
+};
+Actor.prototype.moveY=function(isUp)
+{
+	this.moveBasic(false, isUp);
+};
+Actor.prototype.moveX=function(isLeft)
+{
+	this.moveBasic(true, isLeft);
 };
 Actor.prototype.step = function(dir)
 {
@@ -344,7 +360,7 @@ function arrest()
 }
 
 // Update game objects
-var update = function (modifier)
+var update = function ()
 {
 	
 	gridx = Math.ceil(hero.x/16);
@@ -363,28 +379,28 @@ var update = function (modifier)
 		if (myArray[gridx][(gridy - 1)] == 0)
 		{
 			if (38 in keysDown) { // Player holding up
-				hero.y -= hero.speed * modifier;
+				hero.moveY(true);
 				hero.step(2);
 			}
 		}
 		if (myArray[gridx][(gridy + 1)] == 0)
 		{
 			if (40 in keysDown) { // Player holding down
-				hero.y += hero.speed * modifier;
+				hero.moveY(false);
 				hero.step(3);
 			}
 		}
 		if (myArray[(gridx - 1)][gridy] == 0)
 		{
 			if (37 in keysDown) { // Player holding left
-				hero.x -= hero.speed * modifier;
+				hero.moveX(true);
 				hero.step(0);
 			}
 		}
 		if(myArray[(gridx + 1)][gridy] == 0)
 		{
 			if (39 in keysDown) { // Player holding right
-				hero.x += hero.speed * modifier;
+				hero.moveX(false);
 				hero.step(1);
 			}
 		}
@@ -446,7 +462,7 @@ if (gameState == 1)
 {
 	if((aim == 1) && (monsters[0].y < monsters[0].y1))
 	{	
-		monsters[0].y += monsters[0].speed * modifier;
+		monsters[0].moveY(false);
 		monsters[0].animate(3);
 		if(((monsters[0].x - 5) < (hero.x)) && ((hero.x) < (monsters[0].x + 5)))
 		{
@@ -466,7 +482,7 @@ if (gameState == 1)
 	
 	if((aim == 2) && (monsters[0].x > monsters[0].x2))
 	{
-		monsters[0].x -= monsters[0].speed * modifier;
+		monsters[0].moveX(true);
 		monsters[0].animate(0);
 		if(((monsters[0].y - 5) < (hero.y)) && ((hero.y) < (monsters[0].y + 5)))
 		{
@@ -485,7 +501,7 @@ if (gameState == 1)
 	
 	if((aim == 3) && (monsters[0].y > monsters[0].y3))
 	{
-		monsters[0].y -= monsters[0].speed * modifier;
+		monsters[0].moveY(true);
 		monsters[0].animate(2);
 		if(((monsters[0].x - 5) < (hero.x)) && ((hero.x) < (monsters[0].x + 5)))
 		{
@@ -503,7 +519,7 @@ if (gameState == 1)
 	}
 	if((aim == 4) && (monsters[0].x < monsters[0].x4))
 	{
-		monsters[0].x += monsters[0].speed * modifier;
+		monsters[0].moveX(false);
 		monsters[0].animate(1);
 		if(((monsters[0].y - 16) < (hero.y)) && ((hero.y) < (monsters[0].y + 5)))
 		{
@@ -525,7 +541,7 @@ if (gameState == 1)
 	
 	if((aim1 == 1) && (monsters[1].y < monsters[1].y1))
 	{
-		monsters[1].y += monsters[1].speed * modifier;
+		monsters[1].moveY(false);
 		monsters[1].animate(3);
 		if(((monsters[1].x - 10) < (hero.x)) && ((hero.x) < (monsters[1].x + 10)))
 		{
@@ -545,7 +561,7 @@ if (gameState == 1)
 	
 	if((aim1 == 2) && (monsters[1].x > monsters[1].x2))
 	{
-		monsters[1].x -= monsters[1].speed * modifier;
+		monsters[1].moveX(true);
 		monsters[1].animate(0);
 		if(((monsters[1].y - 10) < (hero.y)) && ((hero.y) < (monsters[1].y + 10)))
 		{
@@ -563,7 +579,7 @@ if (gameState == 1)
 	
 	if((aim1 == 3) && (monsters[1].y > monsters[1].y3))
 	{
-		monsters[1].y -= monsters[1].speed * modifier;
+		monsters[1].moveY(true);
 		monsters[1].animate(2);
 		if(((monsters[1].x - 10) < (hero.x)) && ((hero.x) < (monsters[1].x + 10)))
 		{
@@ -580,7 +596,7 @@ if (gameState == 1)
 	}
 	if((aim1 == 4) && (monsters[1].x < monsters[1].x4))
 	{
-		monsters[1].x += monsters[1].speed * modifier;
+		monsters[1].moveX(false);
 		monsters[1].animate(1);
 		if(((monsters[1].y - 10) < (hero.y)) && ((hero.y) < (monsters[1].y + 5)))
 		{
@@ -603,7 +619,7 @@ if (gameState == 1)
 	
 	if((aim2 == 3) && (monsters[2].y < monsters[2].y3))
 	{
-		monsters[2].y += monsters[2].speed * modifier;
+		monsters[2].moveY(false);
 		monsters[2].animate(3);
 		if(((monsters[2].x - 10) < (hero.x)) && ((hero.x) < (monsters[2].x + 10)))
 		{
@@ -623,7 +639,7 @@ if (gameState == 1)
 	
 	if((aim2 == 4) && (monsters[2].x > monsters[2].x4))
 	{
-		monsters[2].x -= monsters[2].speed * modifier;
+		monsters[2].moveX(true);
 		monsters[2].animate(0);
 		if(((monsters[2].y - 10) < (hero.y)) && ((hero.y) < (monsters[2].y + 5)))
 		{
@@ -641,7 +657,7 @@ if (gameState == 1)
 	
 	if((aim2 == 1) && (monsters[2].y > monsters[2].y1))
 	{
-		monsters[2].y -= monsters[2].speed * modifier;
+		monsters[2].moveY(true);
 		monsters[2].animate(2);
 		if(((monsters[2].x - 10) < (hero.x)) && ((hero.x) < (monsters[2].x + 10)))
 		{
@@ -658,7 +674,7 @@ if (gameState == 1)
 	}
 	if((aim2 == 2) && (monsters[2].x < monsters[2].x2))
 	{
-		monsters[2].x += monsters[2].speed * modifier;
+		monsters[2].moveX(false);
 		monsters[2].animate(1);
 		if(((monsters[2].y - 10) < (hero.y)) && ((hero.y) < (monsters[2].y + 5)))
 		{
@@ -680,7 +696,7 @@ if (gameState == 1)
 	
 	if((aim3 == 2) && (monsters[3].y < monsters[3].y1))
 	{
-		monsters[3].y += monsters[3].speed * modifier;
+		monsters[3].moveY(false);
 		monsters[3].animate(3);
 		if(((monsters[3].x - 10) < (hero.x)) && ((hero.x) < (monsters[3].x + 10)))
 		{
@@ -700,7 +716,7 @@ if (gameState == 1)
 	
 	if((aim3 == 1) && (monsters[3].x > monsters[3].x2))
 	{
-		monsters[3].x -= monsters[3].speed * modifier;
+		monsters[3].moveX(true);
 		monsters[3].animate(0);
 		if(((monsters[3].y - 10) < (hero.y)) && ((hero.y) < (monsters[3].y + 5)))
 		{
@@ -719,7 +735,7 @@ if (gameState == 1)
 	
 	if((aim3 == 4) && (monsters[3].y > monsters[3].y3))
 	{
-		monsters[3].y -= monsters[3].speed * modifier;
+		monsters[3].moveY(true);
 		monsters[3].animate(2);
 		if(((monsters[3].x - 10) < (hero.x)) && ((hero.x) < (monsters[3].x + 10)))
 		{
@@ -736,7 +752,7 @@ if (gameState == 1)
 	}
 	if((aim3 == 3) && (monsters[3].x < monsters[3].x4))
 	{
-		monsters[3].x += monsters[3].speed * modifier;
+		monsters[3].moveX(false);
 		monsters[3].animate(1);
 		if(((monsters[3].y - 10) < (hero.y)) && ((hero.y) < (monsters[3].y + 5)))
 		{
@@ -756,7 +772,7 @@ if (gameState == 1)
 	//reiterate for enemy 4
 	if((aim4 == 1) && (monsters[4].y < monsters[4].y1))
 	{
-		monsters[4].y += monsters[4].speed * modifier;
+		monsters[4].moveY(false);
 		monsters[4].animate(3);
 		if(((monsters[4].x - 10) < (hero.x)) && ((hero.x) < (monsters[4].x + 10)))
 		{
@@ -775,7 +791,7 @@ if (gameState == 1)
 	
 	if((aim4 == 2) && (monsters[4].x > monsters[4].x2))
 	{
-		monsters[4].x -= monsters[4].speed * modifier;
+		monsters[4].moveX(true);
 		monsters[4].animate(0);
 		if(((monsters[4].y - 10) < (hero.y)) && ((hero.y) < (monsters[4].y + 10)))
 		{
@@ -793,7 +809,7 @@ if (gameState == 1)
 	
 	if((aim4 == 3) && (monsters[4].y > monsters[4].y3))
 	{
-		monsters[4].y -= monsters[4].speed * modifier;
+		monsters[4].moveY(true);
 		monsters[4].animate(2);
 		if(((monsters[4].x - 10) < (hero.x)) && ((hero.x) < (monsters[4].x + 10)))
 		{
@@ -810,7 +826,7 @@ if (gameState == 1)
 	}
 	if((aim4 == 4) && (monsters[4].x < monsters[4].x4))
 	{
-		monsters[4].x += monsters[4].speed * modifier;
+		monsters[4].moveX(false);
 		monsters[4].animate(1);
 		if(((monsters[4].y - 10) < (hero.y)) && ((hero.y) < (monsters[4].y + 5)))
 		{
@@ -1021,7 +1037,8 @@ var main = function () {
 	delta = now - then;
 	//tempFPS[iter] = 1000/delta;
 
-	update(delta/1000);
+	modifier = delta/1000;
+	update();
 	render();
 
 	then = now;
