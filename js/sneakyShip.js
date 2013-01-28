@@ -151,7 +151,17 @@ Actor.prototype.moveX=function(isLeft)
 };
 Actor.prototype.step = function(dir)
 {
+	// delay monster steps for smoother animation
+	if(this.base == "enemy")
+	{
+		var now = new Date();
+		if(now - this.lastStep < 150) return;
+		else {
+			this.lastStep = now;
+		}
+	}
 	var dirs = ["Left", "Right", "Up", "Down"];
+
 	++this.state;
 	if(this.state == 4) this.state = 0;
 	this.img.src = "images/" + this.base + dirs[dir] + (1 + this.state) + ".png";
@@ -163,6 +173,7 @@ function Monster()
 	this.base = "enemy";
 	this.speed = 50;
 	this.aim = 1;
+	this.lastStep = new Date();
 }
 Monster.prototype = new Actor(); // inherit
 Monster.prototype.setBounds = function(arr)
