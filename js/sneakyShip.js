@@ -161,20 +161,18 @@ var i1 = 0;
 // myArray[32][30] (i)(k)
 for(z = 0; z < mapDigits.length; z++)
 {
-		if ((mapDigits.charAt(z))==(' '))
-			{
-				k = k + 1;
-				i = 0;
-				
-			}
-		else if((mapDigits.charAt(z))!=(' '))
-			{
-				myArray[i][k]=mapDigits.charAt(z);
-				i = i + 1;
-			}	
+	if ((mapDigits.charAt(z))==(' '))
+	{
+		k = k + 1;
+		i = 0;
+		
+	}
+	else if((mapDigits.charAt(z))!=(' '))
+	{
+		myArray[i][k]=mapDigits.charAt(z);
+		i = i + 1;
+	}
 }
-
-
 
 
 //game running?
@@ -187,15 +185,18 @@ var facing = 0;
 
 // tock
 
+
+tockReady = false;
+
 var tockImage = new Image();
 tockImage.src = "images/rPortal.png";
-tockReady = false;
 
 var leftDoor = new Image();
 leftDoor.src = "images/doorLeft.png";
 
 var rightDoor = new Image();
 rightDoor.src = "images/doorRight.png";
+
 var deckImage = new Image();
 deckImage.src = "images/deck.png";
 
@@ -897,22 +898,8 @@ var e2StepUp = function(e2StepU)
 
 var e2StepDown = function(e2StepD)
 {
-	if(e2StepD == 0)
-	{
-		monster2Image.src = "images/enemyDown1.png";
-	}
-	else if(e2StepD == 1)
-	{
-		monster2Image.src = "images/enemyDown2.png";
-	}
-	else if(e2StepD == 2)
-	{
-		monster2Image.src = "images/enemyDown3.png";
-	}
-	else if(e2StepD == 3)
-	{
-		monster2Image.src = "images/enemyDown4.png";
-	}
+	// todo: check if e2StepD is in range?
+	monster2Image.src = "images/enemyDown" + (e2StepD + 1) + ".png";
 };
 
 
@@ -1576,120 +1563,117 @@ var eAnimateL = function()
 ////////////////////////////////////////
 var e1AnimateL = function()
 {
-		e1NewX = Math.floor(monster1.x);
-		e1Stepper = monster1.x - targ12x;
-		e1Stepper = Math.floor(e1Stepper);
+	e1NewX = Math.floor(monster1.x);
+	e1Stepper = monster1.x - targ12x;
+	e1Stepper = Math.floor(e1Stepper);
 	
 	if(e1NewX != targ12x)
+	{
+		if(e1Stepper%(10) == 0)
 		{
-			if(e1Stepper%(10) == 0)
-				{
-					if(e1StepL == 0)
-						{
-							e1StepLeft(0);
-							e1StepL = 1;
-						}
-					else if(e1StepL == 1)
-						{
-							e1StepLeft(1);
-							e1StepL = 2;
-						}
-					else if(e1StepL == 2)
-						{
-							e1StepLeft(2);
-							e1StepL = 3;
-						}
-					else if(e1StepL == 3)
-						{
-							e1StepLeft(3);
-							e1StepL = 0;
-						}
-				}
-	
+			if(e1StepL == 0)
+			{
+				e1StepLeft(0);
+				e1StepL = 1;
+			}
+			else if(e1StepL == 1)
+			{
+				e1StepLeft(1);
+				e1StepL = 2;
+			}
+			else if(e1StepL == 2)
+			{
+				e1StepLeft(2);
+				e1StepL = 3;
+			}
+			else if(e1StepL == 3)
+			{
+				e1StepLeft(3);
+				e1StepL = 0;
+			}
 		}
+	}
 };
 
 // re iterate for enemy2 left
 ////////////////////////////////////////
 var e2AnimateL = function()
 {
-		e2NewX = Math.floor(monster2.x);
-		e2Stepper = monster2.x - targ22x;
-		e2Stepper = Math.floor(e2Stepper);
+	e2NewX = Math.floor(monster2.x);
+	e2Stepper = monster2.x - targ22x;
+	e2Stepper = Math.floor(e2Stepper);
 	
 	if(e2NewX != targ22x)
+	{
+		if(e2Stepper%(10) == 0)
 		{
-			if(e2Stepper%(10) == 0)
-				{
-					if(e2StepL == 0)
-						{
-							e2StepLeft(0);
-							e2StepL = 1;
-						}
-					else if(e2StepL == 1)
-						{
-							e2StepLeft(1);
-							e2StepL = 2;
-						}
-					else if(e2StepL == 2)
-						{
-							e2StepLeft(2);
-							e2StepL = 3;
-						}
-					else if(e2StepL == 3)
-						{
-							e2StepLeft(3);
-							e2StepL = 0;
-						}
-				}
-	
+			if(e2StepL == 0)
+			{
+				e2StepLeft(0);
+				e2StepL = 1;
+			}
+			else if(e2StepL == 1)
+			{
+				e2StepLeft(1);
+				e2StepL = 2;
+			}
+			else if(e2StepL == 2)
+			{
+				e2StepLeft(2);
+				e2StepL = 3;
+			}
+			else if(e2StepL == 3)
+			{
+				e2StepLeft(3);
+				e2StepL = 0;
+			}
 		}
+	}
 };
 
 // re iterate for enemy3 left
 ////////////////////////////////////////
 var e3AnimateL = function()
 {
-		e3NewX = Math.floor(monster3.x);
-		e3Stepper = monster3.x - targ33x;
-		e3Stepper = Math.floor(e3Stepper);
+	e3NewX = Math.floor(monster3.x);
+	e3Stepper = monster3.x - targ33x;
+	e3Stepper = Math.floor(e3Stepper);
 	
 	if(e3NewX != targ33x)
+	{
+		if(e3Stepper%(10) == 0)
 		{
-			if(e3Stepper%(10) == 0)
-				{
-					if(e3StepL == 0)
-						{
-							e3StepLeft(0);
-							e3StepL = 1;
-						}
-					else if(e3StepL == 1)
-						{
-							e3StepLeft(1);
-							e3StepL = 2;
-						}
-					else if(e3StepL == 2)
-						{
-							e3StepLeft(2);
-							e3StepL = 3;
-						}
-					else if(e3StepL == 3)
-						{
-							e3StepLeft(3);
-							e3StepL = 0;
-						}
-				}
-	
+			if(e3StepL == 0)
+			{
+				e3StepLeft(0);
+				e3StepL = 1;
+			}
+			else if(e3StepL == 1)
+			{
+				e3StepLeft(1);
+				e3StepL = 2;
+			}
+			else if(e3StepL == 2)
+			{
+				e3StepLeft(2);
+				e3StepL = 3;
+			}
+			else if(e3StepL == 3)
+			{
+				e3StepLeft(3);
+				e3StepL = 0;
+			}
 		}
+	}
 };
 
 // re iterate for enemy4 left
 ////////////////////////////////////////
 var e4AnimateL = function()
 {
-		e4NewX = Math.floor(monster4.x);
-		e4Stepper = monster4.x - targ42x;
-		e4Stepper = Math.floor(e4Stepper);
+	e4NewX = Math.floor(monster4.x);
+	e4Stepper = monster4.x - targ42x;
+	e4Stepper = Math.floor(e4Stepper);
 	
 	if(e4NewX != targ42x)
 		{
@@ -2579,29 +2563,19 @@ var render = function ()
 	{
 		ctx.drawImage(bgImage, 0, 0);
 	}
-	if ((gameState == 1))
+	if (gameState == 1)
 	{
 		for(q = 0; q < 32; q++)
 		{
 			for(w = 0; w < 30; w++)
 			{
-				if(myArray[q][w] == "1")
+				switch(myArray[q][w])
 				{
-					ctx.drawImage(hedgeImage, (16*q), (16*w))
+					case "1": ctx.drawImage(hedgeImage, 16*q, 16*w); break;
+					case "2": ctx.drawImage(hedgeImage2,16*q, 16*w); break;
+					case "3": ctx.drawImage(waterImage, 16*q, 16*w); break;
+					case "4": ctx.drawImage(hedgeImage3,16*q, 16*w); break;
 				}
-				else if(myArray[q][w] == "2")
-				{
-					ctx.drawImage(hedgeImage2,(16*q), (16*w))
-				}
-				else if(myArray[q][w] == "3")
-				{
-					ctx.drawImage(waterImage,(16*q), (16*w))
-				}
-				else if(myArray[q][w] == "4")
-				{
-					ctx.drawImage(hedgeImage3,(16*q), (16*w))
-				}
-			
 			}
 		}
 
@@ -2614,9 +2588,9 @@ var render = function ()
 		{
 			ctx.drawImage(monsterImage, monster.x, monster.y);
 		}
-		if (monster1Ready) 
+		if (monster1Ready)
 		{
-		ctx.drawImage(monster1Image, monster1.x, monster1.y);
+			ctx.drawImage(monster1Image, monster1.x, monster1.y);
 		}
 		if (monster2Ready) 
 		{
@@ -2640,12 +2614,10 @@ var render = function ()
 		{
 			ctx.drawImage(archer2Image, archer2.x, archer2.y);
 		}
-	
 		if(archer3Ready)
 		{
 			ctx.drawImage(archer3Image, archer3.x, archer3.y);
 		}
-	
 		if(arrow1Ready)
 		{
 			ctx.drawImage(arrow1Image, arrow1.x, arrow1.y);
