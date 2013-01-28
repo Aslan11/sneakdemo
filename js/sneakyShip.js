@@ -228,6 +228,11 @@ Archer.prototype = new Actor();
 Archer.prototype.setState = function(s) {
 	this.img.src = "images/archer" + (1 + s) + ".png";
 };
+Archer.prototype.fire = function()
+{
+	this.setState(3);
+	this.arrow.fired = true;
+};
 
 var archers = new Array(3);
 for(var i = 2; i >= 0; --i)
@@ -716,38 +721,21 @@ if (gameState == 1)
 
 	//ready the archers:
 	////////////////////////////////////////
-	if ((hero.x > 330) && (hero.y > 375))
-		archers[0].setState(0);
-	if ((hero.x > 330) && (hero.y < 375))
-		archers[0].setState(1);
-	if ((hero.x > 330) && (hero.y < 340))
-		archers[0].setState(2);
-	if ((hero.x > 330) && (hero.y < 320))
-	{
-		archers[0].setState(3);
-		archers[0].arrow.fired = true;
-	}
 
-	if ((hero.x > 330) && (hero.y < 300))
-		archers[1].setState(1);
-	if ((hero.x > 330) && (hero.y < 255))
-		archers[1].setState(2);
-	if ((hero.x > 330) && (hero.y < 230))
-	{
-		archers[1].setState(3);
-		archers[1].arrow.fired = true;
-	}
+	var thresholds = [[375, 340, 320], [300, 255, 230], [211, 174, 139]];
 
-	if ((hero.x > 330) && (hero.y < 211))
-		archers[2].setState(1);
-	if ((hero.x > 330) && (hero.y < 174))
-		archers[2].setState(2);
-	if ((hero.x > 330) && (hero.y < 139))
+	if (hero.x > 330)
 	{
-		archers[2].setState(3);
-		archers[2].arrow.fired = true;
-	}
+		if(hero.y > 375) archers[0].setState(0);
 
+		for(var i = 0; i < archers.length; ++i)
+		{
+			var a = archers[i], t = thresholds[i];
+			if(hero.y < t[0]) a.setState(0);
+			if(hero.y < t[1]) a.setState(1);
+			if(hero.y < t[2]) a.fire();
+		}
+	}
 }
 
 	switch(gameState)
