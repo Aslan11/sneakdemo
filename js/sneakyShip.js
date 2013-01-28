@@ -499,86 +499,30 @@ var reset = function() {
 
 var arrest = function() 
 {
- 	heroSpotted = true;
- 	haltReady = true;
- 	
- 	if ((gridx == eGridX)&&(gridy == eGridy))
-		{
-			heroImage.src = "images/hero3.png";
-			reset();
-	    }
-	if ((gridx == e1GridX)&&(gridy == e1Gridy))
-		{
-			heroImage.src = "images/hero3.png";
-			reset();
-	    }
-	if ((gridx == e2GridX)&&(gridy == e2Gridy))
-		{
-			heroImage.src = "images/hero3.png";
-			reset();
-	    }
-	if ((gridx == e3GridX)&&(gridy == e3Gridy))
-		{
-			heroImage.src = "images/hero3.png";
-			reset();
-	    }
-	if ((gridx == e4GridX)&&(gridy == e4Gridy))
-		{
-			heroImage.src = "images/hero3.png";
-			reset();
-	    }
-	if ((gridx + 1 == eGridX)&&(gridy == eGridy))
-		{
-			heroImage.src = "images/hero3.png";
-			reset();
-	    }
-	if ((gridx + 1 == e1GridX)&&(gridy == e1Gridy))
-		{
-			heroImage.src = "images/hero3.png";
-			reset();
-	    }
-	if ((gridx + 1 == e2GridX)&&(gridy == e2Gridy))
-		{
-			heroImage.src = "images/hero3.png";
-			reset();
-	    }
-	if ((gridx + 1 == e3GridX)&&(gridy == e3Gridy))
-		{
-			heroImage.src = "images/hero3.png";
-			reset();
-	    }
-	if ((gridx + 1 == e4GridX)&&(gridy == e4Gridy))
-		{
-			heroImage.src = "images/hero3.png";
-			reset();
-	    }
-	    
-	 if ((gridx == eGridX)&&(gridy + 1  == eGridy))
-		{
-			heroImage.src = "images/hero3.png";
-			reset();
-	    }
-	if ((gridx == e1GridX)&&(gridy + 1  == e1Gridy))
-		{
-			heroImage.src = "images/hero3.png";
-			reset();
-	    }
-	if ((gridx == e2GridX)&&(gridy + 1  == e2Gridy))
-		{
-			heroImage.src = "images/hero3.png";
-			reset();
-	    }
-	if ((gridx == e3GridX)&&(gridy + 1  == e3Gridy))
-		{
-			heroImage.src = "images/hero3.png";
-			reset();
-	    }
-	if ((gridx == e4GridX)&&(gridy + 1  == e4Gridy))
-		{
-			heroImage.src = "images/hero3.png";
-			reset();
-	    }
+	heroSpotted = true;
+	haltReady = true;
 	
+	if (
+		((gridx == eGridX)&&(gridy == eGridy)) ||
+		((gridx == e1GridX)&&(gridy == e1Gridy)) ||
+		((gridx == e2GridX)&&(gridy == e2Gridy)) ||
+		((gridx == e3GridX)&&(gridy == e3Gridy)) ||
+		((gridx == e4GridX)&&(gridy == e4Gridy)) ||
+		((gridx + 1 == eGridX)&&(gridy == eGridy)) ||
+		((gridx + 1 == e1GridX)&&(gridy == e1Gridy)) ||
+		((gridx + 1 == e2GridX)&&(gridy == e2Gridy)) ||
+		((gridx + 1 == e3GridX)&&(gridy == e3Gridy)) ||
+		((gridx + 1 == e4GridX)&&(gridy == e4Gridy)) ||
+		((gridx == eGridX)&&(gridy + 1  == eGridy)) ||
+		((gridx == e1GridX)&&(gridy + 1  == e1Gridy)) ||
+		((gridx == e2GridX)&&(gridy + 1  == e2Gridy)) ||
+		((gridx == e3GridX)&&(gridy + 1  == e3Gridy)) ||
+		((gridx == e4GridX)&&(gridy + 1  == e4Gridy))
+		)
+	{
+		heroImage.src = "images/hero3.png";
+		reset();
+	}
 }
 
 
@@ -624,7 +568,6 @@ var stepRight = function()
 
 
 // set up image stepping functions for enemies
-
 var dirs = ["Left", "Right", "Up", "Down"];
 function eStepSwitcher(whichImg)
 {
