@@ -73,22 +73,21 @@ var e4Gridy = 0;
 // add variables for arrest method
 var heroSpotted = false;
 
-//Add points for the monster to pat to:
+//Add points for the monsters[0] to pat to:
 ///////////////////////////////////////
 var aim = 1;
-var targ1y = 438;
 var targ2x =  12;
 var targ3y = 335;
 var targ4x = 120;
 
-//add points for the monster1 to pat to:
+//add points for the monsters[1] to pat to:
 ///////////////////////////////////////////
 var aim1 = 1;
 var targ11y = 226;
 var targ13y = 30;
 var targ14x = 120
 
-//add points for the monster2 to pat to:
+//add points for the monsters[2] to pat to:
 ///////////////////////////////////////////
 var aim2 = 1;
 var targ21y = 144;
@@ -96,7 +95,7 @@ var targ22x =  310;
 var targ23y = 295;
 var targ24x = 162;
 
-//add points for the monster3 to pat to:
+//add points for the monsters[3] to pat to:
 ///////////////////////////////////////////
 var aim3 = 1;
 var targ32y = 440;
@@ -104,7 +103,7 @@ var targ31x =  155;
 var targ34y = 288;
 var targ33x = 310;
 
-//add points for monster 1.1(4) to pat to:
+//add points for monsters[0] 1.1(4) to pat to:
 //////////////////////////////////////////
 var aim4 = 3;
 var targ41y = 226;
@@ -246,45 +245,38 @@ heroImage.onload = function () {
 	heroReady = true;
 }; heroImage.src = "images/hero2.png";
 
-// Enemy image
-var monsterReady = false;
-var monsterImage = new Image();
-monsterImage.onload = function () {
-	monsterReady = true;
-};
-monsterImage.src = "images/enemyDown1.png";
 
-// Enemy1 image
-var monster1Ready = false;
-var monster1Image = new Image();
-monster1Image.onload = function () {
-	monster1Ready = true;
-};
-monster1Image.src = "images/enemyDown1.png";
+var dirs = ["Left", "Right", "Up", "Down"];
+function Monster()
+{
+	this.img = new Image();
+	this.img.src = "images/enemyDown1.png";
+	this.ready = false;
+	this.img.onload = this.setReady(this);
+	this.speed = 50;
 
-// Enemy2 image
-var monster2Ready = false;
-var monster2Image = new Image();
-monster2Image.onload = function () {
-	monster2Ready = true;
+	this.state = 0;
+}
+Monster.prototype.setReady = function(theMonster) {
+	return function() {
+		theMonster.ready = true;
+	}
 };
-monster2Image.src = "images/enemyUp1.png";
+Monster.prototype.draw = function() {
+	if(this.ready) ctx.drawImage(this.img, this.x, this.y);
+};
+Monster.prototype.step = function(dir)
+{
+	++this.state;
+	if(this.state == 4) this.state = 0;
+	this.img.src = "images/enemy" + dirs[dir] + (1 + this.state) + ".png";
+};
 
-// Enemy3 image
-var monster3Ready = false;
-var monster3Image = new Image();
-monster3Image.onload = function () {
-	monster3Ready = true;
-};
-monster3Image.src = "images/enemyLeft1.png";
-
-// Enemy4 image
-var monster4Ready = false;
-var monster4Image = new Image();
-monster4Image.onload = function () {
-	monster4Ready = true;
-};
-monster3Image.src = "images/enemyUp1.png";
+var monsters = new Array();
+for(var i = 0; i < 5; ++i)
+{
+	monsters[i] = new Monster();
+}
 
 // Archer1 image
 var archer1Ready = false;
@@ -325,26 +317,6 @@ arrow3Image.src = "images/arrow.png";
 var spotter = 0;
 
 
-
-function GameObj(img)
-{
-	this.curImg = img;
-}
-GameObj.prototype.drawInGame = function()
-{
-	ctx.drawImage(this.curImg, this.x, this.y);
-};
-function Enemy()
-{
-	this.img = "";
-};
-Enemy.prototype = {
-	step : function(direction, state)
-	{
-
-	}
-};
-
 // Game objects
 var hero = {
 	speed: 120 // movement in pixels per second **** adding speed to cope for lag***** 120 up from 100
@@ -362,26 +334,8 @@ var arrow3 = {
 	speed: 270
 };
 //movement in pixels per second
-var monster = {
-	speed: 50
-};
-
-var monster1 = {
-	speed: 50,
-	xBound: 12
-};
-
-var monster2 = {
-	speed: 50
-};
-
-var monster3 = {
-	speed: 50
-};
-
-var monster4 = {
-	speed: 50
-};
+monsters[0].yBound = 438;
+monsters[1].xBound = 12;
 
 var archer1 = {
 };
@@ -410,20 +364,20 @@ addEventListener("keyup", function (e) {
 
 var mRespawn = function () 
 {
-	monster.x = 115;
-	monster.y = 384;
+	monsters[0].x = 115;
+	monsters[0].y = 384;
 	
-	monster1.x = 115;
-	monster1.y = 60;
+	monsters[1].x = 115;
+	monsters[1].y = 60;
 	
-	monster2.x = 160;
-	monster2.y = 214;
+	monsters[2].x = 160;
+	monsters[2].y = 214;
 	
-	monster3.x = 305;
-	monster3.y = 290;
+	monsters[3].x = 305;
+	monsters[3].y = 290;
 	
-	monster4.x = 12;
-	monster4.y = 208;
+	monsters[4].x = 12;
+	monsters[4].y = 208;
 	
 	archer1.x = 352;
 	archer1.y = 322;
@@ -447,7 +401,7 @@ var mRespawn = function ()
 //var detected = function()
 //{
 	
-// Reset the game when the player catches a monster
+// Reset the game when the player catches a monsters[0]
 var reset = function() {
 	aim = 1;
 	aim1 = 1;
@@ -512,27 +466,20 @@ stepSwitcher.prototype.step = function(dir)
 
 var hStepper = new stepSwitcher(true, heroImage);
 
-// set up image stepping functions for enemies
-
-var stepE1 = new stepSwitcher(false, monsterImage);
-var stepE2 = new stepSwitcher(false, monster1Image);
-var stepE3 = new stepSwitcher(false, monster2Image);
-var stepE4 = new stepSwitcher(false, monster3Image);
-var stepE5 = new stepSwitcher(false, monster4Image);
 
 //re iterate for enemy down
 ////////////////////////////////
 var eAnimateD = function()
 {
-		eNewY = Math.floor(monster.y);
-		eStepper = targ1y - monster.y;
+		eNewY = Math.floor(monsters[0].y);
+		eStepper = monsters[0].yBound - monsters[0].y;
 		eStepper = Math.floor(eStepper);
 	
-	if(eNewY != targ1y)
+	if(eNewY != monsters[0].yBound)
 		{
 			if(eStepper % 10 == 0)
 				{
-					stepE1.step(3);
+					monsters[0].step(3);
 				}
 	
 		}
@@ -542,15 +489,15 @@ var eAnimateD = function()
 ////////////////////////////////
 var e1AnimateD = function()
 {
-		e1NewY = Math.floor(monster1.y);
-		e1Stepper = targ1y - monster1.y;
+		e1NewY = Math.floor(monsters[1].y);
+		e1Stepper = monsters[0].yBound - monsters[1].y;
 		e1Stepper = Math.floor(e1Stepper);
 	
 	if(e1NewY != targ11y)
 		{
 			if(e1Stepper % 10 == 0)
 				{
-					stepE2.step(3);
+					monsters[1].step(3);
 				}
 	
 		}
@@ -560,15 +507,15 @@ var e1AnimateD = function()
 ////////////////////////////////
 var e2AnimateD = function()
 {
-		e2NewY = Math.floor(monster2.y);
-		e2Stepper = targ21y - monster2.y;
+		e2NewY = Math.floor(monsters[2].y);
+		e2Stepper = targ21y - monsters[2].y;
 		e2Stepper = Math.floor(e2Stepper);
 	
 	if(e2NewY != targ21y)
 		{
 			if(e2Stepper % 10 == 0)
 				{
-					stepE3.step(3);
+					monsters[2].step(3);
 				}
 	
 		}
@@ -578,15 +525,15 @@ var e2AnimateD = function()
 ////////////////////////////////
 var e3AnimateD = function()
 {
-		e3NewY = Math.floor(monster3.y);
-		e3Stepper = targ32y - monster3.y;
+		e3NewY = Math.floor(monsters[3].y);
+		e3Stepper = targ32y - monsters[3].y;
 		e3Stepper = Math.floor(e3Stepper);
 	
 	if(e3NewY != targ32y)
 		{
 			if(e3Stepper % 10 == 0)
 				{
-					stepE4.step(3);
+					monsters[3].step(3);
 				}
 	
 		}
@@ -595,15 +542,15 @@ var e3AnimateD = function()
 ///////////////////////////////////
 var e4AnimateD = function()
 {
-		e4NewY = Math.floor(monster4.y);
-		e4Stepper = targ41y - monster4.y;
+		e4NewY = Math.floor(monsters[4].y);
+		e4Stepper = targ41y - monsters[4].y;
 		e4Stepper = Math.floor(e4Stepper);
 	
 	if(e4NewY != targ41y)
 		{
 			if(e4Stepper % 10 == 0)
 				{
-					stepE5.step(3);
+					monsters[4].step(3);
 				}
 	
 		}
@@ -635,15 +582,15 @@ var animateU = function()
 ///////////////////////////////////////////
 var eAnimateU = function()
 {
-		eNewY = Math.floor(monster.y);
-		eStepper = monster.y - targ3y;
+		eNewY = Math.floor(monsters[0].y);
+		eStepper = monsters[0].y - targ3y;
 		eStepper = Math.floor(eStepper);
 	
 	if(eNewY != targ3y)
 		{
 			if(eStepper % 10 == 0)
 				{
-					stepE1.step(2);
+					monsters[0].step(2);
 				}
 	
 		}
@@ -653,15 +600,15 @@ var eAnimateU = function()
 ///////////////////////////////////////////
 var e1AnimateU = function()
 {
-		e1NewY = Math.floor(monster1.y);
-		e1Stepper = monster1.y - targ13y;
+		e1NewY = Math.floor(monsters[1].y);
+		e1Stepper = monsters[1].y - targ13y;
 		e1Stepper = Math.floor(e1Stepper);
 	
 	if(e1NewY != targ13y)
 		{
 			if(e1Stepper % 10 == 0)
 				{
-					stepE2.step(2);
+					monsters[1].step(2);
 				}
 	
 		}
@@ -671,15 +618,15 @@ var e1AnimateU = function()
 ///////////////////////////////////////////
 var e2AnimateU = function()
 {
-		e2NewY = Math.floor(monster2.y);
-		e2Stepper = monster2.y - targ23y;
+		e2NewY = Math.floor(monsters[2].y);
+		e2Stepper = monsters[2].y - targ23y;
 		e2Stepper = Math.floor(e2Stepper);
 	
 	if(e2NewY != targ23y)
 		{
 			if(e2Stepper % 10 == 0)
 				{
-					stepE3.step(2);
+					monsters[2].step(2);
 				}
 	
 		}
@@ -689,15 +636,15 @@ var e2AnimateU = function()
 ///////////////////////////////////////////
 var e3AnimateU = function()
 {
-		e3NewY = Math.floor(monster3.y);
-		e3Stepper = monster3.y - targ34y;
+		e3NewY = Math.floor(monsters[3].y);
+		e3Stepper = monsters[3].y - targ34y;
 		e3Stepper = Math.floor(e3Stepper);
 	
 	if(e3NewY != targ34y)
 		{
 			if(e3Stepper % 10 == 0)
 				{
-					stepE4.step(2);
+					monsters[3].step(2);
 				}
 	
 		}
@@ -707,15 +654,15 @@ var e3AnimateU = function()
 ///////////////////////////////////////////
 var e4AnimateU = function()
 {
-		e4NewY = Math.floor(monster4.y);
-		e4Stepper = monster4.y - targ43y;
+		e4NewY = Math.floor(monsters[4].y);
+		e4Stepper = monsters[4].y - targ43y;
 		e4Stepper = Math.floor(e4Stepper);
 	
 	if(e4NewY != targ43y)
 		{
 			if(e4Stepper % 10 == 0)
 				{
-					stepE5.step(2);
+					monsters[4].step(2);
 				}
 	
 		}
@@ -746,15 +693,15 @@ var animateL = function()
 ////////////////////////////////////////
 var eAnimateL = function()
 {
-		eNewX = Math.floor(monster.x);
-		eStepper = monster.x - targ2x;
+		eNewX = Math.floor(monsters[0].x);
+		eStepper = monsters[0].x - targ2x;
 		eStepper = Math.floor(eStepper);
 	
 	if(eNewX != targ2x)
 		{
 			if(eStepper % 10 == 0)
 				{
-					stepE1.step(0);
+					monsters[0].step(0);
 				}
 	
 		}
@@ -765,15 +712,15 @@ var eAnimateL = function()
 ////////////////////////////////////////
 var e1AnimateL = function()
 {
-	e1NewX = Math.floor(monster1.x);
-	e1Stepper = monster1.x - monster1.xBound;
+	e1NewX = Math.floor(monsters[1].x);
+	e1Stepper = monsters[1].x - monsters[1].xBound;
 	e1Stepper = Math.floor(e1Stepper);
 	
-	if(e1NewX != monster1.xBound)
+	if(e1NewX != monsters[1].xBound)
 	{
 		if(e1Stepper % 10 == 0)
 		{
-			stepE2.step(0);
+			monsters[1].step(0);
 		}
 	}
 };
@@ -782,15 +729,15 @@ var e1AnimateL = function()
 ////////////////////////////////////////
 var e2AnimateL = function()
 {
-	e2NewX = Math.floor(monster2.x);
-	e2Stepper = monster2.x - targ22x;
+	e2NewX = Math.floor(monsters[2].x);
+	e2Stepper = monsters[2].x - targ22x;
 	e2Stepper = Math.floor(e2Stepper);
 	
 	if(e2NewX != targ22x)
 	{
 		if(e2Stepper % 10 == 0)
 		{
-			stepE3.step(0);
+			monsters[2].step(0);
 		}
 	}
 };
@@ -799,15 +746,15 @@ var e2AnimateL = function()
 ////////////////////////////////////////
 var e3AnimateL = function()
 {
-	e3NewX = Math.floor(monster3.x);
-	e3Stepper = monster3.x - targ33x;
+	e3NewX = Math.floor(monsters[3].x);
+	e3Stepper = monsters[3].x - targ33x;
 	e3Stepper = Math.floor(e3Stepper);
 	
 	if(e3NewX != targ33x)
 	{
 		if(e3Stepper % 10 == 0)
 		{
-			stepE4.step(0);
+			monsters[3].step(0);
 		}
 	}
 };
@@ -816,15 +763,15 @@ var e3AnimateL = function()
 ////////////////////////////////////////
 var e4AnimateL = function()
 {
-	e4NewX = Math.floor(monster4.x);
-	e4Stepper = monster4.x - targ42x;
+	e4NewX = Math.floor(monsters[4].x);
+	e4Stepper = monsters[4].x - targ42x;
 	e4Stepper = Math.floor(e4Stepper);
 	
 	if(e4NewX != targ42x)
 		{
 			if(e4Stepper % 10 == 0)
 				{
-					stepE5.step(0);
+					monsters[4].step(0);
 				}
 	
 		}
@@ -860,15 +807,15 @@ var animateR = function()
 //////////////////////////////////
 var eAnimateR = function()
 {
-		eNewX = Math.floor(monster.x);
-		eStepper = targ4x - monster.x;
+		eNewX = Math.floor(monsters[0].x);
+		eStepper = targ4x - monsters[0].x;
 		eStepper = Math.floor(eStepper);
 	
 	if(eNewX != targ4x)
 		{
 			if(eStepper % 10 == 0)
 				{
-					stepE1.step(1);
+					monsters[0].step(1);
 				}
 	
 		}
@@ -878,15 +825,15 @@ var eAnimateR = function()
 //////////////////////////////////
 var e1AnimateR = function()
 {
-		e1NewX = Math.floor(monster1.x);
-		e1Stepper = targ14x - monster1.x;
+		e1NewX = Math.floor(monsters[1].x);
+		e1Stepper = targ14x - monsters[1].x;
 		e1Stepper = Math.floor(e1Stepper);
 	
 	if(e1NewX != targ14x)
 		{
 			if(e1Stepper % 10 == 0)
 				{
-					stepE2.step(1);
+					monsters[1].step(1);
 				}
 	
 		}
@@ -896,15 +843,15 @@ var e1AnimateR = function()
 //////////////////////////////////
 var e2AnimateR = function()
 {
-		e2NewX = Math.floor(monster2.x);
-		e2Stepper = targ24x - monster2.x;
+		e2NewX = Math.floor(monsters[2].x);
+		e2Stepper = targ24x - monsters[2].x;
 		e2Stepper = Math.floor(e2Stepper);
 	
 	if(e2NewX != targ24x)
 		{
 			if(e2Stepper % 10 == 0)
 				{
-					stepE3.step(1);
+					monsters[2].step(1);
 				}
 	
 		}
@@ -914,15 +861,15 @@ var e2AnimateR = function()
 //////////////////////////////////
 var e3AnimateR = function()
 {
-		e3NewX = Math.floor(monster3.x);
-		e3Stepper = targ33x - monster3.x;
+		e3NewX = Math.floor(monsters[3].x);
+		e3Stepper = targ33x - monsters[3].x;
 		e3Stepper = Math.floor(e3Stepper);
 	
 	if(e3NewX != targ33x)
 		{
 			if(e3Stepper % 10 == 0)
 				{
-					stepE4.step(1);
+					monsters[3].step(1);
 				}
 	
 		}
@@ -932,15 +879,15 @@ var e3AnimateR = function()
 //////////////////////////////////
 var e4AnimateR = function()
 {
-		e4NewX = Math.floor(monster4.x);
-		e4Stepper = targ44x - monster4.x;
+		e4NewX = Math.floor(monsters[4].x);
+		e4Stepper = targ44x - monsters[4].x;
 		e4Stepper = Math.floor(e4Stepper);
 	
 	if(e4NewX != targ44x)
 		{
 			if(e4Stepper % 10 == 0)
 				{
-					stepE5.step(1);
+					monsters[4].step(1);
 				}
 	
 		}
@@ -959,20 +906,20 @@ var update = function (modifier)
 	gridy = Math.ceil(hero.y/16);
 	if(gameState == 1)
 	{
-	eGridX = Math.ceil(monster.x/16);
-	eGridy = Math.ceil(monster.y/16);
+	eGridX = Math.ceil(monsters[0].x/16);
+	eGridy = Math.ceil(monsters[0].y/16);
 	
-	e1GridX = Math.ceil(monster1.x/16);
-	e1Gridy = Math.ceil(monster1.y/16);
+	e1GridX = Math.ceil(monsters[1].x/16);
+	e1Gridy = Math.ceil(monsters[1].y/16);
 	
-	e2GridX = Math.ceil(monster2.x/16);
-	e2Gridy = Math.ceil(monster2.y/16);
+	e2GridX = Math.ceil(monsters[2].x/16);
+	e2Gridy = Math.ceil(monsters[2].y/16);
 	
-	e3GridX = Math.ceil(monster3.x/16);
-	e3Gridy = Math.ceil(monster3.y/16);
+	e3GridX = Math.ceil(monsters[3].x/16);
+	e3Gridy = Math.ceil(monsters[3].y/16);
 	
-	e4GridX = Math.ceil(monster4.x/16);
-	e4Gridy = Math.ceil(monster4.y/16);
+	e4GridX = Math.ceil(monsters[4].x/16);
+	e4Gridy = Math.ceil(monsters[4].y/16);
 	}
 	if(heroSpotted == false)
 	{
@@ -1065,19 +1012,19 @@ var update = function (modifier)
 	//move from spawn to target 1
 if (gameState == 1)
 {
-	if((aim == 1) && (monster.y < targ1y))
+	if((aim == 1) && (monsters[0].y < monsters[0].yBound))
 	{	
-		monster.y += monster.speed * modifier;
+		monsters[0].y += monsters[0].speed * modifier;
 		eAnimateD();
-		if(((monster.x - 5) < (hero.x)) && ((hero.x) < (monster.x + 5)))
+		if(((monsters[0].x - 5) < (hero.x)) && ((hero.x) < (monsters[0].x + 5)))
 		{
-			if (hero.y > monster.y)
+			if (hero.y > monsters[0].y)
 			{
 				arrest(); 
 				spotter = 0;
 			}
 		}
-		if((targ1y - 5) < (monster.y))
+		if((monsters[0].yBound - 5) < (monsters[0].y))
 		{
 			aim = 2;	
 		}
@@ -1085,57 +1032,57 @@ if (gameState == 1)
 	
 	
 	
-	if((aim == 2) && (monster.x > targ2x))
+	if((aim == 2) && (monsters[0].x > targ2x))
 	{
-		monster.x -= monster.speed * modifier;
+		monsters[0].x -= monsters[0].speed * modifier;
 		eAnimateL();
-		if(((monster.y - 5) < (hero.y)) && ((hero.y) < (monster.y + 5)))
+		if(((monsters[0].y - 5) < (hero.y)) && ((hero.y) < (monsters[0].y + 5)))
 		{
-			if (hero.x < monster.x)
+			if (hero.x < monsters[0].x)
 			{
 				arrest(); 
 				spotter = 0;
 			}
 		}
 
-		if((targ2x + 5) > (monster.x))
+		if((targ2x + 5) > (monsters[0].x))
 		{
 			aim = 3;
 		}
 	}
 	
-	if((aim == 3) && (monster.y > targ3y))
+	if((aim == 3) && (monsters[0].y > targ3y))
 	{
-		monster.y -= monster.speed * modifier;
+		monsters[0].y -= monsters[0].speed * modifier;
 		eAnimateU();
-		if(((monster.x - 5) < (hero.x)) && ((hero.x) < (monster.x + 5)))
+		if(((monsters[0].x - 5) < (hero.x)) && ((hero.x) < (monsters[0].x + 5)))
 		{
-			if ((hero.y < monster.y) && (hero.y > 315))
+			if ((hero.y < monsters[0].y) && (hero.y > 315))
 			{
 				arrest();
 				spotter = 0;
 			}
 		}
 
-		if((targ3y + 5) > (monster.y))
+		if((targ3y + 5) > (monsters[0].y))
 		{
 			aim = 4;
 		}
 	}
-	if((aim == 4) && (monster.x < targ4x))
+	if((aim == 4) && (monsters[0].x < targ4x))
 	{
-		monster.x += monster.speed * modifier;
+		monsters[0].x += monsters[0].speed * modifier;
 		eAnimateR();
-		if(((monster.y - 16) < (hero.y)) && ((hero.y) < (monster.y + 5)))
+		if(((monsters[0].y - 16) < (hero.y)) && ((hero.y) < (monsters[0].y + 5)))
 		{
-			if ((hero.x > monster.x) && (hero.x < 130))
+			if ((hero.x > monsters[0].x) && (hero.x < 130))
 			{
 				arrest(); 
 				spotter = 0;
 			}
 		}
 
-		if((targ4x - 5) < (monster.x))
+		if((targ4x - 5) < (monsters[0].x))
 		{
 			aim = 1;
 		}
@@ -1144,19 +1091,19 @@ if (gameState == 1)
 	//re iterate for enemy1
 	////////////////////////////////////
 	
-	if((aim1 == 1) && (monster1.y < targ11y))
+	if((aim1 == 1) && (monsters[1].y < targ11y))
 	{
-		monster1.y += monster1.speed * modifier;
+		monsters[1].y += monsters[1].speed * modifier;
 		e1AnimateD();
-		if(((monster1.x - 10) < (hero.x)) && ((hero.x) < (monster1.x + 10)))
+		if(((monsters[1].x - 10) < (hero.x)) && ((hero.x) < (monsters[1].x + 10)))
 		{
-			if ((monster1.y < hero.y) && (hero.y < 245))
+			if ((monsters[1].y < hero.y) && (hero.y < 245))
 			{
 				arrest(); 
 				spotter = 1;
 			}
 		}
-		if((targ11y - 5) < (monster1.y))
+		if((targ11y - 5) < (monsters[1].y))
 		{
 			aim1 = 2;	
 		}
@@ -1164,55 +1111,55 @@ if (gameState == 1)
 	
 	
 	
-	if((aim1 == 2) && (monster1.x > monster1.xBound))
+	if((aim1 == 2) && (monsters[1].x > monsters[1].xBound))
 	{
-		monster1.x -= monster1.speed * modifier;
+		monsters[1].x -= monsters[1].speed * modifier;
 		e1AnimateL();
-		if(((monster1.y - 10) < (hero.y)) && ((hero.y) < (monster1.y + 10)))
+		if(((monsters[1].y - 10) < (hero.y)) && ((hero.y) < (monsters[1].y + 10)))
 		{
-			if (hero.x < monster1.x)
+			if (hero.x < monsters[1].x)
 			{
 				arrest(); 
 				spotter = 1;
 			}
 		}
-		if((monster1.xBound + 5) > (monster1.x))
+		if((monsters[1].xBound + 5) > (monsters[1].x))
 		{
 			aim1 = 3;
 		}
 	}
 	
-	if((aim1 == 3) && (monster1.y > targ13y))
+	if((aim1 == 3) && (monsters[1].y > targ13y))
 	{
-		monster1.y -= monster1.speed * modifier;
+		monsters[1].y -= monsters[1].speed * modifier;
 		e1AnimateU();
-		if(((monster1.x - 10) < (hero.x)) && ((hero.x) < (monster1.x + 10)))
+		if(((monsters[1].x - 10) < (hero.x)) && ((hero.x) < (monsters[1].x + 10)))
 		{
-			if ((monster1.y > hero.y) && (hero.y < 200))
+			if ((monsters[1].y > hero.y) && (hero.y < 200))
 			{
 				arrest();
 				spotter = 1;
 			} 
 		}
-		if((targ13y + 5) > (monster1.y))
+		if((targ13y + 5) > (monsters[1].y))
 		{
 			aim1 = 4;
 		}
 	}
-	if((aim1 == 4) && (monster1.x < targ14x))
+	if((aim1 == 4) && (monsters[1].x < targ14x))
 	{
-		monster1.x += monster1.speed * modifier;
+		monsters[1].x += monsters[1].speed * modifier;
 		e1AnimateR();
-		if(((monster1.y - 10) < (hero.y)) && ((hero.y) < (monster1.y + 5)))
+		if(((monsters[1].y - 10) < (hero.y)) && ((hero.y) < (monsters[1].y + 5)))
 		{
-			if ((hero.x > monster1.x) && (hero.x < 120))
+			if ((hero.x > monsters[1].x) && (hero.x < 120))
 			{
 				arrest(); 
 				spotter = 1;
 			}
 		}
 
-		if((targ14x - 5) < (monster1.x))
+		if((targ14x - 5) < (monsters[1].x))
 		{
 			aim1 = 1;
 		}
@@ -1222,19 +1169,19 @@ if (gameState == 1)
 	//re iterate for enemy2
 	////////////////////////////////////
 	
-	if((aim2 == 3) && (monster2.y < targ23y))
+	if((aim2 == 3) && (monsters[2].y < targ23y))
 	{
-		monster2.y += monster2.speed * modifier;
+		monsters[2].y += monsters[2].speed * modifier;
 		e2AnimateD();
-		if(((monster2.x - 10) < (hero.x)) && ((hero.x) < (monster2.x + 10)))
+		if(((monsters[2].x - 10) < (hero.x)) && ((hero.x) < (monsters[2].x + 10)))
 		{
-			if ((hero.y > monster2.y))
+			if ((hero.y > monsters[2].y))
 			{
 				arrest(); 
 				spotter = 2;
 			}
 		}
-		if((targ23y - 5) < (monster2.y))
+		if((targ23y - 5) < (monsters[2].y))
 		{
 			aim2 = 4;	
 		}
@@ -1242,54 +1189,54 @@ if (gameState == 1)
 	
 	
 	
-	if((aim2 == 4) && (monster2.x > targ24x))
+	if((aim2 == 4) && (monsters[2].x > targ24x))
 	{
-		monster2.x -= monster2.speed * modifier;
+		monsters[2].x -= monsters[2].speed * modifier;
 		e2AnimateL();
-		if(((monster2.y - 10) < (hero.y)) && ((hero.y) < (monster2.y + 5)))
+		if(((monsters[2].y - 10) < (hero.y)) && ((hero.y) < (monsters[2].y + 5)))
 		{
-			if ((hero.x < monster2.x) && (hero.x > 134))
+			if ((hero.x < monsters[2].x) && (hero.x > 134))
 			{
 				arrest(); 
 				spotter = 2;
 			}
 		}
-		if((targ24x + 5) > (monster2.x))
+		if((targ24x + 5) > (monsters[2].x))
 		{
 			aim2 = 1;
 		}
 	}
 	
-	if((aim2 == 1) && (monster2.y > targ21y))
+	if((aim2 == 1) && (monsters[2].y > targ21y))
 	{
-		monster2.y -= monster2.speed * modifier;
+		monsters[2].y -= monsters[2].speed * modifier;
 		e2AnimateU();
-		if(((monster2.x - 10) < (hero.x)) && ((hero.x) < (monster2.x + 10)))
+		if(((monsters[2].x - 10) < (hero.x)) && ((hero.x) < (monsters[2].x + 10)))
 		{
-			if((hero.y < monster2.y) && (hero.y > 118))
+			if((hero.y < monsters[2].y) && (hero.y > 118))
 			{
 				arrest(); 
 				spotter = 2;
 			}
 		}
-		if((targ21y + 5) > (monster2.y))
+		if((targ21y + 5) > (monsters[2].y))
 		{
 			aim2 = 2;
 		}
 	}
-	if((aim2 == 2) && (monster2.x < targ22x))
+	if((aim2 == 2) && (monsters[2].x < targ22x))
 	{
-		monster2.x += monster2.speed * modifier;
+		monsters[2].x += monsters[2].speed * modifier;
 		e2AnimateR();
-		if(((monster2.y - 10) < (hero.y)) && ((hero.y) < (monster2.y + 5)))
+		if(((monsters[2].y - 10) < (hero.y)) && ((hero.y) < (monsters[2].y + 5)))
 		{
-			if ((hero.x > monster2.x) && (hero.x < 325))
+			if ((hero.x > monsters[2].x) && (hero.x < 325))
 			{
 				arrest(); 
 				spotter = 2;
 			}
 		}
-		if((targ22x - 5) < (monster2.x))
+		if((targ22x - 5) < (monsters[2].x))
 		{
 			aim2 = 3;
 		}
@@ -1299,19 +1246,19 @@ if (gameState == 1)
 	//re iterate for enemy3
 	////////////////////////////////////
 	
-	if((aim3 == 2) && (monster3.y < targ32y))
+	if((aim3 == 2) && (monsters[3].y < targ32y))
 	{
-		monster3.y += monster3.speed * modifier;
+		monsters[3].y += monsters[3].speed * modifier;
 		e3AnimateD();
-		if(((monster3.x - 10) < (hero.x)) && ((hero.x) < (monster3.x + 10)))
+		if(((monsters[3].x - 10) < (hero.x)) && ((hero.x) < (monsters[3].x + 10)))
 		{
-			if((hero.y > monster3.y) && (hero.y > 300))
+			if((hero.y > monsters[3].y) && (hero.y > 300))
 			{
 				arrest(); 
 				spotter = 3;
 			}
 		}
-		if((targ32y - 5) < (monster3.y))
+		if((targ32y - 5) < (monsters[3].y))
 		{
 			aim3 = 3;	
 		}
@@ -1319,55 +1266,55 @@ if (gameState == 1)
 	
 	
 	
-	if((aim3 == 1) && (monster3.x > targ31x))
+	if((aim3 == 1) && (monsters[3].x > targ31x))
 	{
-		monster3.x -= monster3.speed * modifier;
+		monsters[3].x -= monsters[3].speed * modifier;
 		e3AnimateL();
-		if(((monster3.y - 10) < (hero.y)) && ((hero.y) < (monster3.y + 5)))
+		if(((monsters[3].y - 10) < (hero.y)) && ((hero.y) < (monsters[3].y + 5)))
 		{
-			if ((hero.x < monster3.x) && (hero.x > 135))
+			if ((hero.x < monsters[3].x) && (hero.x > 135))
 			{
 				arrest(); 
 				spotter = 3;
 			}
 		}
 
-		if((targ31x + 5) > (monster3.x))
+		if((targ31x + 5) > (monsters[3].x))
 		{
 			aim3 = 2;
 		}
 	}
 	
-	if((aim3 == 4) && (monster3.y > targ34y))
+	if((aim3 == 4) && (monsters[3].y > targ34y))
 	{
-		monster3.y -= monster3.speed * modifier;
+		monsters[3].y -= monsters[3].speed * modifier;
 		e3AnimateU();
-		if(((monster3.x - 10) < (hero.x)) && ((hero.x) < (monster3.x + 10)))
+		if(((monsters[3].x - 10) < (hero.x)) && ((hero.x) < (monsters[3].x + 10)))
 		{
-			if((hero.y < monster3.y) && (hero.y > 70))
+			if((hero.y < monsters[3].y) && (hero.y > 70))
 			{
 				arrest(); 
 				spotter = 3;
 			}
 		}
-		if((targ34y + 5) > (monster3.y))
+		if((targ34y + 5) > (monsters[3].y))
 		{
 			aim3 = 1;
 		}
 	}
-	if((aim3 == 3) && (monster3.x < targ33x))
+	if((aim3 == 3) && (monsters[3].x < targ33x))
 	{
-		monster3.x += monster3.speed * modifier;
+		monsters[3].x += monsters[3].speed * modifier;
 		e3AnimateR();
-		if(((monster3.y - 10) < (hero.y)) && ((hero.y) < (monster3.y + 5)))
+		if(((monsters[3].y - 10) < (hero.y)) && ((hero.y) < (monsters[3].y + 5)))
 		{
-			if ((hero.x > monster3.x) && (hero.x < 325))
+			if ((hero.x > monsters[3].x) && (hero.x < 325))
 			{
 				arrest(); 
 				spotter = 3;
 			}
 		}
-		if((targ33x - 5) < (monster3.x))
+		if((targ33x - 5) < (monsters[3].x))
 		{
 			aim3 = 4;
 		}
@@ -1375,74 +1322,74 @@ if (gameState == 1)
 	
 	
 	//reiterate for enemy 4
-	if((aim4 == 1) && (monster4.y < targ41y))
+	if((aim4 == 1) && (monsters[4].y < targ41y))
 	{
-		monster4.y += monster4.speed * modifier;
+		monsters[4].y += monsters[4].speed * modifier;
 		e4AnimateD();
-		if(((monster4.x - 10) < (hero.x)) && ((hero.x) < (monster4.x + 10)))
+		if(((monsters[4].x - 10) < (hero.x)) && ((hero.x) < (monsters[4].x + 10)))
 		{
-			if ((monster4.y < hero.y) && (hero.y < 245))
+			if ((monsters[4].y < hero.y) && (hero.y < 245))
 			{
 				arrest(); 
 				spotter = 4;
 			}
 		}
-		if((targ41y - 5) < (monster4.y))
+		if((targ41y - 5) < (monsters[4].y))
 		{
 			aim4 = 2;	
 		}
 	}
 	
 	
-	if((aim4 == 2) && (monster4.x > targ42x))
+	if((aim4 == 2) && (monsters[4].x > targ42x))
 	{
-		monster4.x -= monster4.speed * modifier;
+		monsters[4].x -= monsters[4].speed * modifier;
 		e4AnimateL();
-		if(((monster4.y - 10) < (hero.y)) && ((hero.y) < (monster4.y + 10)))
+		if(((monsters[4].y - 10) < (hero.y)) && ((hero.y) < (monsters[4].y + 10)))
 		{
-			if (hero.x < monster4.x)
+			if (hero.x < monsters[4].x)
 			{
 				arrest(); 
 				spotter = 4;
 			}
 		}
-		if((targ42x + 5) > (monster4.x))
+		if((targ42x + 5) > (monsters[4].x))
 		{
 			aim4 = 3;
 		}
 	}
 	
-	if((aim4 == 3) && (monster4.y > targ43y))
+	if((aim4 == 3) && (monsters[4].y > targ43y))
 	{
-		monster4.y -= monster4.speed * modifier;
+		monsters[4].y -= monsters[4].speed * modifier;
 		e4AnimateU();
-		if(((monster4.x - 10) < (hero.x)) && ((hero.x) < (monster4.x + 10)))
+		if(((monsters[4].x - 10) < (hero.x)) && ((hero.x) < (monsters[4].x + 10)))
 		{
-			if ((monster4.y > hero.y) && (hero.y < 200))
+			if ((monsters[4].y > hero.y) && (hero.y < 200))
 			{
 				arrest(); 
 				spotter = 4;
 			}
 		}
-		if((targ43y + 5) > (monster4.y))
+		if((targ43y + 5) > (monsters[4].y))
 		{
 			aim4 = 4;
 		}
 	}
-	if((aim4 == 4) && (monster4.x < targ44x))
+	if((aim4 == 4) && (monsters[4].x < targ44x))
 	{
-		monster4.x += monster4.speed * modifier;
+		monsters[4].x += monsters[4].speed * modifier;
 		e4AnimateR();
-		if(((monster4.y - 10) < (hero.y)) && ((hero.y) < (monster4.y + 5)))
+		if(((monsters[4].y - 10) < (hero.y)) && ((hero.y) < (monsters[4].y + 5)))
 		{
-			if ((hero.x > monster4.x) && (hero.x < 120))
+			if ((hero.x > monsters[4].x) && (hero.x < 120))
 			{
 				arrest(); 
 				spotter = 4;
 			}
 		}
 
-		if((targ44x - 5) < (monster4.x))
+		if((targ44x - 5) < (monsters[4].x))
 		{
 			aim4 = 1;
 		}
@@ -1450,30 +1397,30 @@ if (gameState == 1)
 	
 	if(haltReady && spotter == 3)
 		{
-			if(hero.x < monster3.x)
-   			monster3.x -= monster3.speed * modifier;
-  		 	else if(hero.x > monster3.x)
-   			monster3.x += monster3.speed * modifier;
+			if(hero.x < monsters[3].x)
+   			monsters[3].x -= monsters[3].speed * modifier;
+  		 	else if(hero.x > monsters[3].x)
+   			monsters[3].x += monsters[3].speed * modifier;
  		  	
- 		  	if(hero.y < monster3.y)
-  			monster3.y -= monster3.speed * modifier;
-    		else if (hero.y > monster3.y)
-    		monster3.y += monster3.speed * modifier;
+ 		  	if(hero.y < monsters[3].y)
+  			monsters[3].y -= monsters[3].speed * modifier;
+    		else if (hero.y > monsters[3].y)
+    		monsters[3].y += monsters[3].speed * modifier;
     		arrest();
 
 			
 		}
 	if(haltReady && spotter == 2)
 		{
-			if(hero.x < monster2.x)
-    		monster2.x -= monster2.speed * modifier;
-    		else if (hero.x > monster2.x)
-    		monster2.x += monster2.speed * modifier;
+			if(hero.x < monsters[2].x)
+    		monsters[2].x -= monsters[2].speed * modifier;
+    		else if (hero.x > monsters[2].x)
+    		monsters[2].x += monsters[2].speed * modifier;
     		
-    		if(hero.y < monster2.y)
-    		monster2.y -= monster2.speed * modifier;
-    		else if (hero.y > monster2.y)
-    		monster2.y += monster2.speed * modifier;
+    		if(hero.y < monsters[2].y)
+    		monsters[2].y -= monsters[2].speed * modifier;
+    		else if (hero.y > monsters[2].y)
+    		monsters[2].y += monsters[2].speed * modifier;
     		arrest();
 		}	
 	if((arrow1Ready) && (arrow1.x < 480))
@@ -1595,25 +1542,9 @@ var render = function ()
 			ctx.drawImage(heroImage, hero.x, hero.y);
 		}
 
-		if (monsterReady) 
+		for(var i = monsters.length - 1; i>=0; --i)
 		{
-			ctx.drawImage(monsterImage, monster.x, monster.y);
-		}
-		if (monster1Ready)
-		{
-			ctx.drawImage(monster1Image, monster1.x, monster1.y);
-		}
-		if (monster2Ready) 
-		{
-			ctx.drawImage(monster2Image, monster2.x, monster2.y);
-		}
-		if (monster3Ready) 
-		{
-			ctx.drawImage(monster3Image, monster3.x, monster3.y);
-		}
-		if (monster4Ready) 
-		{
-	    	ctx.drawImage(monster4Image, monster4.x, monster4.y);
+			monsters[i].draw();
 		}
 	
 		if(archer1Ready)
@@ -1645,24 +1576,24 @@ var render = function ()
 		}
 		if(haltReady && spotter == 0)
 		{
-			ctx.drawImage(haltImage, (monster.x - 70), (monster.y - 50))
+			ctx.drawImage(haltImage, (monsters[0].x - 70), (monsters[0].y - 50))
 		}
 		
 		if(haltReady && spotter == 1)
 		{
-			ctx.drawImage(haltImage, (monster1.x - 70), (monster1.y - 50))
+			ctx.drawImage(haltImage, (monsters[1].x - 70), (monsters[1].y - 50))
 		}
 		if(haltReady && spotter == 2)
 		{
-			ctx.drawImage(haltImage, (monster2.x - 70), (monster2.y - 50))
+			ctx.drawImage(haltImage, (monsters[2].x - 70), (monsters[2].y - 50))
 		}
 		if(haltReady && spotter == 3)
 		{
-			ctx.drawImage(haltImage, (monster3.x - 70), (monster3.y - 50))
+			ctx.drawImage(haltImage, (monsters[3].x - 70), (monsters[3].y - 50))
 		}
 		if(haltReady && spotter == 4)
 		{
-			ctx.drawImage(haltImage, (monster4.x - 70), (monster4.y - 50))
+			ctx.drawImage(haltImage, (monsters[4].x - 70), (monsters[4].y - 50))
 		}
 	}
 		
