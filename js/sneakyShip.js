@@ -120,26 +120,13 @@ Actor.prototype.draw = function() {
 	//if(this.ready)
 	 ctx.drawImage(this.img, this.x, this.y);
 };
-Actor.prototype.animate = function(dir) {
-	var order = [2, 4, 3, 1];
-	var focus = dir >= 2 ? "y" : "x";
-
-	var newAmt = Math.floor(this[focus]);
-	var eStepper =  Math.floor(this[focus + order[dir]])- newAmt;
-
-	if(newAmt != this[focus + order[dir]])
-	{
-		if(eStepper % 10 == 0)
-		{
-			this.step(dir);
-		}
-	}
-};
 Actor.prototype.moveBasic=function(isX, param)
 {
 	var amt = this.speed * modifier;
 	if(param) this[isX ? "x" : "y"] -= amt;
 	else this[isX ? "x" : "y"] += amt;
+
+	this.step(isX ? (param ? 0 : 1 ) : (param ? 2 : 3));
 };
 Actor.prototype.moveY=function(isUp)
 {
@@ -471,7 +458,6 @@ if (gameState == 1)
 	if((monsters[0].aim == 1) && (monsters[0].y < monsters[0].y1))
 	{	
 		monsters[0].moveY(false);
-		monsters[0].animate(3);
 		if(((monsters[0].x - 5) < (hero.x)) && ((hero.x) < (monsters[0].x + 5)))
 		{
 			if (hero.y > monsters[0].y)
@@ -488,7 +474,6 @@ if (gameState == 1)
 	if((monsters[0].aim == 2) && (monsters[0].x > monsters[0].x2))
 	{
 		monsters[0].moveX(true);
-		monsters[0].animate(0);
 		if(((monsters[0].y - 5) < (hero.y)) && ((hero.y) < (monsters[0].y + 5)))
 		{
 			if (hero.x < monsters[0].x)
@@ -505,7 +490,6 @@ if (gameState == 1)
 	if((monsters[0].aim == 3) && (monsters[0].y > monsters[0].y3))
 	{
 		monsters[0].moveY(true);
-		monsters[0].animate(2);
 		if(((monsters[0].x - 5) < (hero.x)) && ((hero.x) < (monsters[0].x + 5)))
 		{
 			if ((hero.y < monsters[0].y) && (hero.y > 315))
@@ -522,7 +506,6 @@ if (gameState == 1)
 	if((monsters[0].aim == 4) && (monsters[0].x < monsters[0].x4))
 	{
 		monsters[0].moveX(false);
-		monsters[0].animate(1);
 		if(((monsters[0].y - 16) < (hero.y)) && ((hero.y) < (monsters[0].y + 5)))
 		{
 			if ((hero.x > monsters[0].x) && (hero.x < 130))
@@ -543,7 +526,6 @@ if (gameState == 1)
 	if((monsters[1].aim == 1) && (monsters[1].y < monsters[1].y1))
 	{
 		monsters[1].moveY(false);
-		monsters[1].animate(3);
 		if(((monsters[1].x - 10) < (hero.x)) && ((hero.x) < (monsters[1].x + 10)))
 		{
 			if ((monsters[1].y < hero.y) && (hero.y < 245))
@@ -560,7 +542,6 @@ if (gameState == 1)
 	if((monsters[1].aim == 2) && (monsters[1].x > monsters[1].x2))
 	{
 		monsters[1].moveX(true);
-		monsters[1].animate(0);
 		if(((monsters[1].y - 10) < (hero.y)) && ((hero.y) < (monsters[1].y + 10)))
 		{
 			if (hero.x < monsters[1].x)
@@ -577,7 +558,6 @@ if (gameState == 1)
 	if((monsters[1].aim == 3) && (monsters[1].y > monsters[1].y3))
 	{
 		monsters[1].moveY(true);
-		monsters[1].animate(2);
 		if(((monsters[1].x - 10) < (hero.x)) && ((hero.x) < (monsters[1].x + 10)))
 		{
 			if ((monsters[1].y > hero.y) && (hero.y < 200))
@@ -594,7 +574,6 @@ if (gameState == 1)
 	if((monsters[1].aim == 4) && (monsters[1].x < monsters[1].x4))
 	{
 		monsters[1].moveX(false);
-		monsters[1].animate(1);
 		if(((monsters[1].y - 10) < (hero.y)) && ((hero.y) < (monsters[1].y + 5)))
 		{
 			if ((hero.x > monsters[1].x) && (hero.x < 120))
@@ -616,7 +595,6 @@ if (gameState == 1)
 	if((monsters[2].aim == 3) && (monsters[2].y < monsters[2].y3))
 	{
 		monsters[2].moveY(false);
-		monsters[2].animate(3);
 		if(((monsters[2].x - 10) < (hero.x)) && ((hero.x) < (monsters[2].x + 10)))
 		{
 			if ((hero.y > monsters[2].y))
@@ -633,7 +611,6 @@ if (gameState == 1)
 	if((monsters[2].aim == 4) && (monsters[2].x > monsters[2].x4))
 	{
 		monsters[2].moveX(true);
-		monsters[2].animate(0);
 		if(((monsters[2].y - 10) < (hero.y)) && ((hero.y) < (monsters[2].y + 5)))
 		{
 			if ((hero.x < monsters[2].x) && (hero.x > 134))
@@ -650,7 +627,6 @@ if (gameState == 1)
 	if((monsters[2].aim == 1) && (monsters[2].y > monsters[2].y1))
 	{
 		monsters[2].moveY(true);
-		monsters[2].animate(2);
 		if(((monsters[2].x - 10) < (hero.x)) && ((hero.x) < (monsters[2].x + 10)))
 		{
 			if((hero.y < monsters[2].y) && (hero.y > 118))
@@ -667,7 +643,6 @@ if (gameState == 1)
 	if((monsters[2].aim == 2) && (monsters[2].x < monsters[2].x2))
 	{
 		monsters[2].moveX(false);
-		monsters[2].animate(1);
 		if(((monsters[2].y - 10) < (hero.y)) && ((hero.y) < (monsters[2].y + 5)))
 		{
 			if ((hero.x > monsters[2].x) && (hero.x < 325))
@@ -689,7 +664,6 @@ if (gameState == 1)
 	if((monsters[3].aim == 2) && (monsters[3].y < monsters[3].y1))
 	{
 		monsters[3].moveY(false);
-		monsters[3].animate(3);
 		if(((monsters[3].x - 10) < (hero.x)) && ((hero.x) < (monsters[3].x + 10)))
 		{
 			if((hero.y > monsters[3].y) && (hero.y > 300))
@@ -706,7 +680,6 @@ if (gameState == 1)
 	if((monsters[3].aim == 1) && (monsters[3].x > monsters[3].x2))
 	{
 		monsters[3].moveX(true);
-		monsters[3].animate(0);
 		if(((monsters[3].y - 10) < (hero.y)) && ((hero.y) < (monsters[3].y + 5)))
 		{
 			if ((hero.x < monsters[3].x) && (hero.x > 135))
@@ -723,7 +696,6 @@ if (gameState == 1)
 	if((monsters[3].aim == 4) && (monsters[3].y > monsters[3].y3))
 	{
 		monsters[3].moveY(true);
-		monsters[3].animate(2);
 		if(((monsters[3].x - 10) < (hero.x)) && ((hero.x) < (monsters[3].x + 10)))
 		{
 			if((hero.y < monsters[3].y) && (hero.y > 70))
@@ -740,7 +712,6 @@ if (gameState == 1)
 	if((monsters[3].aim == 3) && (monsters[3].x < monsters[3].x4))
 	{
 		monsters[3].moveX(false);
-		monsters[3].animate(1);
 		if(((monsters[3].y - 10) < (hero.y)) && ((hero.y) < (monsters[3].y + 5)))
 		{
 			if ((hero.x > monsters[3].x) && (hero.x < 325))
@@ -760,7 +731,6 @@ if (gameState == 1)
 	if((monsters[4].aim == 1) && (monsters[4].y < monsters[4].y1))
 	{
 		monsters[4].moveY(false);
-		monsters[4].animate(3);
 		if(((monsters[4].x - 10) < (hero.x)) && ((hero.x) < (monsters[4].x + 10)))
 		{
 			if ((monsters[4].y < hero.y) && (hero.y < 245))
@@ -777,7 +747,6 @@ if (gameState == 1)
 	if((monsters[4].aim == 2) && (monsters[4].x > monsters[4].x2))
 	{
 		monsters[4].moveX(true);
-		monsters[4].animate(0);
 		if(((monsters[4].y - 10) < (hero.y)) && ((hero.y) < (monsters[4].y + 10)))
 		{
 			if (hero.x < monsters[4].x)
@@ -794,7 +763,6 @@ if (gameState == 1)
 	if((monsters[4].aim == 3) && (monsters[4].y > monsters[4].y3))
 	{
 		monsters[4].moveY(true);
-		monsters[4].animate(2);
 		if(((monsters[4].x - 10) < (hero.x)) && ((hero.x) < (monsters[4].x + 10)))
 		{
 			if ((monsters[4].y > hero.y) && (hero.y < 200))
@@ -811,7 +779,6 @@ if (gameState == 1)
 	if((monsters[4].aim == 4) && (monsters[4].x < monsters[4].x4))
 	{
 		monsters[4].moveX(false);
-		monsters[4].animate(1);
 		if(((monsters[4].y - 10) < (hero.y)) && ((hero.y) < (monsters[4].y + 5)))
 		{
 			if ((hero.x > monsters[4].x) && (hero.x < 120))
