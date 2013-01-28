@@ -17,10 +17,6 @@ var tockNew = 0;
 
 //Hero Step function
 /////////////////////////////////////
-var stepDown = 0;
-var stepUp = 0;
-var stepL = 0;
-var stepR = 0;
 var tiested = 0;
 var oldLx = 0;
 var oldRx = 0;
@@ -89,7 +85,6 @@ var targ4x = 120;
 ///////////////////////////////////////////
 var aim1 = 1;
 var targ11y = 226;
-var targ12x =  12;
 var targ13y = 30;
 var targ14x = 120
 
@@ -372,7 +367,8 @@ var monster = {
 };
 
 var monster1 = {
-	speed: 50
+	speed: 50,
+	xBound: 12
 };
 
 var monster2 = {
@@ -500,64 +496,29 @@ var arrest = function()
 }
 
 
-var nextStep = [1, 2, 3, 0];
-
-var stepDowner = function()
-{
-	heroImage.src = "images/heroDown" + (stepDown + 1 )+ ".png";
-	setTimeout(function(){
-		stepDown = nextStep[stepDown];
-	}, 50);
-};
-
-
-//re iterate for up
-var stepUpper = function()
-{
-
-	heroImage.src = "images/heroUp" + (stepUp + 1) + ".png";
-	setTimeout(function(){
-		stepUp = nextStep[stepUp];
-	}, 50);
-};
-
-// re iterate for left
-var stepLeft = function()
-{
-	heroImage.src = "images/heroL"+(stepL + 1)+".png";
-	setTimeout(function(){
-		stepL = nextStep[stepL];
-	}, 50);
-};
-
-// re iterate right!
-var stepRight = function()
-{
-	heroImage.src = "images/heroLR" + (stepR + 1) + ".png";
-	setTimeout(function(){
-		stepR = nextStep[stepR];
-	}, 50);
-};
-
-
-
-// set up image stepping functions for enemies
 var dirs = ["Left", "Right", "Up", "Down"];
-function eStepSwitcher(whichImg)
+function stepSwitcher(isHero, whichImg)
 {
+	this.isHero = isHero;
 	this.img = whichImg;
 	this.state = 0;
 }
-eStepSwitcher.prototype.step = function(dir) {
+stepSwitcher.prototype.step = function(dir)
+{
 	++this.state;
 	if(this.state == 4) this.state = 0;
-	this.img.src = "images/enemy" + dirs[dir] + (1 + this.state) + ".png";
+	this.img.src = "images/" + (this.isHero ? "hero" : "enemy") + dirs[dir] + (1 + this.state) + ".png";
 };
-var stepE1 = new eStepSwitcher(monsterImage);
-var stepE2 = new eStepSwitcher(monster1Image);
-var stepE3 = new eStepSwitcher(monster2Image);
-var stepE4 = new eStepSwitcher(monster3Image);
-var stepE5 = new eStepSwitcher(monster4Image);
+
+var hStepper = new stepSwitcher(true, heroImage);
+
+// set up image stepping functions for enemies
+
+var stepE1 = new stepSwitcher(false, monsterImage);
+var stepE2 = new stepSwitcher(false, monster1Image);
+var stepE3 = new stepSwitcher(false, monster2Image);
+var stepE4 = new stepSwitcher(false, monster3Image);
+var stepE5 = new stepSwitcher(false, monster4Image);
 
 //re iterate for enemy down
 ////////////////////////////////
@@ -663,26 +624,7 @@ var animateU = function()
 		{
 			if(stepper%10 == 0)
 				{
-					if(stepUp == 0)
-						{
-							stepUpper(0);
-							stepUp = 1;
-						}
-					else if(stepUp == 1)
-						{
-							stepUpper(1);
-							stepUp = 2;
-						}
-					else if(stepUp == 2)
-						{
-							stepUpper(2);
-							stepUp = 3;
-						}
-					else if(stepUp == 3)
-						{
-							stepUpper(3);
-							stepUp = 0;
-						}
+					hStepper.step(2);
 				}
 	
 		}
@@ -794,26 +736,7 @@ var animateL = function()
 		{
 			if(stepper % 10 == 0)
 				{
-					if(stepL == 0)
-						{
-							stepLeft(0);
-							stepL = 1;
-						}
-					else if(stepL == 1)
-						{
-							stepLeft(1);
-							stepL = 2;
-						}
-					else if(stepL == 2)
-						{
-							stepLeft(2);
-							stepL = 3;
-						}
-					else if(stepL == 3)
-						{
-							stepLeft(3);
-							stepL = 0;
-						}
+					hStepper.step(0);
 				}
 	
 		}
@@ -843,10 +766,10 @@ var eAnimateL = function()
 var e1AnimateL = function()
 {
 	e1NewX = Math.floor(monster1.x);
-	e1Stepper = monster1.x - targ12x;
+	e1Stepper = monster1.x - monster1.xBound;
 	e1Stepper = Math.floor(e1Stepper);
 	
-	if(e1NewX != targ12x)
+	if(e1NewX != monster1.xBound)
 	{
 		if(e1Stepper % 10 == 0)
 		{
@@ -927,26 +850,7 @@ var animateR = function()
 		{
 			if(stepper % 10 == 0)
 				{
-					if(stepR == 0)
-						{
-							stepRight(0);
-							stepR = 1;
-						}
-					else if(stepR == 1)
-						{
-							stepRight(1);
-							stepR = 2;
-						}
-					else if(stepR == 2)
-						{
-							stepRight(2);
-							stepR = 3;
-						}
-					else if(stepR == 3)
-						{
-							stepRight(3);
-							stepR = 0;
-						}
+					hStepper.step(1);
 				}
 	
 		}
@@ -1077,7 +981,7 @@ var update = function (modifier)
 	{	
 	if (38 in keysDown) { // Player holding up
 		hero.y -= hero.speed * modifier;
-		stepUpper();
+		hStepper.step(2);
 		
 	}
 	}
@@ -1086,22 +990,21 @@ var update = function (modifier)
 	if (40 in keysDown) { // Player holding down
 		
 		hero.y += hero.speed * modifier;
-		stepDowner();
+		hStepper.step(3);
 	}
 	}
 	if (myArray[(gridx - 1)][gridy] == 0)
 	{
 	if (37 in keysDown) { // Player holding left
 		hero.x -= hero.speed * modifier;
-		stepLeft();
+		hStepper.step(0);
 	}
 	}
 	if(myArray[(gridx + 1)][gridy] == 0)
 	{
 	if (39 in keysDown) { // Player holding right
 		hero.x += hero.speed * modifier;
-		stepRight();
-		
+		hStepper.step(1);
 	}
 	}
 	
@@ -1261,7 +1164,7 @@ if (gameState == 1)
 	
 	
 	
-	if((aim1 == 2) && (monster1.x > targ12x))
+	if((aim1 == 2) && (monster1.x > monster1.xBound))
 	{
 		monster1.x -= monster1.speed * modifier;
 		e1AnimateL();
@@ -1273,7 +1176,7 @@ if (gameState == 1)
 				spotter = 1;
 			}
 		}
-		if((targ12x + 5) > (monster1.x))
+		if((monster1.xBound + 5) > (monster1.x))
 		{
 			aim1 = 3;
 		}
