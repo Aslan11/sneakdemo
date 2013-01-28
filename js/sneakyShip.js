@@ -45,13 +45,11 @@ var mapDigits = "11111111111110000011111111111111 111000011100000000000200000000
 
 for(var i = 0, k = 0, z = 0; z < mapDigits.length; z++)
 {
-	if ((mapDigits.charAt(z))==(' '))
+	if (mapDigits.charAt(z)==' ')
 	{
 		++k;
 		i = 0;
-		
-	}
-	else if((mapDigits.charAt(z))!=(' '))
+	} else
 	{
 		myArray[i][k]=Number(mapDigits.charAt(z));
 		++i;
