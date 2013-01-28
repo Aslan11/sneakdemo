@@ -334,31 +334,23 @@ var update = function ()
 	{
 		if (myArray[gridx][(gridy - 1)] == 0)
 		{
-			if (38 in keysDown) { // Player holding up
+			if (38 in keysDown) // Player holding up
 				hero.moveY(true);
-				hero.step(2);
-			}
 		}
 		if (myArray[gridx][(gridy + 1)] == 0)
 		{
-			if (40 in keysDown) { // Player holding down
+			if (40 in keysDown) // Player holding down
 				hero.moveY(false);
-				hero.step(3);
-			}
 		}
 		if (myArray[(gridx - 1)][gridy] == 0)
 		{
-			if (37 in keysDown) { // Player holding left
+			if (37 in keysDown) // Player holding left
 				hero.moveX(true);
-				hero.step(0);
-			}
 		}
 		if(myArray[(gridx + 1)][gridy] == 0)
 		{
-			if (39 in keysDown) { // Player holding right
+			if (39 in keysDown)// Player holding right
 				hero.moveX(false);
-				hero.step(1);
-			}
 		}
 	}
 //level 2 if gameState = 4 collision
