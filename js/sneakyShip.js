@@ -31,38 +31,23 @@ var gridy = 0;
 
 //Enemy step variables
 ///////////////////////////////////////
-var eStepper = 0;
-var eNewX = 0;
-var eNewY = 0;
 var eGridX = 0;
 var eGridy = 0;
 //Enemy 2 step variables
 //////////////////////////////////////
-var e1Stepper = 0;
-var e1NewX = 0;
-var e1NewY = 0;
 var e1GridX = 0;
 var e1Gridy = 0;
 //Enemy 3 step variables
 //////////////////////////////////////
-var e2Stepper = 0;
-var e2NewX = 0;
-var e2NewY = 0;
 var e2GridX = 0;
 var e2Gridy = 0;
 //Enemy 4 step variables
 //////////////////////////////////////
-var e3Stepper = 0;
-var e3NewX = 0;
-var e3NewY = 0;
 var e3GridX = 0;
 var e3Gridy = 0;
 
 //Enemy 5 step variables
 //////////////////////////////////////
-var e4Stepper = 0;
-var e4NewX = 0;
-var e4NewY = 0;
 var e4GridX = 0;
 var e4Gridy = 0;
 
@@ -172,6 +157,25 @@ Monster.prototype.step = function(dir)
 	this.img.src = "images/enemy" + dirs[dir] + (1 + this.state) + ".png";
 };
 
+// x2, x4, y3, y1
+// left, right, up, down
+
+var order = [2, 4, 3, 1];
+Monster.prototype.animate = function(dir) {
+	var focus = dir >= 2 ? "y" : "x";
+
+	var newAmt = Math.floor(this[focus]);
+	var eStepper =  Math.floor(this[focus + order[dir]])- newAmt;
+
+	if(newAmt != this[focus + order[dir]])
+	{
+		if(eStepper % 10 == 0)
+		{
+			this.step(dir);
+		}
+	}
+};
+
 var monsters = new Array();
 for(var i = 0; i < 5; ++i)
 {
@@ -274,14 +278,7 @@ var arrow3 = {
 	speed: 270
 };
 
-var archer1 = {
-};
-
-var archer2 = {
-};
-
-var archer3 = {
-};
+var archer1 = {}, archer2 = {}, archer3 = {};
 
 var tock = {
 	speed: 300
@@ -401,97 +398,6 @@ stepSwitcher.prototype.step = function(dir)
 };
 var hStepper = new stepSwitcher(heroImage);
 
-
-//re iterate for enemy down
-////////////////////////////////
-var eAnimateD = function()
-{
-		eNewY = Math.floor(monsters[0].y);
-		eStepper = monsters[0].y1 - monsters[0].y;
-		eStepper = Math.floor(eStepper);
-	
-	if(eNewY != monsters[0].y1)
-		{
-			if(eStepper % 10 == 0)
-				{
-					monsters[0].step(3);
-				}
-	
-		}
-};
-
-//re iterate for enemy1 down
-////////////////////////////////
-var e1AnimateD = function()
-{
-		e1NewY = Math.floor(monsters[1].y);
-		e1Stepper = monsters[0].y1 - monsters[1].y;
-		e1Stepper = Math.floor(e1Stepper);
-	
-	if(e1NewY != monsters[1].y1)
-		{
-			if(e1Stepper % 10 == 0)
-				{
-					monsters[1].step(3);
-				}
-	
-		}
-};
-
-//re iterate for enemy2 down
-////////////////////////////////
-var e2AnimateD = function()
-{
-		e2NewY = Math.floor(monsters[2].y);
-		e2Stepper = monsters[2].y1 - monsters[2].y;
-		e2Stepper = Math.floor(e2Stepper);
-	
-	if(e2NewY != monsters[2].y1)
-		{
-			if(e2Stepper % 10 == 0)
-				{
-					monsters[2].step(3);
-				}
-	
-		}
-};
-
-//re iterate for enemy3 down
-////////////////////////////////
-var e3AnimateD = function()
-{
-		e3NewY = Math.floor(monsters[3].y);
-		e3Stepper = monsters[3].y1 - monsters[3].y;
-		e3Stepper = Math.floor(e3Stepper);
-	
-	if(e3NewY != monsters[3].y1)
-		{
-			if(e3Stepper % 10 == 0)
-				{
-					monsters[3].step(3);
-				}
-	
-		}
-};
-// re iterate for enemy 4
-///////////////////////////////////
-var e4AnimateD = function()
-{
-		e4NewY = Math.floor(monsters[4].y);
-		e4Stepper = monsters[4].y1 - monsters[4].y;
-		e4Stepper = Math.floor(e4Stepper);
-	
-	if(e4NewY != monsters[4].y1)
-		{
-			if(e4Stepper % 10 == 0)
-				{
-					monsters[4].step(3);
-				}
-	
-		}
-};
-
-
 //Reiterate for up
 var animateU = function()
 {
@@ -511,100 +417,6 @@ var animateU = function()
 	
 		}
 };
-// end reiterate up
-
-// re iterate for enemy up
-///////////////////////////////////////////
-var eAnimateU = function()
-{
-		eNewY = Math.floor(monsters[0].y);
-		eStepper = monsters[0].y - monsters[3].y;
-		eStepper = Math.floor(eStepper);
-	
-	if(eNewY != monsters[3].y)
-		{
-			if(eStepper % 10 == 0)
-				{
-					monsters[0].step(2);
-				}
-	
-		}
-};
-
-// re iterate for enemy1 up
-///////////////////////////////////////////
-var e1AnimateU = function()
-{
-		e1NewY = Math.floor(monsters[1].y);
-		e1Stepper = monsters[1].y - monsters[1].y3;
-		e1Stepper = Math.floor(e1Stepper);
-	
-	if(e1NewY != monsters[1].y3)
-		{
-			if(e1Stepper % 10 == 0)
-				{
-					monsters[1].step(2);
-				}
-	
-		}
-};
-
-// re iterate for enemy2 up
-///////////////////////////////////////////
-var e2AnimateU = function()
-{
-		e2NewY = Math.floor(monsters[2].y);
-		e2Stepper = monsters[2].y - monsters[2].y3;
-		e2Stepper = Math.floor(e2Stepper);
-	
-	if(e2NewY != monsters[2].y3)
-		{
-			if(e2Stepper % 10 == 0)
-				{
-					monsters[2].step(2);
-				}
-	
-		}
-};
-
-// re iterate for enemy3 up
-///////////////////////////////////////////
-var e3AnimateU = function()
-{
-		e3NewY = Math.floor(monsters[3].y);
-		e3Stepper = monsters[3].y - monsters[3].y3;
-		e3Stepper = Math.floor(e3Stepper);
-	
-	if(e3NewY != monsters[3].y3)
-		{
-			if(e3Stepper % 10 == 0)
-				{
-					monsters[3].step(2);
-				}
-	
-		}
-};
-
-// re iterate for enemy4 up
-///////////////////////////////////////////
-var e4AnimateU = function()
-{
-		e4NewY = Math.floor(monsters[4].y);
-		e4Stepper = monsters[4].y - monsters[4].y3;
-		e4Stepper = Math.floor(e4Stepper);
-	
-	if(e4NewY != monsters[4].y3)
-		{
-			if(e4Stepper % 10 == 0)
-				{
-					monsters[4].step(2);
-				}
-	
-		}
-};
-
-
-// re iterate for left
 var animateL = function()
 {
 	if(oldLx != hero.x)
@@ -623,102 +435,6 @@ var animateL = function()
 	
 		}
 };
-
-// re iterate for enemy left
-////////////////////////////////////////
-var eAnimateL = function()
-{
-		eNewX = Math.floor(monsters[0].x);
-		eStepper = monsters[0].x - monsters[0].x2;
-		eStepper = Math.floor(eStepper);
-	
-	if(eNewX != monsters[0].x2)
-		{
-			if(eStepper % 10 == 0)
-				{
-					monsters[0].step(0);
-				}
-	
-		}
-};
-
-
-// re iterate for enemy1 left
-////////////////////////////////////////
-var e1AnimateL = function()
-{
-	e1NewX = Math.floor(monsters[1].x);
-	e1Stepper = monsters[1].x - monsters[1].x2;
-	e1Stepper = Math.floor(e1Stepper);
-	
-	if(e1NewX != monsters[1].x2)
-	{
-		if(e1Stepper % 10 == 0)
-		{
-			monsters[1].step(0);
-		}
-	}
-};
-
-// re iterate for enemy2 left
-////////////////////////////////////////
-var e2AnimateL = function()
-{
-	e2NewX = Math.floor(monsters[2].x);
-	e2Stepper = monsters[2].x - monsters[2].x2;
-	e2Stepper = Math.floor(e2Stepper);
-	
-	if(e2NewX != monsters[2].x2)
-	{
-		if(e2Stepper % 10 == 0)
-		{
-			monsters[2].step(0);
-		}
-	}
-};
-
-// re iterate for enemy3 left
-////////////////////////////////////////
-var e3AnimateL = function()
-{
-	e3NewX = Math.floor(monsters[3].x);
-	e3Stepper = monsters[3].x - monsters[3].x4;
-	e3Stepper = Math.floor(e3Stepper);
-	
-	if(e3NewX != monsters[3].x4)
-	{
-		if(e3Stepper % 10 == 0)
-		{
-			monsters[3].step(0);
-		}
-	}
-};
-
-// re iterate for enemy4 left
-////////////////////////////////////////
-var e4AnimateL = function()
-{
-	e4NewX = Math.floor(monsters[4].x);
-	e4Stepper = monsters[4].x - monsters[4].x2;
-	e4Stepper = Math.floor(e4Stepper);
-	
-	if(e4NewX != monsters[4].x2)
-		{
-			if(e4Stepper % 10 == 0)
-				{
-					monsters[4].step(0);
-				}
-	
-		}
-};
-
-
-
-
-
-// end left
-
-// re iterate right
 var animateR = function()
 {
 	if(oldRx != hero.x)
@@ -737,101 +453,6 @@ var animateR = function()
 	
 		}
 };
-
-// re iterate for enemy right
-//////////////////////////////////
-var eAnimateR = function()
-{
-		eNewX = Math.floor(monsters[0].x);
-		eStepper = monsters[4].x - monsters[0].x;
-		eStepper = Math.floor(eStepper);
-	
-	if(eNewX != monsters[4].x)
-		{
-			if(eStepper % 10 == 0)
-				{
-					monsters[0].step(1);
-				}
-	
-		}
-};
-
-// re iterate for enem1y right
-//////////////////////////////////
-var e1AnimateR = function()
-{
-		e1NewX = Math.floor(monsters[1].x);
-		e1Stepper = monsters[1].x4 - monsters[1].x;
-		e1Stepper = Math.floor(e1Stepper);
-	
-	if(e1NewX != monsters[1].x4)
-		{
-			if(e1Stepper % 10 == 0)
-				{
-					monsters[1].step(1);
-				}
-	
-		}
-};
-
-// re iterate for enemy2 right
-//////////////////////////////////
-var e2AnimateR = function()
-{
-		e2NewX = Math.floor(monsters[2].x);
-		e2Stepper = monsters[2].x4 - monsters[2].x;
-		e2Stepper = Math.floor(e2Stepper);
-	
-	if(e2NewX != monsters[2].x4)
-		{
-			if(e2Stepper % 10 == 0)
-				{
-					monsters[2].step(1);
-				}
-	
-		}
-};
-
-// re iterate for enemy3 right
-//////////////////////////////////
-var e3AnimateR = function()
-{
-		e3NewX = Math.floor(monsters[3].x);
-		e3Stepper = monsters[3].x4 - monsters[3].x;
-		e3Stepper = Math.floor(e3Stepper);
-	
-	if(e3NewX != monsters[3].x4)
-		{
-			if(e3Stepper % 10 == 0)
-				{
-					monsters[3].step(1);
-				}
-	
-		}
-};
-
-// re iterate for enemy4 right
-//////////////////////////////////
-var e4AnimateR = function()
-{
-		e4NewX = Math.floor(monsters[4].x);
-		e4Stepper = monsters[4].x4 - monsters[4].x;
-		e4Stepper = Math.floor(e4Stepper);
-	
-	if(e4NewX != monsters[4].x4)
-		{
-			if(e4Stepper % 10 == 0)
-				{
-					monsters[4].step(1);
-				}
-	
-		}
-};
-
-
-
-
-// end right
 
 // Update game objects
 var update = function (modifier)
@@ -950,7 +571,7 @@ if (gameState == 1)
 	if((aim == 1) && (monsters[0].y < monsters[0].y1))
 	{	
 		monsters[0].y += monsters[0].speed * modifier;
-		eAnimateD();
+		monsters[0].animate(3);
 		if(((monsters[0].x - 5) < (hero.x)) && ((hero.x) < (monsters[0].x + 5)))
 		{
 			if (hero.y > monsters[0].y)
@@ -970,7 +591,7 @@ if (gameState == 1)
 	if((aim == 2) && (monsters[0].x > monsters[0].x2))
 	{
 		monsters[0].x -= monsters[0].speed * modifier;
-		eAnimateL();
+		monsters[0].animate(0);
 		if(((monsters[0].y - 5) < (hero.y)) && ((hero.y) < (monsters[0].y + 5)))
 		{
 			if (hero.x < monsters[0].x)
@@ -989,7 +610,7 @@ if (gameState == 1)
 	if((aim == 3) && (monsters[0].y > monsters[0].y3))
 	{
 		monsters[0].y -= monsters[0].speed * modifier;
-		eAnimateU();
+		monsters[0].animate(2);
 		if(((monsters[0].x - 5) < (hero.x)) && ((hero.x) < (monsters[0].x + 5)))
 		{
 			if ((hero.y < monsters[0].y) && (hero.y > 315))
@@ -1007,7 +628,7 @@ if (gameState == 1)
 	if((aim == 4) && (monsters[0].x < monsters[0].x4))
 	{
 		monsters[0].x += monsters[0].speed * modifier;
-		eAnimateR();
+		monsters[0].animate(1);
 		if(((monsters[0].y - 16) < (hero.y)) && ((hero.y) < (monsters[0].y + 5)))
 		{
 			if ((hero.x > monsters[0].x) && (hero.x < 130))
@@ -1029,7 +650,7 @@ if (gameState == 1)
 	if((aim1 == 1) && (monsters[1].y < monsters[1].y1))
 	{
 		monsters[1].y += monsters[1].speed * modifier;
-		e1AnimateD();
+		monsters[1].animate(3);
 		if(((monsters[1].x - 10) < (hero.x)) && ((hero.x) < (monsters[1].x + 10)))
 		{
 			if ((monsters[1].y < hero.y) && (hero.y < 245))
@@ -1049,7 +670,7 @@ if (gameState == 1)
 	if((aim1 == 2) && (monsters[1].x > monsters[1].x2))
 	{
 		monsters[1].x -= monsters[1].speed * modifier;
-		e1AnimateL();
+		monsters[1].animate(0);
 		if(((monsters[1].y - 10) < (hero.y)) && ((hero.y) < (monsters[1].y + 10)))
 		{
 			if (hero.x < monsters[1].x)
@@ -1067,7 +688,7 @@ if (gameState == 1)
 	if((aim1 == 3) && (monsters[1].y > monsters[1].y3))
 	{
 		monsters[1].y -= monsters[1].speed * modifier;
-		e1AnimateU();
+		monsters[1].animate(2);
 		if(((monsters[1].x - 10) < (hero.x)) && ((hero.x) < (monsters[1].x + 10)))
 		{
 			if ((monsters[1].y > hero.y) && (hero.y < 200))
@@ -1084,7 +705,7 @@ if (gameState == 1)
 	if((aim1 == 4) && (monsters[1].x < monsters[1].x4))
 	{
 		monsters[1].x += monsters[1].speed * modifier;
-		e1AnimateR();
+		monsters[1].animate(1);
 		if(((monsters[1].y - 10) < (hero.y)) && ((hero.y) < (monsters[1].y + 5)))
 		{
 			if ((hero.x > monsters[1].x) && (hero.x < 120))
@@ -1107,7 +728,7 @@ if (gameState == 1)
 	if((aim2 == 3) && (monsters[2].y < monsters[2].y3))
 	{
 		monsters[2].y += monsters[2].speed * modifier;
-		e2AnimateD();
+		monsters[2].animate(3);
 		if(((monsters[2].x - 10) < (hero.x)) && ((hero.x) < (monsters[2].x + 10)))
 		{
 			if ((hero.y > monsters[2].y))
@@ -1127,7 +748,7 @@ if (gameState == 1)
 	if((aim2 == 4) && (monsters[2].x > monsters[2].x4))
 	{
 		monsters[2].x -= monsters[2].speed * modifier;
-		e2AnimateL();
+		monsters[2].animate(0);
 		if(((monsters[2].y - 10) < (hero.y)) && ((hero.y) < (monsters[2].y + 5)))
 		{
 			if ((hero.x < monsters[2].x) && (hero.x > 134))
@@ -1145,7 +766,7 @@ if (gameState == 1)
 	if((aim2 == 1) && (monsters[2].y > monsters[2].y1))
 	{
 		monsters[2].y -= monsters[2].speed * modifier;
-		e2AnimateU();
+		monsters[2].animate(2);
 		if(((monsters[2].x - 10) < (hero.x)) && ((hero.x) < (monsters[2].x + 10)))
 		{
 			if((hero.y < monsters[2].y) && (hero.y > 118))
@@ -1162,7 +783,7 @@ if (gameState == 1)
 	if((aim2 == 2) && (monsters[2].x < monsters[2].x2))
 	{
 		monsters[2].x += monsters[2].speed * modifier;
-		e2AnimateR();
+		monsters[2].animate(1);
 		if(((monsters[2].y - 10) < (hero.y)) && ((hero.y) < (monsters[2].y + 5)))
 		{
 			if ((hero.x > monsters[2].x) && (hero.x < 325))
@@ -1184,7 +805,7 @@ if (gameState == 1)
 	if((aim3 == 2) && (monsters[3].y < monsters[3].y1))
 	{
 		monsters[3].y += monsters[3].speed * modifier;
-		e3AnimateD();
+		monsters[3].animate(3);
 		if(((monsters[3].x - 10) < (hero.x)) && ((hero.x) < (monsters[3].x + 10)))
 		{
 			if((hero.y > monsters[3].y) && (hero.y > 300))
@@ -1204,7 +825,7 @@ if (gameState == 1)
 	if((aim3 == 1) && (monsters[3].x > monsters[3].x2))
 	{
 		monsters[3].x -= monsters[3].speed * modifier;
-		e3AnimateL();
+		monsters[3].animate(0);
 		if(((monsters[3].y - 10) < (hero.y)) && ((hero.y) < (monsters[3].y + 5)))
 		{
 			if ((hero.x < monsters[3].x) && (hero.x > 135))
@@ -1223,7 +844,7 @@ if (gameState == 1)
 	if((aim3 == 4) && (monsters[3].y > monsters[3].y3))
 	{
 		monsters[3].y -= monsters[3].speed * modifier;
-		e3AnimateU();
+		monsters[3].animate(2);
 		if(((monsters[3].x - 10) < (hero.x)) && ((hero.x) < (monsters[3].x + 10)))
 		{
 			if((hero.y < monsters[3].y) && (hero.y > 70))
@@ -1240,7 +861,7 @@ if (gameState == 1)
 	if((aim3 == 3) && (monsters[3].x < monsters[3].x4))
 	{
 		monsters[3].x += monsters[3].speed * modifier;
-		e3AnimateR();
+		monsters[3].animate(1);
 		if(((monsters[3].y - 10) < (hero.y)) && ((hero.y) < (monsters[3].y + 5)))
 		{
 			if ((hero.x > monsters[3].x) && (hero.x < 325))
@@ -1260,7 +881,7 @@ if (gameState == 1)
 	if((aim4 == 1) && (monsters[4].y < monsters[4].y1))
 	{
 		monsters[4].y += monsters[4].speed * modifier;
-		e4AnimateD();
+		monsters[4].animate(3);
 		if(((monsters[4].x - 10) < (hero.x)) && ((hero.x) < (monsters[4].x + 10)))
 		{
 			if ((monsters[4].y < hero.y) && (hero.y < 245))
@@ -1279,7 +900,7 @@ if (gameState == 1)
 	if((aim4 == 2) && (monsters[4].x > monsters[4].x2))
 	{
 		monsters[4].x -= monsters[4].speed * modifier;
-		e4AnimateL();
+		monsters[4].animate(0);
 		if(((monsters[4].y - 10) < (hero.y)) && ((hero.y) < (monsters[4].y + 10)))
 		{
 			if (hero.x < monsters[4].x)
@@ -1297,7 +918,7 @@ if (gameState == 1)
 	if((aim4 == 3) && (monsters[4].y > monsters[4].y3))
 	{
 		monsters[4].y -= monsters[4].speed * modifier;
-		e4AnimateU();
+		monsters[4].animate(2);
 		if(((monsters[4].x - 10) < (hero.x)) && ((hero.x) < (monsters[4].x + 10)))
 		{
 			if ((monsters[4].y > hero.y) && (hero.y < 200))
@@ -1314,7 +935,7 @@ if (gameState == 1)
 	if((aim4 == 4) && (monsters[4].x < monsters[4].x4))
 	{
 		monsters[4].x += monsters[4].speed * modifier;
-		e4AnimateR();
+		monsters[4].animate(1);
 		if(((monsters[4].y - 10) < (hero.y)) && ((hero.y) < (monsters[4].y + 5)))
 		{
 			if ((hero.x > monsters[4].x) && (hero.x < 120))
