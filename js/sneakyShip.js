@@ -9,23 +9,9 @@ document.body.appendChild(canvas);
 var gameState = -1;
 
 var ticker = 0;
-var tockGrid = 0;
-
-var tockOld = 0;
-var tockNew = 0;
 
 var modifier;
 
-
-//Hero Step variables
-/////////////////////////////////////
-var oldLx = 0;
-var oldRx = 0;
-var oldy = 0;
-var oldUy = 0;
-var newy = 0;
-var newx = 0;
-var stepper = 0;
 
 var gridx = 0;
 var gridy = 0;
@@ -768,7 +754,6 @@ if (gameState == 1)
 		ticker = 0;
 	}
 
-	tockGrid = Math.ceil((tock.x)/16);  
 };
 
 // Draw everything
